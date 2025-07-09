@@ -192,6 +192,64 @@
           </div>
         </div>
       </div>
+      <script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      document.getElementById('first-name').addEventListener('input', function() {
+        const lastName = document.getElementById('last-name').value || 'Doe';
+        document.getElementById('preview-name').textContent = `${this.value} ${lastName}`;
+      });
+      
+      document.getElementById('last-name').addEventListener('input', function() {
+        const firstName = document.getElementById('first-name').value || 'John';
+        document.getElementById('preview-name').textContent = `${firstName} ${this.value}`;
+      });
+      
+      document.getElementById('profession').addEventListener('input', function() {
+        document.getElementById('preview-profession').textContent = this.value;
+      });
+      
+      document.getElementById('email').addEventListener('input', function() {
+        document.getElementById('preview-email').textContent = this.value;
+      });
+      
+      document.getElementById('phone').addEventListener('input', function() {
+        document.getElementById('preview-phone').textContent = this.value;
+      });
+      
+      document.getElementById('linkedin').addEventListener('input', function() {
+        document.getElementById('preview-linkedin').textContent = this.value.replace('https://', '');
+      });
+      
+      document.getElementById('summary').addEventListener('input', function() {
+        document.getElementById('preview-summary').textContent = this.value;
+      });
+      
+      
+      document.querySelectorAll('.suggestion-item').forEach(item => {
+        item.addEventListener('click', function() {
+          const targetId = this.parentElement.previousElementSibling.id;
+          if (targetId) {
+            document.getElementById(targetId).value = this.textContent;
+            if (targetId === 'summary') {
+              document.getElementById('preview-summary').textContent = this.textContent;
+            }
+          }
+        });
+      });
+    });
+    
+    function addSection(type) {
+      
+      alert(`In a complete application, this would add a new ${type} section.`);
+    }
+    
+    function removeSection(id) {
+  
+      document.getElementById(id).remove();
+    }
+  </script>
   </body>
 </head>
   <footer>
