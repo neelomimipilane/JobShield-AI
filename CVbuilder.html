@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobShield AI - Smart CV Builder</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <body>
+  <header>
+    <div class="logo">
+      <i class="fas fa-shield-alt"></i>
+      <h1>JobShield AI CV Builder</h1>
+    </div>
+    <p>Create professional resumes with AI-powered suggestions from Spark</p>
+  </header>
+
+  <div class="container">
+    <div class="cv-builder-container">
+      <div class="cv-form">
+        <h2>Personal Information</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="first-name">First Name</label>
+            <input type="text" id="first-name" placeholder="John">
+          </div>
+          <div class="form-group">
+            <label for="last-name">Last Name</label>
+            <input type="text" id="last-name" placeholder="Doe">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="profession">Profession</label>
+            <div class="ai-suggestions">
+              <h4>Spark Suggestions</h4>
+              <div class="suggestion-item">Based on your experience, try "Software Engineer"</div>
+              <div class="suggestion-item">"Full Stack Developer" would also match your skills</div>
+            </div>
+          <input type="text" id="profession" placeholder="Software Engineer">
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="john.doe@example.com">
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" placeholder="(123) 456-7890">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="linkedin">LinkedIn Profile</label>
+          <input type="text" id="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+        </div>
+        
+        <div class="form-group">
+          <label for="summary">Professional Summary</label>
+          <div class="ai-suggestions">
+            <h4>Spark Suggestions</h4>
+            <div class="suggestion-item">"Experienced software engineer with 5+ years in web development..."</div>
+            <div class="suggestion-item">"Detail-oriented professional specializing in..."</div>
+          </div>
+          <textarea id="summary" placeholder="Briefly describe your professional background and skills"></textarea>
+        </div>
+        
+        <h2>Work Experience</h2>
+        <div class="section-item" id="experience-1">
+          <button class="remove-btn" onclick="removeSection('experience-1')"><i class="fas fa-times"></i></button>
+          <div class="form-group">
+            <label for="job-title-1">Job Title</label>
+            <input type="text" id="job-title-1" placeholder="Senior Software Engineer">
+          </div>
+          <div class="form-group">
+            <label for="company-1">Company</label>
+            <input type="text" id="company-1" placeholder="Tech Solutions Inc.">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="start-date-1">Start Date</label>
+              <input type="text" id="start-date-1" placeholder="MM/YYYY">
+            </div>
+            <div class="form-group">
+              <label for="end-date-1">End Date</label>
+              <input type="text" id="end-date-1" placeholder="MM/YYYY or Present">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="job-description-1">Description</label>
+            <div class="ai-suggestions">
+              <h4>Spark Suggestions</h4>
+              <div class="suggestion-item">"Developed and maintained web applications using React and Node.js..."</div>
+              <div class="suggestion-item">"Led a team of 5 developers in implementing..."</div>
+            </div>
+            <textarea id="job-description-1" placeholder="Describe your responsibilities and achievements"></textarea>
+          </div>
+        </div>
+        
+        <button class="add-btn" onclick="addSection('experience')"><i class="fas fa-plus"></i> Add Another Position</button>
+        
+        <h2>Education</h2>
+        <div class="section-item" id="education-1">
+          <button class="remove-btn" onclick="removeSection('education-1')"><i class="fas fa-times"></i></button>
+          <div class="form-group">
+            <label for="degree-1">Degree</label>
+            <input type="text" id="degree-1" placeholder="Bachelor of Science in Computer Science">
+          </div>
+          <div class="form-group">
+            <label for="institution-1">Institution</label>
+            <input type="text" id="institution-1" placeholder="University of Technology">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="education-start-1">Start Date</label>
+              <input type="text" id="education-start-1" placeholder="MM/YYYY">
+            </div>
+            <div class="form-group">
+              <label for="education-end-1">End Date</label>
+              <input type="text" id="education-end-1" placeholder="MM/YYYY">
+            </div>
+          </div>
+        </div>
+        
+        <button class="add-btn" onclick="addSection('education')"><i class="fas fa-plus"></i> Add Another Education</button>
+        
+        <h2>Skills</h2>
+        <div class="form-group">
+          <label for="skills">Add Skills (comma separated)</label>
+          <div class="ai-suggestions">
+            <h4>Spark Suggestions</h4>
+            <div class="suggestion-item">JavaScript, React, Node.js, Python</div>
+            <div class="suggestion-item">Agile Methodologies, Team Leadership</div>
+          </div>
+          <textarea id="skills" placeholder="JavaScript, React, Project Management, etc."></textarea>
+        </div>
+        
+        <div class="action-buttons">
+          <button class="btn btn-outline"><i class="fas fa-redo"></i> Reset Form</button>
+          <div>
+            <button class="btn btn-secondary"><i class="fas fa-lightbulb"></i> Get AI Suggestions</button>
+            <button class="btn btn-primary"><i class="fas fa-file-download"></i> Download CV</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="cv-preview">
+        <div class="preview-header">
+          <h1 id="preview-name">John Doe</h1>
+          <p id="preview-profession">Software Engineer</p>
+          <div class="preview-contact">
+            <span id="preview-email">john.doe@example.com</span> •
+            <span id="preview-phone">(123) 456-7890</span> •
+            <span id="preview-linkedin">linkedin.com/in/johndoe</span>
+          </div>
+        </div>
+        
+        <div class="preview-section">
+          <h3>SUMMARY</h3>
+          <p id="preview-summary">Experienced software engineer with 5+ years in web development, specializing in JavaScript frameworks. Passionate about creating efficient, scalable applications with clean code.</p>
+        </div>
+        
+        <div class="preview-section">
+          <h3>EXPERIENCE</h3>
+          <div class="preview-item">
+            <h4>Senior Software Engineer</h4>
+            <p><strong>Tech Solutions Inc.</strong> | <span class="date">05/2018 - Present</span></p>
+            <div class="description">
+              <p>Developed and maintained web applications using React and Node.js. Led a team of 5 developers in implementing new features and improving application performance.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="preview-section">
+          <h3>EDUCATION</h3>
+          <div class="preview-item">
+            <h4>Bachelor of Science in Computer Science</h4>
+            <p><strong>University of Technology</strong> | <span class="date">08/2010 - 05/2014</span></p>
+          </div>
+        </div>
+        
+        <div class="preview-section">
+          <h3>SKILLS</h3>
+          <div class="skills-list">
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Agile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </body>
+</head>
+</html>
