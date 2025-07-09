@@ -147,6 +147,336 @@
       <p>Your friendly AI assistant that helps detect job scams, create strong CVs, and keep you safe online.</p>
       <button class="cta-button">Get Started</button>
     </div>
+    <section id="features" class="hero">
+      <h2>Navigate the Job Market Safely with AI</h2>
+      <p>Spark, your AI career assistant, helps you avoid scams, build better resumes, and find legitimate opportunities.</p>
+    </section>
+
+    <section class="features">
+      <div class="feature-card">
+        <i class="fas fa-user-shield"></i>
+        <h3>Scam Protection</h3>
+        <p>Upload emails or SMS messages and Spark will analyze them for potential job scams or phishing attempts.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-file-alt"></i>
+        <h3>Smart CV Builder</h3>
+        <p>Create professional resumes tailored to specific job descriptions with AI-powered suggestions.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-search"></i>
+        <h3>Job Matching</h3>
+        <p>Spark searches thousands of listings to find the best opportunities matching your skills and experience.</p>
+      </div>
+    </section>
+
+    <section id="cv-builder" style="margin-top: 4rem;">
+      <h2>AI-Powered CV Builder</h2>
+      <p>Create a professional resume that stands out with Spark's guidance.</p>
+      <button class="cta-button">Build Your CV</button>
+    </section>
+
+    <section id="scam-detector" style="margin-top: 4rem;">
+      <h2>Job Scam Detector</h2>
+      <p>Paste the text of a suspicious job offer, email, or SMS message below for analysis.</p>
+      <textarea style="width: 100%; min-height: 150px; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; margin: 1rem 0;" placeholder="Paste suspicious message here..."></textarea>
+      <button class="cta-button">Analyze for Scams</button>
+    </section>
+
+    <section id="job-finder" style="margin-top: 4rem;">
+      <h2>Find Your Dream Job</h2>
+      <p>Let Spark help you discover opportunities that match your skills and experience.</p>
+      <button class="cta-button">Start Job Search</button>
+    </section>
+  </main>
+
+  <!-- Spark Assistant -->
+  <div class="assistant-container">
+    <div class="navigation-path" id="navigation-path">
+      Following my voice to guide you...
+    </div>
+    
+    <div class="assistant-chat" id="assistant-chat">
+      <div class="chat-header">
+        <span>Spark Assistant</span>
+        <select class="language-selector" id="language-selector">
+          <option value="en">English</option>
+          <option value="tn">Setswana</option>
+          <option value="zu">Zulu</option>
+          <option value="xh">Xhosa</option>
+          <option value="sn">Shona</option>
+        </select>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="message ai-message">
+          <strong>Spark:</strong> Dumela! Hello! I'm Spark, your AI career assistant. How can I help you today? You can ask me anything about job searching, CV building, or scam detection.
+        </div>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="chat-input" placeholder="Type your message...">
+        <button class="send-btn" id="send-btn"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+    
+    <button class="assistant-button" id="assistant-button">
+      <i class="fas fa-robot"></i>
+    </button>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Contact Us</a>
+    </div>
+    <p>© 2025 JobShield AI. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Spark AI Assistant
+    document.addEventListener('DOMContentLoaded', function() {
+      const assistantButton = document.getElementById('assistant-button');
+      const assistantChat = document.getElementById('assistant-chat');
+      const chatMessages = document.getElementById('chat-messages');
+      const chatInput = document.getElementById('chat-input');
+      const sendBtn = document.getElementById('send-btn');
+      const languageSelector = document.getElementById('language-selector');
+      const navigationPath = document.getElementById('navigation-path');
+      
+      let recognition;
+      let isListening = false;
+      let currentLanguage = 'en';
+      let highlightedElement = null;
+      
+      // Initialize speech recognition
+      function initSpeechRecognition() {
+        try {
+          const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+          recognition = new SpeechRecognition();
+          recognition.continuous = false;
+          recognition.lang = currentLanguage === 'en' ? 'en-US' : 'af-ZA'; // Fallback for African languages
+          
+          recognition.onstart = function() {
+            isListening = true;
+            assistantButton.classList.add('listening');
+            addMessage("Spark", "I'm listening...", 'ai-message');
+          };
+          
+          recognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript;
+            addMessage("You", transcript, 'user-message');
+            processCommand(transcript);
+          };
+          
+          recognition.onerror = function(event) {
+            console.error('Speech recognition error', event.error);
+            isListening = false;
+            assistantButton.classList.remove('listening');
+            addMessage("Spark", "Sorry, I didn't catch that. Please try again.", 'ai-message');
+          };
+          
+          recognition.onend = function() {
+            isListening = false;
+            assistantButton.classList.remove('listening');
+          };
+        } catch(e) {
+          console.log('Speech recognition not supported', e);
+          addMessage("Spark", "Voice commands are not supported in your browser. Please type your requests.", 'ai-message');
+        }
+      }
+      
+      // Toggle chat window
+      assistantButton.addEventListener('click', function() {
+        if (assistantChat.style.display === 'flex') {
+          assistantChat.style.display = 'none';
+          if (isListening && recognition) {
+            recognition.stop();
+          }
+        } else {
+          assistantChat.style.display = 'flex';
+          initSpeechRecognition();
+        }
+      });
+      
+      // Send message
+      function sendMessage() {
+        const message = chatInput.value.trim();
+        if (message !== '') {
+          addMessage("You", message, 'user-message');
+          chatInput.value = '';
+          processCommand(message);
+        }
+      }
+      
+      sendBtn.addEventListener('click', sendMessage);
+      
+      chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          sendMessage();
+        }
+      });
+      
+      // Add message to chat
+      function addMessage(sender, text, className) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${className}`;
+        messageDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+      
+      // Process user commands
+      function processCommand(command) {
+        const lowerCommand = command.toLowerCase();
+        let response = "";
+        let action = null;
+        
+        // Navigation commands
+        if (lowerCommand.includes('go to') || lowerCommand.includes('show me') || lowerCommand.includes('take me to')) {
+          if (lowerCommand.includes('home') || lowerCommand.includes('main')) {
+            action = () => navigateTo('#features');
+            response = "Taking you to the home section.";
+          } else if (lowerCommand.includes('cv') || lowerCommand.includes('resume')) {
+            action = () => navigateTo('#cv-builder');
+            response = "Taking you to the CV Builder section.";
+          } else if (lowerCommand.includes('scam') || lowerCommand.includes('fraud')) {
+            action = () => navigateTo('#scam-detector');
+            response = "Taking you to the Scam Detector section.";
+          } else if (lowerCommand.includes('job') || lowerCommand.includes('find work')) {
+            action = () => navigateTo('#job-finder');
+            response = "Taking you to the Job Finder section.";
+          } else {
+            response = "I'm not sure which section you want. You can say 'Go to CV Builder' or 'Take me to the Scam Detector'.";
+          }
+        } 
+        // Language commands
+        else if (lowerCommand.includes('speak') || lowerCommand.includes('language')) {
+          if (lowerCommand.includes('setswana') || lowerCommand.includes('tswana')) {
+            currentLanguage = 'tn';
+            response = "Dumela! Ke tla bua le wena ka Setswana jaanong. Hello! I will now speak to you in Setswana.";
+          } else if (lowerCommand.includes('zulu')) {
+            currentLanguage = 'zu';
+            response = "Sawubona! Ngizokhuluma nawe ngesiZulu manje. Hello! I will now speak to you in Zulu.";
+          } else if (lowerCommand.includes('xhosa')) {
+            currentLanguage = 'xh';
+            response = "Molo! Ndiza kuthetha nawe ngesiXhosa ngoku. Hello! I will now speak to you in Xhosa.";
+          } else if (lowerCommand.includes('shona')) {
+            currentLanguage = 'sn';
+            response = "Mhoro! Ndichataura newe muchiShona izvozvi. Hello! I will now speak to you in Shona.";
+          } else {
+            currentLanguage = 'en';
+            response = "I'll switch back to English.";
+          }
+          languageSelector.value = currentLanguage;
+        }
+        // Help commands
+        else if (lowerCommand.includes('help') || lowerCommand.includes('what can you do')) {
+          response = "I can help you with: \n- Navigating the website (just say 'Go to CV Builder')\n- Building a professional CV\n- Detecting job scams\n- Finding job opportunities\n- Switching languages (English, Setswana, Zulu, Xhosa, Shona)\n\nTry saying 'Take me to the scam detector' or 'Help me build a CV'";
+        }
+        // Default response
+        else {
+          response = "I'm not sure I understand. You can ask me to navigate the website, help with your CV, or detect scams. Try saying 'Help' for more options.";
+        }
+        
+        // Add response and execute action
+        setTimeout(() => {
+          addMessage("Spark", response, 'ai-message');
+          if (action) action();
+        }, 1000);
+      }
+      
+      // Navigate to section with visual guidance
+      function navigateTo(sectionId) {
+        const element = document.querySelector(sectionId);
+        if (element) {
+          // Remove previous highlight
+          if (highlightedElement) {
+            highlightedElement.classList.remove('highlight');
+          }
+          
+          // Add new highlight
+          element.classList.add('highlight');
+          highlightedElement = element;
+          
+          // Show navigation path
+          navigationPath.style.display = 'block';
+          navigationPath.textContent = getNavigationText(sectionId);
+          
+          // Scroll to element
+          element.scrollIntoView({ behavior: 'smooth' });
+          
+          // Remove highlight after some time
+          setTimeout(() => {
+            if (highlightedElement) {
+              highlightedElement.classList.remove('highlight');
+              highlightedElement = null;
+            }
+            navigationPath.style.display = 'none';
+          }, 5000);
+        }
+      }
+      
+      // Get navigation text based on language
+      function getNavigationText(sectionId) {
+        const sections = {
+          '#features': { 
+            en: "Taking you to the home section",
+            tn: "Ke a go isa kwa karolong ya mathomo",
+            zu: "Ngikuholela esigabeni sasekhaya",
+            xh: "Ndikuthumela kwicandelo lasekhaya",
+            sn: "Ndiri kukuendesa kuchikamu chekutanga"
+          },
+          '#cv-builder': { 
+            en: "Taking you to the CV Builder",
+            tn: "Ke a go isa kwa CV Builder",
+            zu: "Ngikuholela kumakhi we-CV",
+            xh: "Ndikuthumela kumakhi we-CV",
+            sn: "Ndiri kukuendesa kuCV Builder"
+          },
+          '#scam-detector': { 
+            en: "Taking you to the Scam Detector",
+            tn: "Ke a go isa kwa Scam Detector",
+            zu: "Ngikuholela kumtshina wokuthola amakhohliso",
+            xh: "Ndikuthumela kumtshina wokufumanisa amakhohlozo",
+            sn: "Ndiri kukuendesa kuScam Detector"
+          },
+          '#job-finder': { 
+            en: "Taking you to the Job Finder",
+            tn: "Ke a go isa kwa Job Finder",
+            zu: "Ngikuholela kumtshina wokuthola umsebenzi",
+            xh: "Ndikuthumela kumtshina wokufumana umsebenzi",
+            sn: "Ndiri kukuendesa kuJob Finder"
+          }
+        };
+        
+        return sections[sectionId][currentLanguage] || sections[sectionId]['en'];
+      }
+      
+      // Language selector change
+      languageSelector.addEventListener('change', function() {
+        currentLanguage = this.value;
+        addMessage("Spark", getLanguageChangeMessage(this.value), 'ai-message');
+      });
+      
+      function getLanguageChangeMessage(lang) {
+        const messages = {
+          'en': "I'll now speak in English. How can I help you?",
+          'tn': "Jaanong ke tla bua le wena ka Setswana. O ka nthusa jang?",
+          'zu': "Manje ngizokhuluma ngesiZulu. Ngingakusiza ngani?",
+          'xh': "Ngoku ndiza kuthetha ngesiXhosa. Ndingakunceda njani?",
+          'sn': "Izvozvi ndichataura newe muchiShona. Ndingakubatsira sei?"
+        };
+        return messages[lang];
+      }
+      
+      // Initial greeting based on browser language
+      if (navigator.language.includes('tn') || navigator.language.includes('zu') || 
+          navigator.language.includes('xh') || navigator.language.includes('sn')) {
+        currentLanguage = navigator.language.substring(0, 2);
+        languageSelector.value = currentLanguage;
+      }
+    });
+  </script>
   </main>
 
   <footer>
