@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobShield AI - Job Hunt Resources</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #1e293b;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+        }
+        
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.3);
+        }
+        
+        .security-tip {
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .step-number {
+            background: #1e3a8a;
+            color: white;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="gradient-bg text-white">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <img src="https://placehold.co/40x40" alt="JobShield AI logo - a shield with checkmark inside representing protection and security" class="h-10 w-10 rounded-lg">
+                <span class="text-xl font-bold">JobShield AI</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="hover:text-blue-300 transition">Home</a>
+                <a href="jobhunt.html" class="font-semibold text-blue-300 border-b-2 border-blue-300">Job Hunt</a>
+                <a href="cvbuilder.html" class="hover:text-blue-300 transition">CV Builder</a>
+                <a href="cybersafety.html" class="hover:text-blue-300 transition">Cyber Safety</a>
+            </div>
+            <button class="md:hidden focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section class="mb-16">
+            <h1 class="text-4xl font-bold text-white mb-6">Smart Job Hunting with AI Protection</h1>
+            <p class="text-lg text-slate-300 max-w-3xl mb-8">Navigate your job search safely with our AI-powered tools that verify opportunities and protect you from scams while helping you find the perfect role.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white rounded-xl p-6 shadow-lg job-card transition">
+                    <div class="flex items-center mb-4">
+                        <div class="step-number rounded-full h-8 w-8 flex items-center justify-center mr-3 text-sm font-bold">1</div>
+                        <h3 class="font-bold text-lg">Job Search</h3>
+                    </div>
+                    <p class="text-slate-700 mb-4">Find verified job listings from trusted sources with our AI-powered search.</p>
+                    <a href="#" class="text-blue-600 font-medium hover:underline inline-flex items-center">
+                        Start Searching
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-lg job-card transition">
+                    <div class="flex items-center mb-4">
+                        <div class="step-number rounded-full h-8 w-8 flex items-center justify-center mr-3 text-sm font-bold">2</div>
+                        <h3 class="font-bold text-lg">Scam Detection</h3>
+                    </div>
+                    <p class="text-slate-700 mb-4">Our AI analyzes job postings to identify and warn you about potential scams.</p>
+                    <a href="#" class="text-blue-600 font-medium hover:underline inline-flex items-center">
+                        Learn How It Works
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-lg job-card transition">
+                    <div class="flex items-center mb-4">
+                        <div class="step-number rounded-full h-8 w-8 flex items-center justify-center mr-3 text-sm font-bold">3</div>
+                        <h3 class="font-bold text-lg">Application Tracking</h3>
+                    </div>
+                    <p class="text-slate-700 mb-4">Keep organized with our application tracker that monitors your job search progress.</p>
+                    <a href="#" class="text-blue-600 font-medium hover:underline inline-flex items-center">
+                        Track Applications
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-white mb-6">Latest Verified Job Listings</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg job-card transition">
+                    <div class="p-6">
+                        <div class="flex items-start mb-4">
+                            <img src="https://placehold.co/60x60" alt="Tech company logo with blue and white color scheme" class="h-12 w-12 rounded mr-4">
+                            <div>
+                                <h3 class="font-bold text-lg">Frontend Developer</h3>
+                                <p class="text-slate-600">TechCorp Inc. • San Francisco, CA</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-700 mb-4">Join our team to build cutting-edge web applications with React and TypeScript. Remote work options available.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">React</span>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">TypeScript</span>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">CSS</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-slate-500">Posted 2 days ago</span>
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">Apply Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg job-card transition">
+                    <div class="p-6">
+                        <div class="flex items-start mb-4">
+                            <img src="https://placehold.co/60x60" alt="Bank logo with secure shield emblem" class="h-12 w-12 rounded mr-4">
+                            <div>
+                                <h3 class="font-bold text-lg">Cybersecurity Analyst</h3>
+                                <p class="text-slate-600">Global Bank • New York, NY</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-700 mb-4">Protect critical financial systems and data from cyber threats. SIEM monitoring and incident response focus.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">SIEM</span>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">SOC</span>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Incident Response</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-slate-500">Posted 1 week ago</span>
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">Apply Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg job-card transition">
+                    <div class="p-6">
+                        <div class="flex items-start mb-4">
+                            <img src="https://placehold.co/60x60" alt="Healthcare organization logo with cross symbol" class="h-12 w-12 rounded mr-4">
+                            <div>
+                                <h3 class="font-bold text-lg">IT Support Specialist</h3>
+                                <p class="text-slate-600">Regional Medical • Chicago, IL</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-700 mb-4">Provide technical support for healthcare staff and maintain critical medical IT systems. On-site position.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Help Desk</span>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Windows</span>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Networking</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-slate-500">Posted 3 days ago</span>
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">Apply Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <button class="border-2 border-blue-500 text-blue-500 hover:bg-blue-50 px-6 py-3 rounded-lg font-medium transition">Load More Jobs</button>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6">Job Hunt Security Tips</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="security-tip pl-4">
+                        <h3 class="font-bold text-lg text-slate-800 mb-3">Identifying Fake Job Listings</h3>
+                        <p class="text-slate-700 mb-4">Scammers often create fake job postings to steal personal information. Look for these warning signs:</p>
+                        <ul class="list-disc pl-5 text-slate-700 space-y-2">
+                            <li>Requests for payment or equipment purchases</li>
+                            <li>Poor grammar and spelling in the posting</li>
+                            <li>Generic email addresses instead of company domains</li>
+                            <li>Too-good-to-be-true salaries and benefits</li>
+                        </ul>
+                    </div>
+                    <div class="security-tip pl-4">
+                        <h3 class="font-bold text-lg text-slate-800 mb-3">Safe Online Applications</h3>
+                        <p class="text-slate-700 mb-4">Protect your personal information when applying for jobs online:</p>
+                        <ul class="list-disc pl-5 text-slate-700 space-y-2">
+                            <li>Check for HTTPS and security indicators in browser</li>
+                            <li>Be cautious with requests for sensitive data early in process</li>
+                            <li>Use a dedicated email for job hunting</li>
+                            <li>Research the company thoroughly before applying</li>
+                        </ul>
+                    </div>
+                    <div class="security-tip pl-4">
+                        <h3 class="font-bold text-lg text-slate-800 mb-3">Virtual Interview Safety</h3>
+                        <p class="text-slate-700 mb-4">Stay safe during remote interview processes:</p>
+                        <ul class="list-disc pl-5 text-slate-700 space-y-2">
+                            <li>Verify the interviewer's identity and company email</li>
+                            <li>Be wary of unusual platform requests (e.g., Wire, Telegram)</li>
+                            <li>Don't share screens with sensitive information</li>
+                            <li>Check your background for personal items before video calls</li>
+                        </ul>
+                    </div>
+                    <div class="security-tip pl-4">
+                        <h3 class="font-bold text-lg text-slate-800 mb-3">Background Check Warnings</h3>
+                        <p class="text-slate-700 mb-4">Legitimate employers follow proper procedures:</p>
+                        <ul class="list-disc pl-5 text-slate-700 space-y-2">
+                            <li>Beware of requests for copies of IDs too early</li>
+                            <li>Never provide bank details for "payroll setup" pre-offer</li>
+                            <li>Research the background check company if provided</li>
+                            <li>Real companies won't ask for your passwords</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="gradient-bg text-white rounded-xl p-8 md:p-12 shadow-lg">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-6">Let Our AI Protect Your Job Search</h2>
+                <p class="text-lg mb-8 max-w-2xl mx-auto">JobShield AI scans job postings in real-time, warning you about potential scams and verifying legitimate opportunities before you apply.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button class="bg-white text-blue-800 hover:bg-blue-100 px-6 py-3 rounded-lg font-bold transition">Try Our Job Scanner</button>
+                    <button class="border-2 border-white hover:bg-white hover:text-blue-800 px-6 py-3 rounded-lg font-bold transition">Learn About Scams</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <img src="https://placehold.co/40x40" alt="JobShield AI logo - a shield with checkmark inside representing protection and security" class="h-10 w-10 rounded-lg">
+                        <span class="text-xl font-bold text-white">JobShield AI</span>
+                    </div>
+                    <p class="text-sm">AI-powered protection for job seekers against scams and fraud, helping you find legitimate opportunities safely.</p>
+                </div>
+                <div>
+                    <h3 class="text-white font-medium mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">Job Search Tips</a></li>
+                        <li><a href="#" class="hover:text-white transition">Scam Database</a></li>
+                        <li><a href="#" class="hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition">Webinars</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-medium mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition">Press</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-medium mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 mt-12 pt-8 text-sm text-center">
+                <p>© 2023 JobShield AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.md\\:hidden').addEventListener('click', function() {
+            const nav = document.querySelector('.md\\:flex');
+            nav.classList.toggle('hidden');
+            nav.classList.toggle('flex');
+            nav.classList.toggle('flex-col');
+            nav.classList.toggle('absolute');
+            nav.classList.toggle('bg-slate-900');
+            nav.classList.toggle('top-16');
+            nav.classList.toggle('right-6');
+            nav.classList.toggle('p-4');
+            nav.classList.toggle('rounded-lg');
+            nav.classList.toggle('z-50');
+        });
+
+        // Job card interaction
+        document.querySelectorAll('.job-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+            });
+        });
+    </script>
+</body>
+</html>
+
