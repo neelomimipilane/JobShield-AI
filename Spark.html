@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spark AI Assistant</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --assistant-color: #5e35b1; /* Purple */
+      --success-color: #2ECC40; /* Green */
+      --warning-color: #FF4136; /* Red */
+    }
+
+    .assistant-container {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1000;
+    }
+
+    .navigation-path {
+      position: fixed;
+      bottom: 120px;
+      right: 30px;
+      background-color: var(--assistant-color);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      display: none;
+      z-index: 1001;
+      max-width: 250px;
+      text-align: center;
+    }
+
+    .assistant-button {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background-color: var(--assistant-color);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .assistant-button:hover {
+      transform: scale(1.1);
+    }
+
+    .assistant-button.listening {
+      animation: pulse 1.5s infinite;
+      background-color: var(--warning-color);
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 65, 54, 0.7); }
+      70% { box-shadow: 0 0 0 15px rgba(255, 65, 54, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 65, 54, 0); }
+    }
+
+    .assistant-chat {
+      position: absolute;
+      bottom: 90px;
+      right: 0;
+      width: 350px;
+      max-height: 500px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+    }
+
+    .chat-header {
+      background-color: var(--assistant-color);
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .language-selector {
+      background-color: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      padding: 0.3rem;
+      border-radius: 4px;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      max-height: 350px;
+    }
+
+    .message {
+      margin-bottom: 1rem;
+      padding: 0.8rem;
+      border-radius: 18px;
+      max-width: 80%;
+      font-size: 0.9rem;
+    }
+
+    .ai-message {
+      background-color: #f0f4f8;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    .user-message {
+      background-color: var(--assistant-color);
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 1rem;
+      border-top: 1px solid #eee;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    .send-btn {
+      background: none;
+      border: none;
+      color: var(--assistant-color);
+      font-size: 1.2rem;
+      margin-left: 0.5rem;
+      cursor: pointer;
+    }
+
+    .highlight {
+      position: relative;
+      z-index: 999;
+      animation: highlight 2s infinite;
+    }
+
+    @keyframes highlight {
+      0% { box-shadow: 0 0 0 0 rgba(94, 53, 177, 0.4); }
+      100% { box-shadow: 0 0 0 10px rgba(94, 53, 177, 0); }
+    }
+
+    @media (max-width: 768px) {
+      .assistant-chat {
+        width: 90vw;
+        right: 5vw;
+      }
+      
+      .assistant-container {
+        bottom: 20px;
+        right: 20px;
+      }
+      
+      .navigation-path {
+        bottom: 100px;
+        right: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Spark AI Assistant -->
+  <div class="assistant-container">
+    <div class="navigation-path" id="navigation-path">
+      Following my voice to guide you...
+    </div>
+    
+    <div class="assistant-chat" id="assistant-chat">
+      <div class="chat-header">
+        <span>Spark Assistant</span>
+        <select class="language-selector" id="language-selector">
+          <option value="en">English</option>
+          <option value="tn">Setswana</option>
+          <option value="zu">Zulu</option>
+          <option value="xh">Xhosa</option>
+          <option value="sn">Shona</option>
+        </select>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="message ai-message">
+          <strong>Spark:</strong> Dumela! Hello! I'm Spark, your AI assistant. How can I help you today?
+        </div>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="chat-input" placeholder="Type your message...">
+        <button class="send-btn" id="send-btn"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+    
+    <button class="assistant-button" id="assistant-button">
+      <i class="fas fa-robot"></i>
+    </button>
+  </div>
+
+  <script>
+    // Spark AI Assistant
+    document.addEventListener('DOMContentLoaded', function() {
+      const assistantButton = document.getElementById('assistant-button');
+      const assistantChat = document.getElementById('assistant-chat');
+      const chatMessages = document.getElementById('chat-messages');
+      const chatInput = document.getElementById('chat-input');
+      const sendBtn = document.getElementById('send-btn');
+      const languageSelector = document.getElementById('language-selector');
+      const navigationPath = document.getElementById('navigation-path');
+      
+      let recognition;
+      let isListening = false;
+      let currentLanguage = 'en';
+      let highlightedElement = null;
+      
+      // Initialize speech recognition
+      function initSpeechRecognition() {
+        try {
+          const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+          recognition = new SpeechRecognition();
+          recognition.continuous = false;
+          recognition.lang = getRecognitionLanguage();
+          
+          recognition.onstart = function() {
+            isListening = true;
+            assistantButton.classList.add('listening');
+            addMessage("Spark", getListeningMessage(), 'ai-message');
+          };
+          
+          recognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript;
+            addMessage("You", transcript, 'user-message');
+            processCommand(transcript);
+          };
+          
+          recognition.onerror = function(event) {
+            console.error('Speech recognition error', event.error);
+            isListening = false;
+            assistantButton.classList.remove('listening');
+            addMessage("Spark", getErrorMessage(), 'ai-message');
+          };
+          
+          recognition.onend = function() {
+            isListening = false;
+            assistantButton.classList.remove('listening');
+          };
+        } catch(e) {
+          console.log('Speech recognition not supported', e);
+          addMessage("Spark", getUnsupportedMessage(), 'ai-message');
+        }
+      }
+      
+      // Get recognition language code
+      function getRecognitionLanguage() {
+        const codes = {
+          'en': 'en-US',
+          'tn': 'af-ZA', // Fallback for Setswana
+          'zu': 'af-ZA', // Fallback for Zulu
+          'xh': 'af-ZA', // Fallback for Xhosa
+          'sn': 'af-ZA'  // Fallback for Shona
+        };
+        return codes[currentLanguage] || 'en-US';
+      }
+      
+      // Toggle chat window
+      assistantButton.addEventListener('click', function() {
+        if (assistantChat.style.display === 'flex') {
+          assistantChat.style.display = 'none';
+          if (isListening && recognition) {
+            recognition.stop();
+          }
+        } else {
+          assistantChat.style.display = 'flex';
+          initSpeechRecognition();
+        }
+      });
+      
+      // Send message
+      function sendMessage() {
+        const message = chatInput.value.trim();
+        if (message !== '') {
+          addMessage("You", message, 'user-message');
+          chatInput.value = '';
+          processCommand(message);
+        }
+      }
+      
+      sendBtn.addEventListener('click', sendMessage);
+      
+      chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          sendMessage();
+        }
+      });
+      
+      // Add message to chat
+      function addMessage(sender, text, className) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${className}`;
+        messageDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+      
+      // Process user commands
+      function processCommand(command) {
+        const lowerCommand = command.toLowerCase();
+        let response = "";
+        let action = null;
+        
+        // Navigation commands
+        if (lowerCommand.includes('go to') || lowerCommand.includes('show me') || lowerCommand.includes('take me to')) {
+          let sectionId = null;
+          
+          if (lowerCommand.includes('home') || lowerCommand.includes('main')) {
+            sectionId = '#home';
+            response = getNavigationResponse('home');
+          } else if (lowerCommand.includes('cv') || lowerCommand.includes('resume')) {
+            sectionId = '#cv-builder';
+            response = getNavigationResponse('cv');
+          } else if (lowerCommand.includes('scam') || lowerCommand.includes('fraud')) {
+            sectionId = '#scam-detector';
+            response = getNavigationResponse('scam');
+          } else if (lowerCommand.includes('job') || lowerCommand.includes('find work')) {
+            sectionId = '#job-finder';
+            response = getNavigationResponse('job');
+          } else if (lowerCommand.includes('feedback') || lowerCommand.includes('comment')) {
+            sectionId = '#feedback';
+            response = getNavigationResponse('feedback');
+          } else {
+            response = getNavigationConfusedResponse();
+          }
+          
+          if (sectionId) {
+            action = () => navigateTo(sectionId);
+          }
+        } 
+        // Language commands
+        else if (lowerCommand.includes('speak') || lowerCommand.includes('language')) {
+          if (lowerCommand.includes('setswana') || lowerCommand.includes('tswana')) {
+            currentLanguage = 'tn';
+            response = "Dumela! Ke tla bua le wena ka Setswana jaanong. Hello! I will now speak to you in Setswana.";
+          } else if (lowerCommand.includes('zulu')) {
+            currentLanguage = 'zu';
+            response = "Sawubona! Ngizokhuluma nawe ngesiZulu manje. Hello! I will now speak to you in Zulu.";
+          } else if (lowerCommand.includes('xhosa')) {
+            currentLanguage = 'xh';
+            response = "Molo! Ndiza kuthetha nawe ngesiXhosa ngoku. Hello! I will now speak to you in Xhosa.";
+          } else if (lowerCommand.includes('shona')) {
+            currentLanguage = 'sn';
+            response = "Mhoro! Ndichataura newe muchiShona izvozvi. Hello! I will now speak to you in Shona.";
+          } else {
+            currentLanguage = 'en';
+            response = "I'll switch back to English.";
+          }
+          languageSelector.value = currentLanguage;
+        }
+        // Help commands
+        else if (lowerCommand.includes('help') || lowerCommand.includes('what can you do')) {
+          response = getHelpResponse();
+        }
+        // Default response
+        else {
+          response = getDefaultResponse();
+        }
+        
+        // Add response and execute action
+        setTimeout(() => {
+          addMessage("Spark", response, 'ai-message');
+          if (action) action();
+        }, 1000);
+      }
+      
+      // Navigate to section with visual guidance
+      function navigateTo(sectionId) {
+        const element = document.querySelector(sectionId);
+        if (element) {
+          // Remove previous highlight
+          if (highlightedElement) {
+            highlightedElement.classList.remove('highlight');
+          }
+          
+          // Add new highlight
+          element.classList.add('highlight');
+          highlightedElement = element;
+          
+          // Show navigation path
+          navigationPath.style.display = 'block';
+          navigationPath.textContent = getNavigationText(sectionId);
+          
+          // Scroll to element
+          element.scrollIntoView({ behavior: 'smooth' });
+          
+          // Remove highlight after some time
+          setTimeout(() => {
+            if (highlightedElement) {
+              highlightedElement.classList.remove('highlight');
+              highlightedElement = null;
+            }
+            navigationPath.style.display = 'none';
+          }, 5000);
+        }
+      }
+      
+      // Language selector change
+      languageSelector.addEventListener('change', function() {
+        currentLanguage = this.value;
+        addMessage("Spark", getLanguageChangeMessage(this.value), 'ai-message');
+      });
+      
+      // Multilingual responses
+      function getListeningMessage() {
+        const messages = {
+          'en': "I'm listening...",
+          'tn': "Ke a reetsa...",
+          'zu': "Ngiyalalela...",
+          'xh': "Ndiphulaphula...",
+          'sn': "Ndiri kuteerera..."
+        };
+        return messages[currentLanguage] || messages['en'];
+      }
+      
+      function getErrorMessage() {
+        const messages = {
+          'en': "Sorry, I didn't catch that. Please try again.",
+          'tn': "Ke kopa tshwarelo, ga ke a utlwa. Lekisa gape.",
+          'zu': "Uxolo, angikuzwanga. Zama futhi.",
+          'xh': "Uxolo, andikuvanga. Zama kwakhona.",
+          'sn': "Ndine urombo, handina kukunzwa. Edza zvakare."
+        };
+        return messages[currentLanguage] || messages['en'];
+      }
+      
+      function getUnsupportedMessage() {
+        const messages = {
+          'en': "Voice commands are not supported in your browser. Please type your requests.",
+          'tn': "Ditaelo tsa lentswe ga di a tshegetswa mo sebatleng sa gago. Tsaya mo go kwala ditaelo tsa gago.",
+          'zu': "Ama-voisi awasekeli kusebenzisa isiphequluli sakho. Sicela uthayiphe izicelo zakho.",
+          'xh': "Iivawundi azixhaswanga kwiphequluli yakho. Nceda uchwetheze izicelo zakho.",
+          'sn': "Mirairo yezwi haitsigirwi mubrowser yako. Ndapota nyora zvikumbiro zvako."
+        };
+        return messages[currentLanguage] || messages['en'];
+      }
+      
+      function getNavigationResponse(section) {
+        const responses = {
+          'home': {
+            'en': "Taking you to the home section.",
+            'tn': "Ke a go isa kwa karolong ya mathomo.",
+            'zu': "Ngikuholela esigabeni sasekhaya.",
+            'xh': "Ndikuthumela kwicandelo lasekhaya.",
+            'sn': "Ndiri kukuendesa kuchikamu chekutanga."
+          },
+          'cv': {
+            'en': "Taking you to the CV Builder section.",
+            'tn': "Ke a go isa kwa karolong ya CV Builder.",
+            'zu': "Ngikuholela esigabeni sokuqala se-CV.",
+            'xh': "Ndikuthumela kwicandelo lokuqala le-CV.",
+            'sn': "Ndiri kukuendesa kuchikamu cheCV Builder."
+          },
+          'scam': {
+            'en': "Taking you to the Scam Detector section.",
+            'tn': "Ke a go isa kwa karolong ya Scam Detector.",
+            'zu': "Ngikuholela esigabeni sokuqapha amakhohliso.",
+            'xh': "Ndikuthumela kwicandelo lokufumanisa amakhohlozo.",
+            'sn': "Ndiri kukuendesa kuchikamu cheScam Detector."
+          },
+          'job': {
+            'en': "Taking you to the Job Finder section.",
+            'tn': "Ke a go isa kwa karolong ya Job Finder.",
+            'zu': "Ngikuholela esigabeni sokuthola umsebenzi.",
+            'xh': "Ndikuthumela kwicandelo lokufumana umsebenzi.",
+            'sn': "Ndiri kukuendesa kuchikamu cheJob Finder."
+          },
+          'feedback': {
+            'en': "Taking you to the Feedback section.",
+            'tn': "Ke a go isa kwa karolong ya Feedback.",
+            'zu': "Ngikuholela esigabeni sempendulo.",
+            'xh': "Ndikuthumela kwicandelo leempendulo.",
+            'sn': "Ndiri kukuendesa kuchikamu cheFeedback."
+          }
+        };
+        return responses[section][currentLanguage] || responses[section]['en'];
+      }
+      
+      function getNavigationConfusedResponse() {
+        const messages = {
+          'en': "I'm not sure which section you want. You can say 'Go to CV Builder' or 'Take me to the Scam Detector'.",
+          'tn': "Ga ke a tlhaloganya gore o batla kwa karolong efe. O ka re 'Tsamaya kwa CV Builder' kgotsa 'Ntshwarele kwa Scam Detector'.",
+          'zu': "Angiqinisekile ukuthi ufuna isigaba siphi. Ungasho ukuthi 'Hamba ku-CV Builder' noma 'Ngiholele kumtshina wokuthola amakhohliso'.",
+          'xh': "Andiqinisekanga ukuba ufuna icandelo liphi. Ungathi 'Yiya kwi-CV Builder' okanye 'Ndikhuphele kumtshina wokufumanisa amakhohlozo'.",
+          'sn': "Handina chokwadi chekuti unoda chikamu chipi. Unogona kuti 'Enda kuCV Builder' kana 'Nditungamidze kuScam Detector'."
+        };
+        return messages[currentLanguage] || messages['en'];
+      }
+      
+      function getHelpResponse() {
+        const messages = {
+          'en': "I can help you with: \n- Navigating the website (just say 'Go to CV Builder')\n- Building a professional CV\n- Detecting job scams\n- Finding job opportunities\n- Switching languages (English, Setswana, Zulu, Xhosa, Shona)\n\nTry saying 'Take me to the scam detector' or 'Help me build a CV'",
+          'tn': "Ke ka go thusa ka: \n- Go tsamaya mo webosaeteng (re fela 'Tsamaya kwa CV Builder')\n- Go aga CV ya porofešenale\n- Go lemoga dikgwebo tsa mantsi\n- Go bona ditšhono tša mošomo\n- Go fetola dipolelo (Sekgoa, Setswana, Sezulu, Sexhosa, Shona)\n\nLeka go re 'Mpelela kwa scam detector' kgotsa 'Nthuse go aga CV'",
+          'zu': "Ngingakusiza nge: \n- Ukuzulazula kwiwebhusayithi (vele uthi 'Hamba ku-CV Builder')\n- Ukwakha i-CV yobuchwepheshe\n- Ukuthola amakhohliso emisebenzi\n- Ukuthola amathuba emisebenzi\n- Ukushintsha izilimi (IsiNgisi, isiZulu, isiXhosa, isiShona)\n\nZama ukusho ukuthi 'Ngiholele kumtshina wokuthola amakhohliso' noma 'Ngisize ngakhe i-CV'",
+          'xh': "Ndinokukunceda nge: \n- Ukukhokela kwiwebhusayithi (vele uthi 'Yiya kwi-CV Builder')\n- Ukwakha i-CV yobuchule\n- Ukufumanisa amakhohlozo emisebenzi\n- Ukufumana amathuba emisebenzi\n- Ukutshintsha iilwimi (IsiNgesi, isiXhosa, isiZulu, isiShona)\n\nZama ukuthi 'Ndikhuphele kumtshina wokufumanisa amakhohlozo' okanye 'Ndincele ukwakha i-CV'",
+          'sn': "Ndinogona kukubatsira ne: \n- Kufambisa pawebsite (ingo taura 'Enda kuCV Builder')\n- Kugadzira CV yehunyanzvi\n- Kuona scams dzebasa\n- Kuwana mikana yebasa\n- Kuchinja mitauro (Chirungu, Setswana, Zulu, Xhosa, Shona)\n\nEdza kutaura 'Nditungamidze kuScam Detector' kana 'Ndirangarire kugadzira CV'"
+        };
+        return messages[currentLanguage] || messages['en'];
+      }
+      
+      function getDefaultResponse() {
+        const messages = {
+          'en': "I'm not sure I understand. You can ask me to navigate the website, help with your CV, or detect scams. Try saying 'Help' for more options.",
+          'tn': "Ga ke a tlhaloganya. O ka mpotsa gore ke go thusetse go tsamaya mo webosaeteng, go aga CV kgotsa go lemoga dikgwebo tsa mantsi. Leka go re 'Thusa' gore o bone ditlhopha tse dingwe.",
+          'zu': "Angiqondi kahle. Ungangibuza ukuthi ngikukhokhele kwiwebhusayithi, ngisize nge-CV yakho, noma ngithole amakhohliso. Zama ukusho ukuthi 'Usizo' ukuze uthole ezinye izinketho.",
+          'xh': "Andiqondi kakuhle. Ungandibuzela ukuba ndikukhokele kwiwebhusayithi, ndikuncede nge-CV yakho, okanye ndifumanise amakhohlozo. Zama ukuthi 'Nceda' ukuze ufumane ezinye iinketho.",
+          'sn': "Handina chokwadi chekuti ndinonzwisisa. Unogona kundibvunza kufambisa pawebsite, kubatsira neCV yako, kana kuona scams. Edza kutaura 'Rubatsiro' kuti uwane dzimwe sarudzo."
+        };
+        return messages[currentLanguage] || messages['en'];
+      }
+      
+      function getNavigationText(sectionId) {
+        const sections = {
+          '#home': { 
+            'en': "Taking you to the home section",
+            'tn': "Ke a go isa kwa karolong ya mathomo",
+            'zu': "Ngikuholela esigabeni sasekhaya",
+            'xh': "Ndikuthumela kwicandelo lasekhaya",
+            'sn': "Ndiri kukuendesa kuchikamu chekutanga"
+          },
+          '#cv-builder': { 
+            'en': "Taking you to the CV Builder",
+            'tn': "Ke a go isa kwa CV Builder",
+            'zu': "Ngikuholela kumakhi we-CV",
+            'xh': "Ndikuthumela kumakhi we-CV",
+            'sn': "Ndiri kukuendesa kuCV Builder"
+          },
+          '#scam-detector': { 
+            'en': "Taking you to the Scam Detector",
+            'tn': "Ke a go isa kwa Scam Detector",
+            'zu': "Ngikuholela kumtshina wokuthola amakhohliso",
+            'xh': "Ndikuthumela kumtshina wokufumanisa amakhohlozo",
+            'sn': "Ndiri kukuendesa kuScam Detector"
+          },
+          '#job-finder': { 
+            'en': "Taking you to the Job Finder",
+            'tn': "Ke a go isa kwa Job Finder",
+            'zu': "Ngikuholela kumtshina wokuthola umsebenzi",
+            'xh': "Ndikuthumela kumtshina wokufumana umsebenzi",
+            'sn': "Ndiri kukuendesa kuJob Finder"
+          },
+          '#feedback': { 
+            'en': "Taking you to the Feedback section",
+            'tn': "Ke a go isa kwa karolong ya Feedback",
+            'zu': "Ngikuholela esigabeni sempendulo",
+            'xh': "Ndikuthumela kwicandelo leempendulo",
+            'sn': "Ndiri kukuendesa kuchikamu cheFeedback"
+          }
+        };
+        
+        return sections[sectionId][currentLanguage] || sections[sectionId]['en'];
+      }
+      
+      function getLanguageChangeMessage(lang) {
+        const messages = {
+          'en': "I'll now speak in English. How can I help you?",
+          'tn': "Jaanong ke tla bua le wena ka Setswana. O ka nthusa jang?",
+          'zu': "Manje ngizokhuluma ngesiZulu. Ngingakusiza ngani?",
+          'xh': "Ngoku ndiza kuthetha ngesiXhosa. Ndingakunceda njani?",
+          'sn': "Izvozvi ndichataura newe muchiShona. Ndingakubatsira sei?"
+        };
+        return messages[lang];
+      }
+      
+      // Initial greeting based on browser language
+      if (navigator.language.includes('tn') || navigator.language.includes('zu') || 
+          navigator.language.includes('xh') || navigator.language.includes('sn')) {
+        currentLanguage = navigator.language.substring(0, 2);
+        languageSelector.value = currentLanguage;
+      }
+    });
+  </script>
+</body>
+</html>
