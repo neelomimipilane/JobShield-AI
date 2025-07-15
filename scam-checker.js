@@ -8,11 +8,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!input) {
       resultDiv.style.color = '#FF4136';
-      resultDiv.textContent = "⚠ Please paste a job message first.";
+      resultDiv.textContent = "⚠️ Please paste a job message first.";
       return;
     }
 
-    //  Keywords that typically show up in scams
     const scamKeywords = [
       "pay a fee", "urgent", "click here", "congratulations", "you have won",
       "send your cv", "work from home", "limited time", "personal details",
@@ -25,10 +24,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (foundKeywords.length > 0) {
       resultDiv.style.color = '#FF4136';
-      resultDiv.innerHTML = ` <strong>Possible scam detected!</strong><br>Matched keywords:<br>• ${foundKeywords.join('<br>• ')}`;
+      resultDiv.innerHTML = `🚨 <strong>Possible scam detected!</strong><br>Matched keywords:<br>• ${foundKeywords.join('<br>• ')}`;
     } else {
       resultDiv.style.color = '#2ECC40';
-      resultDiv.innerHTML = ` <strong>This message looks safe.</strong><br>But always double-check the source.`;
+      resultDiv.innerHTML = `✅ <strong>This message looks safe.</strong><br>But always double-check the source.`;
     }
   });
 });
