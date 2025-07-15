@@ -455,12 +455,13 @@
       <button class="cta-button">Build Your CV</button>
     </section>
 
-    <section id="scam-detector" style="margin-top: 4rem;">
-      <h2>Job Scam Detector</h2>
-      <p>Paste the text of a suspicious job offer, email, or SMS message below for analysis.</p>
-      <textarea style="width: 100%; min-height: 150px; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; margin: 1rem 0;" placeholder="Paste suspicious message here..."></textarea>
-      <button class="cta-button">Analyze for Scams</button>
-    </section>
+<section id="scam-detector" style="margin-top: 4rem;">
+  <h2>Job Scam Detector</h2>
+  <p>Paste the text of a suspicious job offer, email, or SMS message below for analysis.</p>
+  <textarea id="scam-text" style="width: 100%; min-height: 150px; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; margin: 1rem 0;" placeholder="Paste suspicious message here..."></textarea>
+  <button class="cta-button" id="analyze-btn">Analyze for Scams</button>
+  <div id="scam-result" style="margin-top: 1rem; font-weight: bold;"></div>
+</section>
 
     <section id="job-finder" style="margin-top: 4rem;">
       <h2>Find Your Dream Job</h2>
@@ -757,5 +758,6 @@
     });
   </script>
   </main>
+<script src="scam-checker.js"></script>
 </body>
 </html>
