@@ -3,813 +3,269 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>JobShield AI - Premium AI Job Search Assistant</title>
+  <title>JobShield - Your AI Job Search Assistant</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary-color: #6A2D1C; /* LIVER (ORGAN) - Main brand color */
-      --secondary-color: #ABACA0; /* QUICK SILVER - Background/neutral */
-      --accent-gold: #D29C62; /* BROWN YELLOW - Accent/CTAs */
-      --accent-teal: #734F33; /* COFFEE - Secondary accent */
-      --accent-coral: #241A09; /* ZINNWALDITE BROWN - Dark contrast */
-      --dark-charcoal: #333333; /* Deep Charcoal */
-      --light-gray: #F8F9FA; /* Light Background */
+      --primary-color: #002366; /* Navy Blue */
+      --secondary-color: #ffffff; /* White */
+      --accent-color: #0074D9; /* Bright Blue */
     }
 
     body {
       margin: 0;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       background-color: var(--secondary-color);
-      color: var(--dark-charcoal);
-      line-height: 1.7;
-      overflow-x: hidden;
+      color: var(--primary-color);
+      line-height: 1.6;
     }
 
     header {
-      background: linear-gradient(135deg, var(--primary-color) 0%, #5A2516 100%);
+      background-color: var(--primary-color);
       color: var(--secondary-color);
-      padding: 2rem 1.5rem;
+      padding: 1.5rem;
       text-align: center;
-      position: relative;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     }
 
     .logo {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 15px;
-      margin-bottom: 1rem;
+      gap: 10px;
     }
 
     .logo i {
-      color: var(--accent-gold);
-      font-size: 2.2rem;
-      text-shadow: 0 0 10px rgba(210, 156, 98, 0.3);
-    }
-
-    .logo h1 {
-      font-weight: 700;
-      font-size: 2.2rem;
-      margin: 0;
-      color: var(--secondary-color);
+      color: var(--accent-color);
+      font-size: 1.8rem;
     }
 
     nav {
       display: flex;
       justify-content: center;
-      gap: 25px;
-      margin-top: 1.5rem;
+      gap: 20px;
+      margin-top: 1rem;
     }
 
     nav a {
       color: var(--secondary-color);
       text-decoration: none;
-      padding: 0.7rem 1.5rem;
-      border-radius: 30px;
-      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      font-weight: 500;
-      position: relative;
-      overflow: hidden;
-    }
-
-    nav a:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: 0.5s;
-    }
-
-    nav a:hover:before {
-      left: 100%;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background-color 0.3s;
     }
 
     nav a:hover {
-      background-color: rgba(255, 255, 255, 0.15);
-      transform: translateY(-2px);
-    }
-
-    .nav-cta {
-      background-color: var(--accent-gold);
-      color: var(--accent-coral) !important;
-      font-weight: 600;
-    }
-
-    .nav-cta:hover {
-      background-color: #C58C52 !important;
-      box-shadow: 0 5px 15px rgba(210, 156, 98, 0.4);
+      background-color: rgba(255, 255, 255, 0.2);
     }
 
     main {
-      padding: 3rem 2rem;
-      max-width: 1400px;
+      padding: 2rem;
+      max-width: 1200px;
       margin: 0 auto;
     }
 
     .hero {
       text-align: center;
-      margin-bottom: 5rem;
-      position: relative;
-      padding: 4rem 0;
-      background-color: rgba(255, 255, 255, 0.8);
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    }
-
-    .hero:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 200px;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent-gold), var(--accent-teal));
-      border-radius: 2px;
-    }
-
-    .hero h2 {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      color: var(--primary-color);
-      line-height: 1.2;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 700px;
-      margin: 0 auto 2.5rem;
-      color: var(--dark-charcoal);
+      margin-bottom: 3rem;
     }
 
     .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2.5rem;
-      margin: 5rem 0;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
     }
 
     .feature-card {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 16px;
-      padding: 2.5rem 2rem;
-      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      border: 1px solid rgba(106, 45, 28, 0.1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .feature-card:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 0;
-      background: linear-gradient(to bottom, var(--accent-gold), var(--accent-teal));
-      transition: height 0.4s ease;
-    }
-
-    .feature-card:hover:before {
-      height: 100%;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
     .feature-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
 
     .feature-card i {
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-      color: var(--primary-color);
-    }
-
-    .feature-card h3 {
-      font-size: 1.5rem;
+      font-size: 2rem;
+      color: var(--accent-color);
       margin-bottom: 1rem;
-      color: var(--primary-color);
     }
 
-    .feature-card p {
-      color: #666;
-      margin-bottom: 1.5rem;
-    }
-
-    .feature-link {
-      color: var(--accent-teal);
-      text-decoration: none;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      transition: color 0.3s;
-    }
-
-    .feature-link:hover {
-      color: var(--primary-color);
-    }
-
-    .feature-link i {
-      margin-left: 8px;
-      font-size: 1rem;
-      background: none;
-      color: currentColor;
-    }
-
-    .ai-assistant {
-      background: linear-gradient(135deg, rgba(106, 45, 28, 0.05) 0%, rgba(115, 79, 51, 0.05) 100%);
-      border-radius: 20px;
-      padding: 4rem 2rem;
-      margin: 6rem 0;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(106, 45, 28, 0.1);
-    }
-
-    .ai-assistant:before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 100%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(210, 156, 98, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
-      z-index: 0;
-    }
-
-    .ai-assistant h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      position: relative;
-      z-index: 1;
-      color: var(--primary-color);
-    }
-
-    .ai-assistant p {
-      font-size: 1.1rem;
-      max-width: 700px;
-      margin: 0 auto 3rem;
-      position: relative;
-      z-index: 1;
-      color: #555;
-    }
-
-    .assistant-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: 900px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 16px;
-      padding: 3rem;
-      box-shadow: 0 10px 40px rgba(106, 45, 28, 0.1);
-    }
-
-    .assistant-avatar {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      margin-bottom: 1.5rem;
-      border: 5px solid #fff;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-      position: relative;
-      background-size: cover;
-      background-position: center;
+    .cta-button {
       background-color: var(--primary-color);
-      overflow: hidden;
+      color: var(--secondary-color);
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background-color 0.3s ease;
     }
 
-    .assistant-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .cta-button:hover {
+      background-color: #003366;
     }
 
-    .assistant-avatar-default {
+    footer {
+      background-color: var(--primary-color);
+      color: var(--secondary-color);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+    }
+
+    /* AI Assistant Floating Button */
+    .ai-assistant-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 100%;
-      height: 100%;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      transition: all 0.3s;
     }
 
-    .assistant-avatar-default i {
-      color: #fff;
-      font-size: 4rem;
+    .ai-assistant-btn:hover {
+      transform: scale(1.1);
     }
 
-    .assistant-avatar::after {
-      content: '';
-      position: absolute;
-      width: 25px;
-      height: 25px;
-      background-color: #2ECC40;
-      border-radius: 50%;
-      bottom: 10px;
-      right: 10px;
-      border: 3px solid #fff;
-      z-index: 2;
+    .ai-assistant-btn i {
+      color: white;
+      font-size: 1.5rem;
     }
 
-    .status-indicator {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 500;
-      margin-bottom: 2rem;
-      color: var(--primary-color);
+    .ai-assistant-btn.listening {
+      animation: pulse 1.5s infinite;
+      background: linear-gradient(135deg, #FF4136 0%, #FF6B6B 100%);
     }
 
-    .status-dot {
-      width: 10px;
-      height: 10px;
-      background-color: #2ECC40;
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-
-    .chat-interface {
-      width: 100%;
-      border: 1px solid rgba(106, 45, 28, 0.1);
+    /* AI Assistant Chat Interface */
+    .ai-assistant-chat {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 350px;
+      background-color: white;
       border-radius: 12px;
-      height: 350px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      transform: translateY(20px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      z-index: 101;
+    }
+
+    .ai-assistant-chat.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .chat-header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .close-chat {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .chat-messages {
+      height: 300px;
       overflow-y: auto;
-      padding: 1.5rem;
-      margin: 1.5rem 0;
-      text-align: left;
-      background-color: #fff;
-      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 1rem;
     }
 
     .message {
-      margin-bottom: 1.2rem;
-      padding: 1rem 1.5rem;
+      margin-bottom: 1rem;
+      padding: 0.8rem 1rem;
       border-radius: 18px;
       max-width: 80%;
-      font-size: 0.95rem;
-      line-height: 1.5;
-      position: relative;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      font-size: 0.9rem;
     }
 
     .ai-message {
-      background-color: #f9f5f3;
-      align-self: flex-start;
+      background-color: #f0f8ff;
+      margin-right: auto;
       border-bottom-left-radius: 4px;
-      border: 1px solid rgba(106, 45, 28, 0.05);
     }
 
     .user-message {
-      background: linear-gradient(135deg, var(--primary-color) 0%, #8A3D2C 100%);
+      background-color: var(--primary-color);
       color: white;
-      align-self: flex-end;
       margin-left: auto;
       border-bottom-right-radius: 4px;
     }
 
-    .input-area {
+    .chat-input {
       display: flex;
-      width: 100%;
-      gap: 12px;
-      margin-top: 1.5rem;
+      padding: 1rem;
+      border-top: 1px solid #eee;
     }
 
-    .input-area input {
+    .chat-input input {
       flex: 1;
-      padding: 1rem 1.5rem;
-      border: 1px solid rgba(106, 45, 28, 0.2);
-      border-radius: 12px;
-      font-size: 1rem;
-      transition: all 0.3s;
-      background-color: rgba(106, 45, 28, 0.03);
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-right: 10px;
     }
 
-    .input-area input:focus {
-      outline: none;
-      border-color: var(--accent-teal);
-      box-shadow: 0 0 0 3px rgba(115, 79, 51, 0.2);
-      background-color: #fff;
-    }
-
-    .voice-btn {
-      background: linear-gradient(135deg, var(--accent-teal) 0%, var(--primary-color) 100%);
+    .send-btn {
+      background-color: var(--accent-color);
       color: white;
       border: none;
-      border-radius: 12px;
-      width: 60px;
-      cursor: pointer;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .voice-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 5px 15px rgba(106, 45, 28, 0.2);
-    }
-
-    .voice-btn i {
-      font-size: 1.2rem;
-    }
-
-    .voice-btn.listening {
-      background: linear-gradient(135deg, #FF4136 0%, #FF6B6B 100%);
-      animation: pulse 1.5s infinite;
-    }
-
-    .action-buttons {
-      display: flex;
-      gap: 15px;
-      width: 100%;
-      margin-top: 1.5rem;
-    }
-
-    .cta-button {
-      background: linear-gradient(135deg, var(--primary-color) 0%, #8A3D2C 100%);
-      color: #fff;
-      border: none;
-      padding: 1.2rem 2.5rem;
-      border-radius: 12px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      font-weight: 600;
-      flex: 1;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(106, 45, 28, 0.2);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(106, 45, 28, 0.3);
-    }
-
-    .cta-button:active {
-      transform: translateY(1px);
-    }
-
-    .cta-button.secondary {
-      background: linear-gradient(135deg, var(--accent-teal) 0%, #8C6B4F 100%);
-      box-shadow: 0 4px 15px rgba(115, 79, 51, 0.3);
-    }
-
-    .cta-button.secondary:hover {
-      box-shadow: 0 10px 25px rgba(115, 79, 51, 0.4);
-    }
-
-    .file-upload-container {
-      margin: 4rem 0;
-    }
-
-    .file-upload-container h2 {
-      font-size: 2rem;
-      color: var(--primary-color);
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-
-    .file-upload-container p {
-      text-align: center;
-      max-width: 700px;
-      margin: 0 auto 2.5rem;
-      color: #666;
-    }
-
-    .file-upload {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 3rem 2rem;
-      border: 2px dashed rgba(106, 45, 28, 0.2);
-      border-radius: 16px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s;
-      background-color: rgba(106, 45, 28, 0.02);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .file-upload:hover {
-      border-color: var(--accent-teal);
-      background-color: rgba(115, 79, 51, 0.05);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(106, 45, 28, 0.1);
-    }
-
-    .file-upload i {
-      font-size: 3.5rem;
-      margin-bottom: 1.5rem;
-      color: var(--accent-teal);
-    }
-
-    .file-upload h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--primary-color);
-    }
-
-    .file-upload p {
-      margin-bottom: 0.5rem;
-      color: #666;
-    }
-
-    .file-upload small {
-      color: #999;
-    }
-
-    .scam-detector {
-      background: linear-gradient(135deg, rgba(36, 26, 9, 0.03) 0%, rgba(210, 156, 98, 0.03) 100%);
-      border-radius: 20px;
-      padding: 4rem 2rem;
-      margin: 6rem 0;
-      text-align: center;
-      border: 1px solid rgba(36, 26, 9, 0.1);
-    }
-
-    .scam-detector h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-      color: var(--primary-color);
-    }
-
-    .scam-detector p {
-      max-width: 700px;
-      margin: 0 auto 3rem;
-      color: #666;
-    }
-
-    .scam-textarea {
-      width: 100%;
-      min-height: 200px;
-      padding: 1.5rem;
-      border: 1px solid rgba(106, 45, 28, 0.1);
-      border-radius: 12px;
-      margin: 1.5rem 0;
-      font-family: 'Poppins', sans-serif;
-      font-size: 1rem;
-      resize: vertical;
-      transition: all 0.3s;
-      background-color: rgba(106, 45, 28, 0.02);
-    }
-
-    .scam-textarea:focus {
-      outline: none;
-      border-color: var(--accent-coral);
-      box-shadow: 0 0 0 3px rgba(36, 26, 9, 0.2);
-      background-color: #fff;
-    }
-
-    footer {
-      background: linear-gradient(135deg, var(--primary-color) 0%, #5A2516 100%);
-      color: var(--secondary-color);
-      text-align: center;
-      padding: 4rem 2rem;
-      font-size: 0.95rem;
-      position: relative;
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 3rem;
-      text-align: left;
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 1.5rem;
-    }
-
-    .footer-logo i {
-      color: var(--accent-gold);
-      font-size: 1.8rem;
-    }
-
-    .footer-logo span {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--secondary-color);
-    }
-
-    .footer-about p {
-      margin-bottom: 1.5rem;
-      line-height: 1.7;
-      opacity: 0.8;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 15px;
-    }
-
-    .social-links a {
-      color: var(--secondary-color);
-      background-color: rgba(255, 255, 255, 0.1);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
-    }
-
-    .social-links a:hover {
-      background-color: var(--accent-gold);
-      color: var(--accent-coral);
-      transform: translateY(-3px);
-    }
-
-    .footer-links h3 {
-      font-size: 1.2rem;
-      margin-bottom: 1.5rem;
-      position: relative;
-      padding-bottom: 10px;
-      color: #fff;
-    }
-
-    .footer-links h3:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 50px;
-      height: 2px;
-      background-color: var(--accent-gold);
-    }
-
-    .footer-links ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .footer-links li {
-      margin-bottom: 1rem;
-    }
-
-    .footer-links a {
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .footer-links a:hover {
-      color: var(--accent-gold);
-      padding-left: 5px;
-    }
-
-    .footer-links a i {
-      font-size: 0.8rem;
-    }
-
-    .footer-newsletter input {
-      width: 100%;
-      padding: 1rem;
-      border: none;
       border-radius: 8px;
-      margin-bottom: 1rem;
-      background-color: rgba(255, 255, 255, 0.1);
-      color: white;
-    }
-
-    .footer-newsletter input::placeholder {
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .footer-newsletter button {
-      width: 100%;
-      padding: 1rem;
-      border: none;
-      border-radius: 8px;
-      background: linear-gradient(135deg, var(--accent-gold) 0%, #C58C52 100%);
-      color: var(--accent-coral);
-      font-weight: 600;
+      padding: 0 1rem;
       cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .footer-newsletter button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(210, 156, 98, 0.3);
-    }
-
-    .footer-bottom {
-      margin-top: 4rem;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .footer-bottom p {
-      margin-bottom: 0.5rem;
-      opacity: 0.7;
-    }
-
-    .footer-bottom small {
-      opacity: 0.5;
-      font-size: 0.8rem;
     }
 
     @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0px); }
-    }
-
-    @media (max-width: 992px) {
-      .hero h2 {
-        font-size: 2.5rem;
-      }
-      
-      .features {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      }
-      
-      .assistant-container {
-        padding: 2rem;
-      }
+      0% { box-shadow: 0 0 0 0 rgba(255, 65, 54, 0.7); }
+      70% { box-shadow: 0 0 0 15px rgba(255, 65, 54, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 65, 54, 0); }
     }
 
     @media (max-width: 768px) {
+      .features {
+        grid-template-columns: 1fr;
+      }
+      
       nav {
         flex-direction: column;
         align-items: center;
         gap: 10px;
       }
       
-      .hero h2 {
-        font-size: 2rem;
+      .ai-assistant-chat {
+        width: 90%;
+        right: 5%;
       }
-      
-      .action-buttons {
-        flex-direction: column;
-      }
-      
-      .footer-content {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Custom file upload button */
-    .file-input-wrapper {
-      position: relative;
-      overflow: hidden;
-      display: inline-block;
-      margin-top: 1.5rem;
-    }
-
-    .file-input-wrapper input[type=file] {
-      font-size: 100px;
-      position: absolute;
-      left: 0;
-      top: 0;
-      opacity: 0;
-      cursor: pointer;
-    }
-
-    .file-input-button {
-      display: inline-block;
-      padding: 1rem 2rem;
-      background: linear-gradient(135deg, var(--accent-teal) 0%, #8C6B4F 100%);
-      color: white;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 4px 15px rgba(115, 79, 51, 0.3);
-    }
-
-    .file-input-button:hover {
-      background: linear-gradient(135deg, #8C6B4F 0%, var(--accent-teal) 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(115, 79, 51, 0.4);
     }
   </style>
 </head>
@@ -818,427 +274,190 @@
   <header>
     <div class="logo">
       <i class="fas fa-shield-alt"></i>
-      <h1>JobShield AI</h1>
+      <h1>JobShield</h1>
     </div>
-    <p>Your premium protection in the job market, powered by Spark AI</p>
+    <p>Your smart protection in the job market</p>
     <nav>
-      <a href="#features">Features</a>
-      <a href="#assistant">AI Assistant</a>
-      <a href="#cv-builder">CV Builder</a>
-      <a href="#scam-detector">Scam Detector</a>
-      <a href="#" class="nav-cta">Get Premium</a>
+      <a href=index.html>Home</a>
+      <a href=CVbuilder.html>CV Builder</a>
+      <a href=jobhunt.html><Job Hunt</a>
+      <a href=scam-checker.js>Scam Detector</a>
+      <a href=feedback.html>Feedback</a>
     </nav>
   </header>
 
   <main>
     <section class="hero">
-      <h2>Elevate Your Job Search with AI-Powered Protection</h2>
-      <p>Spark AI combines cutting-edge technology with human expertise to safeguard your career journey, optimize your applications, and unlock premium opportunities.</p>
-      <button class="cta-button">Start Your Free Trial</button>
-      <div class="file-input-wrapper">
-        <button class="file-input-button">
-          <i class="fas fa-cloud-upload-alt"></i> Upload Your Resume for Analysis
-        </button>
-        <input type="file" id="resume-upload-input" accept=".pdf,.doc,.docx,.txt">
-      </div>
+      <h2>Navigate the Job Market Safely with AI</h2>
+      <p>JobShield helps you avoid scams, build better resumes, and find legitimate opportunities.</p>
+      <button class="cta-button">Get Started</button>
     </section>
 
     <section id="features" class="features">
       <div class="feature-card">
         <i class="fas fa-user-shield"></i>
-        <h3>Advanced Scam Protection</h3>
-        <p>Our proprietary AI analyzes job postings, emails, and messages with 98.7% accuracy to detect sophisticated scams before they reach you.</p>
-        <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
+        <h3>Scam Protection</h3>
+        <p>Upload emails or SMS messages and we'll analyze them for potential job scams or phishing attempts.</p>
       </div>
       <div class="feature-card">
         <i class="fas fa-file-alt"></i>
-        <h3>Executive CV Builder</h3>
-        <p>Craft premium, ATS-optimized resumes with AI-powered content enhancement and personalized design recommendations.</p>
-        <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
+        <h3>Smart CV Builder</h3>
+        <p>Create professional resumes tailored to specific job descriptions with AI-powered suggestions.</p>
       </div>
       <div class="feature-card">
         <i class="fas fa-search"></i>
-        <h3>Curated Job Matching</h3>
-        <p>Access our exclusive network of vetted employers and receive hand-picked opportunities matching your career goals.</p>
-        <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="feature-card">
-        <i class="fas fa-graduation-cap"></i>
-        <h3>Executive Career Coaching</h3>
-        <p>1:1 sessions with our certified career strategists combined with AI-powered continuous improvement tracking.</p>
-        <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
+        <h3>Job Matching</h3>
+        <p>We search thousands of listings to find the best opportunities matching your skills and experience.</p>
       </div>
     </section>
 
-    <section id="assistant" class="ai-assistant">
-      <h2>Meet Spark AI, Your Executive Career Partner</h2>
-      <p>Our premium AI assistant combines machine learning with human expertise to provide unparalleled career support.</p>
-      
-      <div class="assistant-container">
-        <div class="assistant-avatar" id="assistant-avatar">
-          <!-- Custom avatar image can be inserted here -->
-          <div class="assistant-avatar-default">
-            <i class="fas fa-robot"></i>
-          </div>
-        </div>
-        <div class="status-indicator">
-          <span class="status-dot"></span>
-          <span id="assistant-status">Premium Assistant Online</span>
-        </div>
-        
-        <div class="chat-interface" id="chat-window">
-          <div class="message ai-message">
-            <strong>Spark AI:</strong> Welcome to your premium career assistant service. I'm here to provide executive-level support for your job search. How may I assist you today? You can ask me to:
-            <ul>
-              <li>Analyze a job offer or contract</li>
-              <li>Optimize your resume for a specific role</li>
-              <li>Research company backgrounds</li>
-              <li>Prepare for upcoming interviews</li>
-            </ul>
-          </div>
-        </div>
-        
-        <div class="input-area">
-          <input type="text" id="user-input" placeholder="Ask Spark AI anything about your career...">
-          <button class="voice-btn" id="voice-btn">
-            <i class="fas fa-microphone"></i>
-          </button>
-        </div>
-        
-        <div class="action-buttons">
-          <button class="cta-button secondary" id="send-btn">Send Message</button>
-          <button class="cta-button" id="connect-expert">Connect with Human Expert</button>
-        </div>
-      </div>
+    <section id="cv-builder">
+      <h2>AI-Powered CV Builder</h2>
+      <p>Upload your existing resume or start from scratch with our intelligent builder.</p>
+      <button class="cta-button">Try CV Builder</button>
     </section>
 
-    <section id="cv-builder" class="file-upload-container">
-      <h2>AI-Powered Executive Resume Builder</h2>
-      <p>Upload your existing resume for a free premium analysis or start crafting your next career-defining document.</p>
-      
-      <div class="file-upload" id="resume-upload">
-        <i class="fas fa-file-import"></i>
-        <h3>Drag & Drop Your Resume Here</h3>
-        <p>For immediate AI analysis and optimization suggestions</p>
-        <p><small>Supported formats: PDF, DOCX, TXT (Max 5MB)</small></p>
-      </div>
-      
-      <div class="action-buttons" style="max-width: 600px; margin: 0 auto;">
-        <button class="cta-button secondary">Build New Executive Resume</button>
-        <button class="cta-button">View Premium Templates</button>
-      </div>
-    </section>
-
-    <section id="scam-detector" class="scam-detector">
-      <h2>Advanced Job Scam Detection</h2>
-      <p>Our proprietary AI system analyzes text patterns, company data, and threat intelligence to identify sophisticated employment scams.</p>
-      
-      <textarea class="scam-textarea" placeholder="Paste suspicious job offer, email, or message content here for immediate analysis..."></textarea>
-      
-      <div class="action-buttons" style="max-width: 500px; margin: 0 auto;">
-        <button class="cta-button">Analyze for Scams</button>
-        <button class="cta-button secondary">View Recent Scam Alerts</button>
-      </div>
+    <section id="scam-detector" style="margin-top: 4rem;">
+      <h2>Job Scam Detector</h2>
+      <p>Paste the text of a suspicious job offer, email, or SMS message below for analysis.</p>
+      <textarea style="width: 100%; min-height: 150px; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; margin: 1rem 0;" placeholder="Paste suspicious message here..."></textarea>
+      <button class="cta-button">Analyze for Scams</button>
     </section>
   </main>
 
-  <footer>
-    <div class="footer-content">
-      <div class="footer-about">
-        <div class="footer-logo">
-          <i class="fas fa-shield-alt"></i>
-          <span>JobShield AI</span>
-        </div>
-        <p>Premium AI-powered career protection and optimization for discerning professionals. Combining cutting-edge technology with human expertise.</p>
-        <div class="social-links">
-          <a href="#"><i class="fab fa-linkedin-in"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-        </div>
-      </div>
-      
-      <div class="footer-links">
-        <h3>Product</h3>
-        <ul>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Features</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Pricing</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Case Studies</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Updates</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-links">
-        <h3>Company</h3>
-        <ul>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Careers</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Press</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i> Partners</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-newsletter">
-        <h3>Subscribe to Our Newsletter</h3>
-        <p>Receive exclusive career insights and premium service updates.</p>
-        <input type="email" placeholder="Your professional email">
-        <button>Subscribe</button>
-      </div>
+  <footer id="contact">
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Contact Us</a>
     </div>
-    
-    <div class="footer-bottom">
-      <p>© 2025 JobShield AI. All rights reserved.</p>
-      <p>
-        <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">GDPR Compliance</a>
-      </p>
-      <small>Spark AI is designed to assist but cannot guarantee complete protection against all sophisticated scams. Professional discretion is always advised.</small>
-    </div>
+    <p>© 2023 JobShield. All rights reserved.</p>
   </footer>
 
+  <!-- AI Assistant Floating Button -->
+  <div class="ai-assistant-btn" id="aiAssistantBtn">
+    <i class="fas fa-robot"></i>
+  </div>
+
+  <!-- AI Assistant Chat Interface -->
+  <div class="ai-assistant-chat" id="aiAssistantChat">
+    <div class="chat-header">
+      <h3>JobShield Assistant</h3>
+      <button class="close-chat" id="closeChat">&times;</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="message ai-message">
+        Hi there! I'm your JobShield assistant. How can I help you today? You can ask me about:
+        <ul>
+          <li>Job scams</li>
+          <li>Resume tips</li>
+          <li>Job search advice</li>
+        </ul>
+        Just click the mic button to speak!
+      </div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Type your message...">
+      <button class="send-btn" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+
   <script>
-    // Spark AI Assistant
-    document.addEventListener('DOMContentLoaded', function() {
-      const assistantButton = document.getElementById('assistant-button');
-      const assistantChat = document.getElementById('assistant-chat');
-      const chatMessages = document.getElementById('chat-messages');
-      const chatInput = document.getElementById('chat-input');
-      const sendBtn = document.getElementById('send-btn');
-      const languageSelector = document.getElementById('language-selector');
-      const navigationPath = document.getElementById('navigation-path');
-      
-      let recognition;
-      let isListening = false;
-      let currentLanguage = 'en';
-      let highlightedElement = null;
-      
-      // Initialize speech recognition
-      function initSpeechRecognition() {
-        try {
-          const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-          recognition = new SpeechRecognition();
-          recognition.continuous = false;
-          recognition.lang = currentLanguage === 'en' ? 'en-US' : 'af-ZA'; // Fallback for African languages
-          
-          recognition.onstart = function() {
-            isListening = true;
-            assistantButton.classList.add('listening');
-            addMessage("Spark", "I'm listening...", 'ai-message');
-          };
-          
-          recognition.onresult = function(event) {
-            const transcript = event.results[0][0].transcript;
-            addMessage("You", transcript, 'user-message');
-            processCommand(transcript);
-          };
-          
-          recognition.onerror = function(event) {
-            console.error('Speech recognition error', event.error);
-            isListening = false;
-            assistantButton.classList.remove('listening');
-            addMessage("Spark", "Sorry, I didn't catch that. Please try again.", 'ai-message');
-          };
-          
-          recognition.onend = function() {
-            isListening = false;
-            assistantButton.classList.remove('listening');
-          };
-        } catch(e) {
-          console.log('Speech recognition not supported', e);
-          addMessage("Spark", "Voice commands are not supported in your browser. Please type your requests.", 'ai-message');
-        }
-      }
-      
-      // Toggle chat window
-      assistantButton.addEventListener('click', function() {
-        if (assistantChat.style.display === 'flex') {
-          assistantChat.style.display = 'none';
-          if (isListening && recognition) {
-            recognition.stop();
-          }
-        } else {
-          assistantChat.style.display = 'flex';
-          initSpeechRecognition();
+    // AI Assistant Toggle
+    const aiAssistantBtn = document.getElementById('aiAssistantBtn');
+    const aiAssistantChat = document.getElementById('aiAssistantChat');
+    const closeChat = document.getElementById('closeChat');
+
+    aiAssistantBtn.addEventListener('click', function() {
+      aiAssistantChat.classList.toggle('active');
+    });
+
+    closeChat.addEventListener('click', function() {
+      aiAssistantChat.classList.remove('active');
+    });
+
+    // Voice Recognition
+    let recognition;
+    try {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.lang = 'en-US';
+
+      recognition.onstart = function() {
+        aiAssistantBtn.classList.add('listening');
+      };
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        addMessage(transcript, 'user');
+        respondToMessage(transcript);
+        aiAssistantBtn.classList.remove('listening');
+      };
+
+      recognition.onerror = function(event) {
+        console.error('Speech recognition error', event.error);
+        aiAssistantBtn.classList.remove('listening');
+        addMessage("Sorry, I didn't catch that. Please try again.", 'ai');
+      };
+
+      aiAssistantBtn.addEventListener('click', function() {
+        if (aiAssistantBtn.classList.contains('listening')) {
+          recognition.stop();
+          aiAssistantBtn.classList.remove('listening');
+        } else if (aiAssistantChat.classList.contains('active')) {
+          recognition.start();
         }
       });
+    } catch(e) {
+      console.log('Speech recognition not supported');
+    }
+
+    // Chat functionality
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendMessageBtn = document.getElementById('sendMessage');
+
+    function addMessage(text, sender) {
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('message', sender + '-message');
+      messageDiv.textContent = text;
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function respondToMessage(message) {
+      // Simple response logic
+      let response = "I can help with that. ";
       
-      // Send message
-      function sendMessage() {
-        const message = chatInput.value.trim();
-        if (message !== '') {
-          addMessage("You", message, 'user-message');
-          chatInput.value = '';
-          processCommand(message);
-        }
+      if (message.toLowerCase().includes('scam') || message.toLowerCase().includes('fake')) {
+        response += "You can paste suspicious job offers in our Scam Detector tool for analysis. Would you like me to open it for you?";
+      } else if (message.toLowerCase().includes('resume') || message.toLowerCase().includes('cv')) {
+        response += "Our CV Builder can help you create a professional resume. Would you like to try it now?";
+      } else if (message.toLowerCase().includes('job') || message.toLowerCase().includes('opportunity')) {
+        response += "I can help you search for jobs matching your skills. What type of work are you looking for?";
+      } else {
+        response += "For more specific help, you can visit our website sections using the menu above.";
       }
       
-      sendBtn.addEventListener('click', sendMessage);
-      
-      chatInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          sendMessage();
-        }
-      });
-      
-      // Add message to chat
-      function addMessage(sender, text, className) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${className}`;
-        messageDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
-        chatMessages.appendChild(messageDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+      setTimeout(() => {
+        addMessage(response, 'ai');
+      }, 1000);
+    }
+
+    sendMessageBtn.addEventListener('click', function() {
+      if (chatInput.value.trim() !== '') {
+        addMessage(chatInput.value, 'user');
+        respondToMessage(chatInput.value);
+        chatInput.value = '';
       }
-      
-      // Process user commands
-      function processCommand(command) {
-        const lowerCommand = command.toLowerCase();
-        let response = "";
-        let action = null;
-        
-        // Navigation commands
-        if (lowerCommand.includes('go to') || lowerCommand.includes('show me') || lowerCommand.includes('take me to')) {
-          if (lowerCommand.includes('home') || lowerCommand.includes('main')) {
-            action = () => navigateTo('#features');
-            response = "Taking you to the home section.";
-          } else if (lowerCommand.includes('cv') || lowerCommand.includes('resume')) {
-            action = () => navigateTo('#cv-builder');
-            response = "Taking you to the CV Builder section.";
-          } else if (lowerCommand.includes('scam') || lowerCommand.includes('fraud')) {
-            action = () => navigateTo('#scam-detector');
-            response = "Taking you to the Scam Detector section.";
-          } else if (lowerCommand.includes('job') || lowerCommand.includes('find work')) {
-            action = () => navigateTo('#job-finder');
-            response = "Taking you to the Job Finder section.";
-          } else {
-            response = "I'm not sure which section you want. You can say 'Go to CV Builder' or 'Take me to the Scam Detector'.";
-          }
-        } 
-        // Language commands
-        else if (lowerCommand.includes('speak') || lowerCommand.includes('language')) {
-          if (lowerCommand.includes('setswana') || lowerCommand.includes('tswana')) {
-            currentLanguage = 'tn';
-            response = "Dumela! Ke tla bua le wena ka Setswana jaanong. Hello! I will now speak to you in Setswana.";
-          } else if (lowerCommand.includes('zulu')) {
-            currentLanguage = 'zu';
-            response = "Sawubona! Ngizokhuluma nawe ngesiZulu manje. Hello! I will now speak to you in Zulu.";
-          } else if (lowerCommand.includes('xhosa')) {
-            currentLanguage = 'xh';
-            response = "Molo! Ndiza kuthetha nawe ngesiXhosa ngoku. Hello! I will now speak to you in Xhosa.";
-          } else if (lowerCommand.includes('shona')) {
-            currentLanguage = 'sn';
-            response = "Mhoro! Ndichataura newe muchiShona izvozvi. Hello! I will now speak to you in Shona.";
-          } else {
-            currentLanguage = 'en';
-            response = "I'll switch back to English.";
-          }
-          languageSelector.value = currentLanguage;
-        }
-        // Help commands
-        else if (lowerCommand.includes('help') || lowerCommand.includes('what can you do')) {
-          response = "I can help you with: \n- Navigating the website (just say 'Go to CV Builder')\n- Building a professional CV\n- Detecting job scams\n- Finding job opportunities\n- Switching languages (English, Setswana, Zulu, Xhosa, Shona)\n\nTry saying 'Take me to the scam detector' or 'Help me build a CV'";
-        }
-        // Default response
-        else {
-          response = "I'm not sure I understand. You can ask me to navigate the website, help with your CV, or detect scams. Try saying 'Help' for more options.";
-        }
-        
-        // Add response and execute action
-        setTimeout(() => {
-          addMessage("Spark", response, 'ai-message');
-          if (action) action();
-        }, 1000);
-      }
-      
-      // Navigate to section with visual guidance
-      function navigateTo(sectionId) {
-        const element = document.querySelector(sectionId);
-        if (element) {
-          // Remove previous highlight
-          if (highlightedElement) {
-            highlightedElement.classList.remove('highlight');
-          }
-          
-          // Add new highlight
-          element.classList.add('highlight');
-          highlightedElement = element;
-          
-          // Show navigation path
-          navigationPath.style.display = 'block';
-          navigationPath.textContent = getNavigationText(sectionId);
-          
-          // Scroll to element
-          element.scrollIntoView({ behavior: 'smooth' });
-          
-          // Remove highlight after some time
-          setTimeout(() => {
-            if (highlightedElement) {
-              highlightedElement.classList.remove('highlight');
-              highlightedElement = null;
-            }
-            navigationPath.style.display = 'none';
-          }, 5000);
-        }
-      }
-      
-      // Get navigation text based on language
-      function getNavigationText(sectionId) {
-        const sections = {
-          '#features': { 
-            en: "Taking you to the home section",
-            tn: "Ke a go isa kwa karolong ya mathomo",
-            zu: "Ngikuholela esigabeni sasekhaya",
-            xh: "Ndikuthumela kwicandelo lasekhaya",
-            sn: "Ndiri kukuendesa kuchikamu chekutanga"
-          },
-          '#cv-builder': { 
-            en: "Taking you to the CV Builder",
-            tn: "Ke a go isa kwa CV Builder",
-            zu: "Ngikuholela kumakhi we-CV",
-            xh: "Ndikuthumela kumakhi we-CV",
-            sn: "Ndiri kukuendesa kuCV Builder"
-          },
-          '#scam-detector': { 
-            en: "Taking you to the Scam Detector",
-            tn: "Ke a go isa kwa Scam Detector",
-            zu: "Ngikuholela kumtshina wokuthola amakhohliso",
-            xh: "Ndikuthumela kumtshina wokufumanisa amakhohlozo",
-            sn: "Ndiri kukuendesa kuScam Detector"
-          },
-          '#job-finder': { 
-            en: "Taking you to the Job Finder",
-            tn: "Ke a go isa kwa Job Finder",
-            zu: "Ngikuholela kumtshina wokuthola umsebenzi",
-            xh: "Ndikuthumela kumtshina wokufumana umsebenzi",
-            sn: "Ndiri kukuendesa kuJob Finder"
-          }
-        };
-        
-        return sections[sectionId][currentLanguage] || sections[sectionId]['en'];
-      }
-      
-      // Language selector change
-      languageSelector.addEventListener('change', function() {
-        currentLanguage = this.value;
-        addMessage("Spark", getLanguageChangeMessage(this.value), 'ai-message');
-      });
-      
-      function getLanguageChangeMessage(lang) {
-        const messages = {
-          'en': "I'll now speak in English. How can I help you?",
-          'tn': "Jaanong ke tla bua le wena ka Setswana. O ka nthusa jang?",
-          'zu': "Manje ngizokhuluma ngesiZulu. Ngingakusiza ngani?",
-          'xh': "Ngoku ndiza kuthetha ngesiXhosa. Ndingakunceda njani?",
-          'sn': "Izvozvi ndichataura newe muchiShona. Ndingakubatsira sei?"
-        };
-        return messages[lang];
-      }
-      
-      // Initial greeting based on browser language
-      if (navigator.language.includes('tn') || navigator.language.includes('zu') || 
-          navigator.language.includes('xh') || navigator.language.includes('sn')) {
-        currentLanguage = navigator.language.substring(0, 2);
-        languageSelector.value = currentLanguage;
+    });
+
+    chatInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' && chatInput.value.trim() !== '') {
+        addMessage(chatInput.value, 'user');
+        respondToMessage(chatInput.value);
+        chatInput.value = '';
       }
     });
   </script>
