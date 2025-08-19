@@ -1,396 +1,1000 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JobShield AI - Your Career Protection Assistant</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JobShield AI - Premium AI Job Search Assistant</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary-color: #001f3f; /* Navy Blue */
-      --secondary-color: #ffffff; /* White */
-      --accent-color: #0074D9; /* Bright Blue */
-      --warning-color: #FF4136; /* Red for warnings */
-      --success-color: #2ECC40; /* Green for success */
-      --assistant-color: #5e35b1; /* Purple for Spark */
+      --primary-color: #6A2D1C; /* LIVER (ORGAN) - Main brand color */
+      --secondary-color: #ABACA0; /* QUICK SILVER - Background/neutral */
+      --accent-gold: #D29C62; /* BROWN YELLOW - Accent/CTAs */
+      --accent-teal: #734F33; /* COFFEE - Secondary accent */
+      --accent-coral: #241A09; /* ZINNWALDITE BROWN - Dark contrast */
+      --dark-charcoal: #333333; /* Deep Charcoal */
+      --light-gray: #F8F9FA; /* Light Background */
     }
 
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Poppins', sans-serif;
       background-color: var(--secondary-color);
-      color: var(--primary-color);
-      line-height: 1.6;
+      color: var(--dark-charcoal);
+      line-height: 1.7;
+      overflow-x: hidden;
     }
 
     header {
-      background-color: var(--primary-color);
+      background: linear-gradient(135deg, var(--primary-color) 0%, #5A2516 100%);
       color: var(--secondary-color);
-      padding: 1.5rem;
+      padding: 2rem 1.5rem;
       text-align: center;
       position: relative;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     }
 
     .logo {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 15px;
+      margin-bottom: 1rem;
     }
 
     .logo i {
-      color: var(--accent-color);
-      font-size: 1.8rem;
+      color: var(--accent-gold);
+      font-size: 2.2rem;
+      text-shadow: 0 0 10px rgba(210, 156, 98, 0.3);
+    }
+
+    .logo h1 {
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin: 0;
+      color: var(--secondary-color);
     }
 
     nav {
       display: flex;
       justify-content: center;
-      gap: 20px;
-      margin-top: 1rem;
+      gap: 25px;
+      margin-top: 1.5rem;
     }
 
     nav a {
       color: var(--secondary-color);
       text-decoration: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      transition: background-color 0.3s;
+      padding: 0.7rem 1.5rem;
+      border-radius: 30px;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+    }
+
+    nav a:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.5s;
+    }
+
+    nav a:hover:before {
+      left: 100%;
     }
 
     nav a:hover {
-      background-color: rgba(255, 255, 255, 0.2);
+      background-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .nav-cta {
+      background-color: var(--accent-gold);
+      color: var(--accent-coral) !important;
+      font-weight: 600;
+    }
+
+    .nav-cta:hover {
+      background-color: #C58C52 !important;
+      box-shadow: 0 5px 15px rgba(210, 156, 98, 0.4);
     }
 
     main {
-      padding: 2rem;
-      max-width: 1200px;
+      padding: 3rem 2rem;
+      max-width: 1400px;
       margin: 0 auto;
-      min-height: 70vh;
     }
 
     .hero {
       text-align: center;
-      margin-bottom: 3rem;
+      margin-bottom: 5rem;
+      position: relative;
+      padding: 4rem 0;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .hero:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-teal));
+      border-radius: 2px;
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      color: var(--dark-charcoal);
     }
 
     .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin: 3rem 0;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.5rem;
+      margin: 5rem 0;
     }
 
     .feature-card {
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      padding: 1.5rem;
-      transition: transform 0.3s, box-shadow 0.3s;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(106, 45, 28, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 0;
+      background: linear-gradient(to bottom, var(--accent-gold), var(--accent-teal));
+      transition: height 0.4s ease;
+    }
+
+    .feature-card:hover:before {
+      height: 100%;
     }
 
     .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
     }
 
     .feature-card i {
-      font-size: 2rem;
-      color: var(--accent-color);
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
       margin-bottom: 1rem;
+      color: var(--primary-color);
     }
 
-    /* Spark Assistant Styles */
+    .feature-card p {
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-link {
+      color: var(--accent-teal);
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      transition: color 0.3s;
+    }
+
+    .feature-link:hover {
+      color: var(--primary-color);
+    }
+
+    .feature-link i {
+      margin-left: 8px;
+      font-size: 1rem;
+      background: none;
+      color: currentColor;
+    }
+
+    .ai-assistant {
+      background: linear-gradient(135deg, rgba(106, 45, 28, 0.05) 0%, rgba(115, 79, 51, 0.05) 100%);
+      border-radius: 20px;
+      padding: 4rem 2rem;
+      margin: 6rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(106, 45, 28, 0.1);
+    }
+
+    .ai-assistant:before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(210, 156, 98, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+      z-index: 0;
+    }
+
+    .ai-assistant h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+      color: var(--primary-color);
+    }
+
+    .ai-assistant p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      position: relative;
+      z-index: 1;
+      color: #555;
+    }
+
     .assistant-container {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: 0 10px 40px rgba(106, 45, 28, 0.1);
     }
 
-    .assistant-button {
-      width: 70px;
-      height: 70px;
+    .assistant-avatar {
+      width: 150px;
+      height: 150px;
       border-radius: 50%;
-      background-color: var(--assistant-color);
-      color: white;
-      border: none;
-      cursor: pointer;
+      margin-bottom: 1.5rem;
+      border: 5px solid #fff;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      background-color: var(--primary-color);
+      overflow: hidden;
+    }
+
+    .assistant-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .assistant-avatar-default {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.8rem;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s;
-      position: relative;
+      width: 100%;
+      height: 100%;
     }
 
-    .assistant-button:hover {
-      transform: scale(1.1);
+    .assistant-avatar-default i {
+      color: #fff;
+      font-size: 4rem;
     }
 
-    .assistant-button.listening {
-      animation: pulse 1.5s infinite;
-      background-color: var(--warning-color);
-    }
-
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(255, 65, 54, 0.7); }
-      70% { box-shadow: 0 0 0 15px rgba(255, 65, 54, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 65, 54, 0); }
-    }
-
-    .assistant-chat {
+    .assistant-avatar::after {
+      content: '';
       position: absolute;
-      bottom: 90px;
-      right: 0;
-      width: 350px;
-      max-height: 500px;
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
-      overflow: hidden;
-      display: none;
-      flex-direction: column;
+      width: 25px;
+      height: 25px;
+      background-color: #2ECC40;
+      border-radius: 50%;
+      bottom: 10px;
+      right: 10px;
+      border: 3px solid #fff;
+      z-index: 2;
     }
 
-    .chat-header {
-      background-color: var(--assistant-color);
-      color: white;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
+    .status-indicator {
+      display: inline-flex;
       align-items: center;
+      gap: 8px;
+      font-weight: 500;
+      margin-bottom: 2rem;
+      color: var(--primary-color);
     }
 
-    .language-selector {
-      background-color: rgba(255, 255, 255, 0.2);
-      border: none;
-      color: white;
-      padding: 0.3rem;
-      border-radius: 4px;
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      background-color: #2ECC40;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
     }
 
-    .chat-messages {
-      flex: 1;
-      padding: 1rem;
+    .chat-interface {
+      width: 100%;
+      border: 1px solid rgba(106, 45, 28, 0.1);
+      border-radius: 12px;
+      height: 350px;
       overflow-y: auto;
-      max-height: 350px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: left;
+      background-color: #fff;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
     }
 
     .message {
-      margin-bottom: 1rem;
-      padding: 0.8rem;
+      margin-bottom: 1.2rem;
+      padding: 1rem 1.5rem;
       border-radius: 18px;
       max-width: 80%;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      position: relative;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     }
 
     .ai-message {
-      background-color: #f0f4f8;
+      background-color: #f9f5f3;
       align-self: flex-start;
       border-bottom-left-radius: 4px;
+      border: 1px solid rgba(106, 45, 28, 0.05);
     }
 
     .user-message {
-      background-color: var(--assistant-color);
+      background: linear-gradient(135deg, var(--primary-color) 0%, #8A3D2C 100%);
       color: white;
+      align-self: flex-end;
       margin-left: auto;
       border-bottom-right-radius: 4px;
     }
 
-    .chat-input {
+    .input-area {
       display: flex;
-      padding: 1rem;
-      border-top: 1px solid #eee;
+      width: 100%;
+      gap: 12px;
+      margin-top: 1.5rem;
     }
 
-    .chat-input input {
+    .input-area input {
       flex: 1;
-      padding: 0.8rem;
-      border: 1px solid #ddd;
-      border-radius: 20px;
-      font-size: 0.9rem;
+      padding: 1rem 1.5rem;
+      border: 1px solid rgba(106, 45, 28, 0.2);
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s;
+      background-color: rgba(106, 45, 28, 0.03);
     }
 
-    .send-btn {
-      background: none;
-      border: none;
-      color: var(--assistant-color);
-      font-size: 1.2rem;
-      margin-left: 0.5rem;
-      cursor: pointer;
+    .input-area input:focus {
+      outline: none;
+      border-color: var(--accent-teal);
+      box-shadow: 0 0 0 3px rgba(115, 79, 51, 0.2);
+      background-color: #fff;
     }
 
-    .highlight {
-      position: relative;
-      z-index: 999;
-      animation: highlight 2s infinite;
-    }
-
-    @keyframes highlight {
-      0% { box-shadow: 0 0 0 0 rgba(94, 53, 177, 0.4); }
-      100% { box-shadow: 0 0 0 10px rgba(94, 53, 177, 0); }
-    }
-
-    .navigation-path {
-      position: fixed;
-      bottom: 120px;
-      right: 30px;
-      background-color: var(--assistant-color);
+    .voice-btn {
+      background: linear-gradient(135deg, var(--accent-teal) 0%, var(--primary-color) 100%);
       color: white;
-      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 12px;
+      width: 60px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .voice-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(106, 45, 28, 0.2);
+    }
+
+    .voice-btn i {
+      font-size: 1.2rem;
+    }
+
+    .voice-btn.listening {
+      background: linear-gradient(135deg, #FF4136 0%, #FF6B6B 100%);
+      animation: pulse 1.5s infinite;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+
+    .cta-button {
+      background: linear-gradient(135deg, var(--primary-color) 0%, #8A3D2C 100%);
+      color: #fff;
+      border: none;
+      padding: 1.2rem 2.5rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      font-weight: 600;
+      flex: 1;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(106, 45, 28, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(106, 45, 28, 0.3);
+    }
+
+    .cta-button:active {
+      transform: translateY(1px);
+    }
+
+    .cta-button.secondary {
+      background: linear-gradient(135deg, var(--accent-teal) 0%, #8C6B4F 100%);
+      box-shadow: 0 4px 15px rgba(115, 79, 51, 0.3);
+    }
+
+    .cta-button.secondary:hover {
+      box-shadow: 0 10px 25px rgba(115, 79, 51, 0.4);
+    }
+
+    .file-upload-container {
+      margin: 4rem 0;
+    }
+
+    .file-upload-container h2 {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .file-upload-container p {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      color: #666;
+    }
+
+    .file-upload {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      border: 2px dashed rgba(106, 45, 28, 0.2);
+      border-radius: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background-color: rgba(106, 45, 28, 0.02);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .file-upload:hover {
+      border-color: var(--accent-teal);
+      background-color: rgba(115, 79, 51, 0.05);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(106, 45, 28, 0.1);
+    }
+
+    .file-upload i {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent-teal);
+    }
+
+    .file-upload h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+
+    .file-upload p {
+      margin-bottom: 0.5rem;
+      color: #666;
+    }
+
+    .file-upload small {
+      color: #999;
+    }
+
+    .scam-detector {
+      background: linear-gradient(135deg, rgba(36, 26, 9, 0.03) 0%, rgba(210, 156, 98, 0.03) 100%);
       border-radius: 20px;
-      display: none;
-      z-index: 1001;
+      padding: 4rem 2rem;
+      margin: 6rem 0;
+      text-align: center;
+      border: 1px solid rgba(36, 26, 9, 0.1);
+    }
+
+    .scam-detector h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+    }
+
+    .scam-detector p {
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      color: #666;
+    }
+
+    .scam-textarea {
+      width: 100%;
+      min-height: 200px;
+      padding: 1.5rem;
+      border: 1px solid rgba(106, 45, 28, 0.1);
+      border-radius: 12px;
+      margin: 1.5rem 0;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      resize: vertical;
+      transition: all 0.3s;
+      background-color: rgba(106, 45, 28, 0.02);
+    }
+
+    .scam-textarea:focus {
+      outline: none;
+      border-color: var(--accent-coral);
+      box-shadow: 0 0 0 3px rgba(36, 26, 9, 0.2);
+      background-color: #fff;
     }
 
     footer {
-      background-color: var(--primary-color);
+      background: linear-gradient(135deg, var(--primary-color) 0%, #5A2516 100%);
       color: var(--secondary-color);
       text-align: center;
-      padding: 2rem;
-      font-size: 0.9rem;
+      padding: 4rem 2rem;
+      font-size: 0.95rem;
+      position: relative;
     }
 
-    .footer-links {
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+      text-align: left;
+    }
+
+    .footer-logo {
       display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-logo i {
+      color: var(--accent-gold);
+      font-size: 1.8rem;
+    }
+
+    .footer-logo span {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+    }
+
+    .footer-about p {
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+      opacity: 0.8;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+
+    .social-links a {
+      color: var(--secondary-color);
+      background-color: rgba(255, 255, 255, 0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
       justify-content: center;
-      gap: 20px;
+      transition: all 0.3s;
+    }
+
+    .social-links a:hover {
+      background-color: var(--accent-gold);
+      color: var(--accent-coral);
+      transform: translateY(-3px);
+    }
+
+    .footer-links h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 10px;
+      color: #fff;
+    }
+
+    .footer-links h3:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background-color: var(--accent-gold);
+    }
+
+    .footer-links ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
       margin-bottom: 1rem;
     }
 
     .footer-links a {
-      color: var(--secondary-color);
+      color: rgba(255, 255, 255, 0.8);
       text-decoration: none;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .footer-links a:hover {
-      text-decoration: underline;
+      color: var(--accent-gold);
+      padding-left: 5px;
     }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .features {
-        grid-template-columns: 1fr;
+    .footer-links a i {
+      font-size: 0.8rem;
+    }
+
+    .footer-newsletter input {
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .footer-newsletter input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .footer-newsletter button {
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent-gold) 0%, #C58C52 100%);
+      color: var(--accent-coral);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .footer-newsletter button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(210, 156, 98, 0.3);
+    }
+
+    .footer-bottom {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-bottom p {
+      margin-bottom: 0.5rem;
+      opacity: 0.7;
+    }
+
+    .footer-bottom small {
+      opacity: 0.5;
+      font-size: 0.8rem;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @media (max-width: 992px) {
+      .hero h2 {
+        font-size: 2.5rem;
       }
       
+      .features {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+      
+      .assistant-container {
+        padding: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
       nav {
         flex-direction: column;
         align-items: center;
         gap: 10px;
       }
-
-      .assistant-chat {
-        width: 90vw;
-        right: 5vw;
+      
+      .hero h2 {
+        font-size: 2rem;
       }
-
-      .assistant-container {
-        bottom: 20px;
-        right: 20px;
+      
+      .action-buttons {
+        flex-direction: column;
       }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Custom file upload button */
+    .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      margin-top: 1.5rem;
+    }
+
+    .file-input-wrapper input[type=file] {
+      font-size: 100px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .file-input-button {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, var(--accent-teal) 0%, #8C6B4F 100%);
+      color: white;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(115, 79, 51, 0.3);
+    }
+
+    .file-input-button:hover {
+      background: linear-gradient(135deg, #8C6B4F 0%, var(--accent-teal) 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(115, 79, 51, 0.4);
     }
   </style>
 </head>
 <body>
+
   <header>
     <div class="logo">
       <i class="fas fa-shield-alt"></i>
       <h1>JobShield AI</h1>
     </div>
-    <p>Your smart protection in the job market, powered by Spark 🤖</p>
+    <p>Your premium protection in the job market, powered by Spark AI</p>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="CV-builder.html">CV Builder</a>
-      <a href="#scam-dectector">Scam Detector</a>
-      <a href="jobhunt.html">Job Finder</a>
+      <a href="#features">Features</a>
+      <a href="#assistant">AI Assistant</a>
+      <a href="#cv-builder">CV Builder</a>
+      <a href="#scam-detector">Scam Detector</a>
+      <a href="#" class="nav-cta">Get Premium</a>
     </nav>
   </header>
 
   <main>
-    <section id="features" class="hero">
-      <h2>Navigate the Job Market Safely with AI</h2>
-      <p>Spark, your AI career assistant, helps you avoid scams, build better resumes, and find legitimate opportunities.</p>
+    <section class="hero">
+      <h2>Elevate Your Job Search with AI-Powered Protection</h2>
+      <p>Spark AI combines cutting-edge technology with human expertise to safeguard your career journey, optimize your applications, and unlock premium opportunities.</p>
+      <button class="cta-button">Start Your Free Trial</button>
+      <div class="file-input-wrapper">
+        <button class="file-input-button">
+          <i class="fas fa-cloud-upload-alt"></i> Upload Your Resume for Analysis
+        </button>
+        <input type="file" id="resume-upload-input" accept=".pdf,.doc,.docx,.txt">
+      </div>
     </section>
 
-    <section class="features">
+    <section id="features" class="features">
       <div class="feature-card">
         <i class="fas fa-user-shield"></i>
-        <h3>Scam Protection</h3>
-        <p>Upload emails or SMS messages and Spark will analyze them for potential job scams or phishing attempts.</p>
+        <h3>Advanced Scam Protection</h3>
+        <p>Our proprietary AI analyzes job postings, emails, and messages with 98.7% accuracy to detect sophisticated scams before they reach you.</p>
+        <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
       </div>
       <div class="feature-card">
         <i class="fas fa-file-alt"></i>
-        <h3>Smart CV Builder</h3>
-        <p>Create professional resumes tailored to specific job descriptions with AI-powered suggestions.</p>
+        <h3>Executive CV Builder</h3>
+        <p>Craft premium, ATS-optimized resumes with AI-powered content enhancement and personalized design recommendations.</p>
+        <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
       </div>
       <div class="feature-card">
         <i class="fas fa-search"></i>
-        <h3>Job Matching</h3>
-        <p>Spark searches thousands of listings to find the best opportunities matching your skills and experience.</p>
+        <h3>Curated Job Matching</h3>
+        <p>Access our exclusive network of vetted employers and receive hand-picked opportunities matching your career goals.</p>
+        <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-graduation-cap"></i>
+        <h3>Executive Career Coaching</h3>
+        <p>1:1 sessions with our certified career strategists combined with AI-powered continuous improvement tracking.</p>
+        <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
       </div>
     </section>
 
-    <section id="cv-builder" style="margin-top: 4rem;">
-      <h2>AI-Powered CV Builder</h2>
-      <p>Create a professional resume that stands out with Spark's guidance.</p>
-      <button class="cta-button">Build Your CV</button>
+    <section id="assistant" class="ai-assistant">
+      <h2>Meet Spark AI, Your Executive Career Partner</h2>
+      <p>Our premium AI assistant combines machine learning with human expertise to provide unparalleled career support.</p>
+      
+      <div class="assistant-container">
+        <div class="assistant-avatar" id="assistant-avatar">
+          <!-- Custom avatar image can be inserted here -->
+          <div class="assistant-avatar-default">
+            <i class="fas fa-robot"></i>
+          </div>
+        </div>
+        <div class="status-indicator">
+          <span class="status-dot"></span>
+          <span id="assistant-status">Premium Assistant Online</span>
+        </div>
+        
+        <div class="chat-interface" id="chat-window">
+          <div class="message ai-message">
+            <strong>Spark AI:</strong> Welcome to your premium career assistant service. I'm here to provide executive-level support for your job search. How may I assist you today? You can ask me to:
+            <ul>
+              <li>Analyze a job offer or contract</li>
+              <li>Optimize your resume for a specific role</li>
+              <li>Research company backgrounds</li>
+              <li>Prepare for upcoming interviews</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="input-area">
+          <input type="text" id="user-input" placeholder="Ask Spark AI anything about your career...">
+          <button class="voice-btn" id="voice-btn">
+            <i class="fas fa-microphone"></i>
+          </button>
+        </div>
+        
+        <div class="action-buttons">
+          <button class="cta-button secondary" id="send-btn">Send Message</button>
+          <button class="cta-button" id="connect-expert">Connect with Human Expert</button>
+        </div>
+      </div>
     </section>
 
-    <section id="scam-detector" style="margin-top: 4rem;">
-      <h2>Job Scam Detector</h2>
-      <p>Paste the text of a suspicious job offer, email, or SMS message below for analysis.</p>
-      <textarea style="width: 100%; min-height: 150px; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; margin: 1rem 0;" placeholder="Paste suspicious message here..."></textarea>
-      <button class="cta-button">Analyze for Scams</button>
+    <section id="cv-builder" class="file-upload-container">
+      <h2>AI-Powered Executive Resume Builder</h2>
+      <p>Upload your existing resume for a free premium analysis or start crafting your next career-defining document.</p>
+      
+      <div class="file-upload" id="resume-upload">
+        <i class="fas fa-file-import"></i>
+        <h3>Drag & Drop Your Resume Here</h3>
+        <p>For immediate AI analysis and optimization suggestions</p>
+        <p><small>Supported formats: PDF, DOCX, TXT (Max 5MB)</small></p>
+      </div>
+      
+      <div class="action-buttons" style="max-width: 600px; margin: 0 auto;">
+        <button class="cta-button secondary">Build New Executive Resume</button>
+        <button class="cta-button">View Premium Templates</button>
+      </div>
     </section>
 
-    <section id="job-finder" style="margin-top: 4rem;">
-      <h2>Find Your Dream Job</h2>
-      <p>Let Spark help you discover opportunities that match your skills and experience.</p>
-      <button class="cta-button">Start Job Search</button>
+    <section id="scam-detector" class="scam-detector">
+      <h2>Advanced Job Scam Detection</h2>
+      <p>Our proprietary AI system analyzes text patterns, company data, and threat intelligence to identify sophisticated employment scams.</p>
+      
+      <textarea class="scam-textarea" placeholder="Paste suspicious job offer, email, or message content here for immediate analysis..."></textarea>
+      
+      <div class="action-buttons" style="max-width: 500px; margin: 0 auto;">
+        <button class="cta-button">Analyze for Scams</button>
+        <button class="cta-button secondary">View Recent Scam Alerts</button>
+      </div>
     </section>
   </main>
 
-  <!-- Spark Assistant -->
-  <div class="assistant-container">
-    <div class="navigation-path" id="navigation-path">
-      Following my voice to guide you...
-    </div>
-    
-    <div class="assistant-chat" id="assistant-chat">
-      <div class="chat-header">
-        <span>Spark Assistant</span>
-        <select class="language-selector" id="language-selector">
-          <option value="en">English</option>
-          <option value="tn">Setswana</option>
-          <option value="zu">Zulu</option>
-          <option value="xh">Xhosa</option>
-          <option value="sn">Shona</option>
-        </select>
-      </div>
-      <div class="chat-messages" id="chat-messages">
-        <div class="message ai-message">
-          <strong>Spark:</strong> Dumela! Hello! I'm Spark, your AI career assistant. How can I help you today? You can ask me anything about job searching, CV building, or scam detection.
+  <footer>
+    <div class="footer-content">
+      <div class="footer-about">
+        <div class="footer-logo">
+          <i class="fas fa-shield-alt"></i>
+          <span>JobShield AI</span>
+        </div>
+        <p>Premium AI-powered career protection and optimization for discerning professionals. Combining cutting-edge technology with human expertise.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
-      <div class="chat-input">
-        <input type="text" id="chat-input" placeholder="Type your message...">
-        <button class="send-btn" id="send-btn"><i class="fas fa-paper-plane"></i></button>
+      
+      <div class="footer-links">
+        <h3>Product</h3>
+        <ul>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Features</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Pricing</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Case Studies</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Updates</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-links">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Careers</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Press</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Partners</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-newsletter">
+        <h3>Subscribe to Our Newsletter</h3>
+        <p>Receive exclusive career insights and premium service updates.</p>
+        <input type="email" placeholder="Your professional email">
+        <button>Subscribe</button>
       </div>
     </div>
     
-    <button class="assistant-button" id="assistant-button">
-      <i class="fas fa-robot"></i>
-    </button>
-  </div>
-
-  <footer>
-    <div class="footer-links">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Service</a>
-      <a href="#">Contact Us</a>
+    <div class="footer-bottom">
+      <p>© 2025 JobShield AI. All rights reserved.</p>
+      <p>
+        <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">GDPR Compliance</a>
+      </p>
+      <small>Spark AI is designed to assist but cannot guarantee complete protection against all sophisticated scams. Professional discretion is always advised.</small>
     </div>
-    <p>© 2025 JobShield AI. All rights reserved.</p>
   </footer>
 
   <script>
