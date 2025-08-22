@@ -1,310 +1,796 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JobShield AI - Job Hunt Resources</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <?php include('Spark.html'); ?>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: #1e293b;
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
-        }
-        
-        .job-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.3);
-        }
-        
-        .security-tip {
-            border-left: 4px solid #3b82f6;
-        }
-        
-        .step-number {
-            background: #1e3a8a;
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Job Hunt - JobShield AI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #001f3f; /* Navy Blue */
+      --secondary-color: #ffffff; /* White */
+      --accent-color: #0074D9; /* Bright Blue */
+      --warning-color: #FF4136; /* Red for warnings */
+      --success-color: #2ECC40; /* Green for success */
+      --light-bg: #f8f9fa;
+      --dark-text: #333;
+      --light-text: #6c757d;
+      --border-color: #dee2e6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--light-bg);
+      color: var(--dark-text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: var(--primary-color);
+      color: var(--secondary-color);
+      padding: 1.5rem;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .logo i {
+      color: var(--accent-color);
+      font-size: 1.8rem;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 1rem;
+    }
+
+    nav a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    nav a.active {
+      background-color: var(--accent-color);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--primary-color) 0%, #003366 100%);
+      color: var(--secondary-color);
+      text-align: center;
+      padding: 4rem 1rem;
+      margin-bottom: 2rem;
+      border-radius: 0 0 15px 15px;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Search Bar */
+    .search-bar {
+      display: flex;
+      max-width: 700px;
+      margin: 0 auto;
+      background: var(--secondary-color);
+      border-radius: 50px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 1.2rem 1.5rem;
+      border: none;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .search-bar select {
+      padding: 0 1.5rem;
+      border: none;
+      border-left: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+      outline: none;
+      appearance: none;
+      background: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") no-repeat;
+      background-position: right 1rem center;
+      background-size: 1em;
+      padding-right: 3rem;
+    }
+
+    .search-btn {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0 2rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .search-btn:hover {
+      background: #0063b3;
+    }
+
+    /* Main Content Layout */
+    .content-wrapper {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 3rem;
+    }
+
+    /* Filters Sidebar */
+    .filters {
+      flex: 0 0 280px;
+      background: var(--secondary-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      height: fit-content;
+    }
+
+    .filters h2 {
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--accent-color);
+    }
+
+    .filter-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-group h3 {
+      margin-bottom: 0.8rem;
+      font-size: 1.1rem;
+    }
+
+    .filter-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .filter-options label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .filter-options input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-color);
+    }
+
+    .salary-range {
+      margin-top: 0.5rem;
+    }
+
+    .salary-range input {
+      width: 100%;
+    }
+
+    .salary-values {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--light-text);
+    }
+
+    /* Job Listings */
+    .job-listings {
+      flex: 1;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .results-header h2 {
+      font-size: 1.5rem;
+    }
+
+    .sort-by select {
+      padding: 0.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background: var(--secondary-color);
+    }
+
+    .job-card {
+      background: var(--secondary-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      gap: 20px;
+    }
+
+    .job-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .company-logo {
+      flex: 0 0 60px;
+      height: 60px;
+      background: var(--light-bg);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--accent-color);
+    }
+
+    .job-details {
+      flex: 1;
+    }
+
+    .job-details h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+    }
+
+    .company-name {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--dark-text);
+    }
+
+    .job-meta {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: var(--light-text);
+    }
+
+    .job-meta span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .job-tags {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      background: rgba(0, 116, 217, 0.1);
+      color: var(--accent-color);
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+    }
+
+    .job-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .apply-btn {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .apply-btn:hover {
+      background: #0063b3;
+    }
+
+    .save-btn {
+      background: transparent;
+      color: var(--light-text);
+      border: 1px solid var(--border-color);
+      padding: 0.6rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.3s;
+    }
+
+    .save-btn:hover {
+      color: var(--accent-color);
+      border-color: var(--accent-color);
+    }
+
+    .save-btn.saved {
+      color: var(--accent-color);
+      border-color: var(--accent-color);
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 2rem;
+    }
+
+    .pagination button {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-color);
+      background: var(--secondary-color);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .pagination button:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .pagination button.active {
+      background: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+    }
+
+    /* AI Assistant Section */
+    .ai-assistant-job {
+      background: linear-gradient(135deg, rgba(0, 31, 63, 0.05) 0%, rgba(0, 116, 217, 0.05) 100%);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 3rem 0;
+      text-align: center;
+      border: 1px solid rgba(0, 116, 217, 0.1);
+    }
+
+    .ai-assistant-job h2 {
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+
+    .ai-assistant-job p {
+      margin-bottom: 1.5rem;
+      color: var(--light-text);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--primary-color);
+      color: var(--secondary-color);
+      text-align: center;
+      padding: 2.5rem;
+      margin-top: 3rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links a {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 900px) {
+      .content-wrapper {
+        flex-direction: column;
+      }
+      
+      .filters {
+        flex: 1;
+        margin-bottom: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .search-bar {
+        flex-direction: column;
+        border-radius: 12px;
+      }
+      
+      .search-bar input,
+      .search-bar select,
+      .search-btn {
+        width: 100%;
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 1rem;
+      }
+      
+      .search-bar select {
+        background-position: right 1rem center;
+      }
+      
+      .search-btn {
+        border-bottom: none;
+      }
+      
+      .job-card {
+        flex-direction: column;
+      }
+      
+      .company-logo {
+        align-self: flex-start;
+      }
+      
+      nav {
+        flex-wrap: wrap;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .job-card {
+      animation: fadeIn 0.5s ease-out;
+    }
+  </style>
 </head>
-<body class="min-h-screen">
-    <header class="gradient-bg text-white">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <img src="https://placehold.co/40x40" alt="JobShield AI logo - a shield with checkmark inside representing protection and security" class="h-10 w-10 rounded-lg">
-                <span class="text-xl font-bold">JobShield AI</span>
-            </div>
-            <div class="hidden md:flex space-x-8">
-                <a href="index.html" class="hover:text-blue-300 transition">Home</a>
-                <a href="cvbuilder.html" class="hover:text-blue-300 transition">CV Builder</a>
-                <a href="jobhunt.html" class="font-semibold text-blue-300 border-b-2 border-blue-300">Job Hunt</a>
-                <a href= Scamdetector.html>Scam Detector</a>
-                <a href= feedback.html>Feedback</a>
-            </div>
-            <button class="md:hidden focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-            </button>
-        </nav>
-    </header>
-    <main class="container mx-auto px-6 py-12">
-        <section class="mb-16">
-            <h1 class="text-4xl font-bold text-white mb-6">Smart Job Hunting with AI Protection</h1>
-            <p class="text-lg text-slate-300 max-w-3xl mb-8">Navigate your job search safely with our AI-powered tools that verify opportunities and protect you from scams while helping you find the perfect role.</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                <div class="bg-white rounded-xl p-6 shadow-lg job-card transition">
-                    <div class="flex items-center mb-4">
-                        <div class="step-number rounded-full h-8 w-8 flex items-center justify-center mr-3 text-sm font-bold">1</div>
-                        <h3 class="font-bold text-lg">Job Search</h3>
-                    </div>
-                    <p class="text-slate-700 mb-4">Find verified job listings from trusted sources with our AI-powered search.</p>
-                    <a href="#" class="text-blue-600 font-medium hover:underline inline-flex items-center">
-                        Start Searching
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
-                
-                <div class="bg-white rounded-xl p-6 shadow-lg job-card transition">
-                    <div class="flex items-center mb-4">
-                        <div class="step-number rounded-full h-8 w-8 flex items-center justify-center mr-3 text-sm font-bold">2</div>
-                        <h3 class="font-bold text-lg">Scam Detection</h3>
-                    </div>
-                    <p class="text-slate-700 mb-4">Our AI analyzes job postings to identify and warn you about potential scams.</p>
-                    <a href="#" class="text-blue-600 font-medium hover:underline inline-flex items-center">
-                        Learn How It Works
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
-                
-                <div class="bg-white rounded-xl p-6 shadow-lg job-card transition">
-                    <div class="flex items-center mb-4">
-                        <div class="step-number rounded-full h-8 w-8 flex items-center justify-center mr-3 text-sm font-bold">3</div>
-                        <h3 class="font-bold text-lg">Application Tracking</h3>
-                    </div>
-                    <p class="text-slate-700 mb-4">Keep organized with our application tracker that monitors your job search progress.</p>
-                    <a href="#" class="text-blue-600 font-medium hover:underline inline-flex items-center">
-                        Track Applications
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </section>
+<body>
+  <header>
+    <div class="logo">
+      <i class="fas fa-shield-alt"></i>
+      <h1>JobShield AI</h1>
+    </div>
+    <p>Your smart protection in the job market, powered by Spark 🤖</p>
+    <nav>
+      <a href= index.html>Home</a>
+      <a href= CVbuilder.html>CV Builder</a>
+      <a href= jobhunt.html class="active">Job Hunt</a>
+      <a href= Scamdetector.html>Scam Detector</a>
+      <a href= feedback.html>Feedback</a>
+    </nav>
+  </header>
 
-        <section class="mb-16">
-            <h2 class="text-3xl font-bold text-white mb-6">Latest Verified Job Listings</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white rounded-lg overflow-hidden shadow-lg job-card transition">
-                    <div class="p-6">
-                        <div class="flex items-start mb-4">
-                            <img src="https://placehold.co/60x60" alt="Tech company logo with blue and white color scheme" class="h-12 w-12 rounded mr-4">
-                            <div>
-                                <h3 class="font-bold text-lg">Frontend Developer</h3>
-                                <p class="text-slate-600">TechCorp Inc. • San Francisco, CA</p>
-                            </div>
-                        </div>
-                        <p class="text-slate-700 mb-4">Join our team to build cutting-edge web applications with React and TypeScript. Remote work options available.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">React</span>
-                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">TypeScript</span>
-                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">CSS</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-slate-500">Posted 2 days ago</span>
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">Apply Now</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-lg overflow-hidden shadow-lg job-card transition">
-                    <div class="p-6">
-                        <div class="flex items-start mb-4">
-                            <img src="https://placehold.co/60x60" alt="Bank logo with secure shield emblem" class="h-12 w-12 rounded mr-4">
-                            <div>
-                                <h3 class="font-bold text-lg">Cybersecurity Analyst</h3>
-                                <p class="text-slate-600">Global Bank • New York, NY</p>
-                            </div>
-                        </div>
-                        <p class="text-slate-700 mb-4">Protect critical financial systems and data from cyber threats. SIEM monitoring and incident response focus.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">SIEM</span>
-                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">SOC</span>
-                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Incident Response</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-slate-500">Posted 1 week ago</span>
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">Apply Now</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-lg overflow-hidden shadow-lg job-card transition">
-                    <div class="p-6">
-                        <div class="flex items-start mb-4">
-                            <img src="https://placehold.co/60x60" alt="Healthcare organization logo with cross symbol" class="h-12 w-12 rounded mr-4">
-                            <div>
-                                <h3 class="font-bold text-lg">IT Support Specialist</h3>
-                                <p class="text-slate-600">Regional Medical • Chicago, IL</p>
-                            </div>
-                        </div>
-                        <p class="text-slate-700 mb-4">Provide technical support for healthcare staff and maintain critical medical IT systems. On-site position.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Help Desk</span>
-                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Windows</span>
-                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Networking</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-slate-500">Posted 3 days ago</span>
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">Apply Now</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center mt-8">
-                <button class="border-2 border-blue-500 text-blue-500 hover:bg-blue-50 px-6 py-3 rounded-lg font-medium transition">Load More Jobs</button>
-            </div>
-        </section>
+  <div class="container">
+    <section class="hero">
+      <h1>Find Your Dream Job Safely</h1>
+      <p>Spark helps you discover legitimate opportunities while protecting you from job scams</p>
+      
+      <div class="search-bar">
+        <input type="text" placeholder="Job title, keywords, or company">
+        <select>
+          <option>All Locations</option>
+          <option>New York</option>
+          <option>San Francisco</option>
+          <option>London</option>
+          <option>Berlin</option>
+          <option>Tokyo</option>
+          <option>Remote</option>
+        </select>
+        <button class="search-btn"><i class="fas fa-search"></i> Search</button>
+      </div>
+    </section>
 
-        <section class="mb-16">
-            <div class="bg-white rounded-xl p-8 shadow-lg">
-                <h2 class="text-3xl font-bold text-slate-800 mb-6">Job Hunt Security Tips</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="security-tip pl-4">
-                        <h3 class="font-bold text-lg text-slate-800 mb-3">Identifying Fake Job Listings</h3>
-                        <p class="text-slate-700 mb-4">Scammers often create fake job postings to steal personal information. Look for these warning signs:</p>
-                        <ul class="list-disc pl-5 text-slate-700 space-y-2">
-                            <li>Requests for payment or equipment purchases</li>
-                            <li>Poor grammar and spelling in the posting</li>
-                            <li>Generic email addresses instead of company domains</li>
-                            <li>Too-good-to-be-true salaries and benefits</li>
-                        </ul>
-                    </div>
-                    <div class="security-tip pl-4">
-                        <h3 class="font-bold text-lg text-slate-800 mb-3">Safe Online Applications</h3>
-                        <p class="text-slate-700 mb-4">Protect your personal information when applying for jobs online:</p>
-                        <ul class="list-disc pl-5 text-slate-700 space-y-2">
-                            <li>Check for HTTPS and security indicators in browser</li>
-                            <li>Be cautious with requests for sensitive data early in process</li>
-                            <li>Use a dedicated email for job hunting</li>
-                            <li>Research the company thoroughly before applying</li>
-                        </ul>
-                    </div>
-                    <div class="security-tip pl-4">
-                        <h3 class="font-bold text-lg text-slate-800 mb-3">Virtual Interview Safety</h3>
-                        <p class="text-slate-700 mb-4">Stay safe during remote interview processes:</p>
-                        <ul class="list-disc pl-5 text-slate-700 space-y-2">
-                            <li>Verify the interviewer's identity and company email</li>
-                            <li>Be wary of unusual platform requests (e.g., Wire, Telegram)</li>
-                            <li>Don't share screens with sensitive information</li>
-                            <li>Check your background for personal items before video calls</li>
-                        </ul>
-                    </div>
-                    <div class="security-tip pl-4">
-                        <h3 class="font-bold text-lg text-slate-800 mb-3">Background Check Warnings</h3>
-                        <p class="text-slate-700 mb-4">Legitimate employers follow proper procedures:</p>
-                        <ul class="list-disc pl-5 text-slate-700 space-y-2">
-                            <li>Beware of requests for copies of IDs too early</li>
-                            <li>Never provide bank details for "payroll setup" pre-offer</li>
-                            <li>Research the background check company if provided</li>
-                            <li>Real companies won't ask for your passwords</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="gradient-bg text-white rounded-xl p-8 md:p-12 shadow-lg">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-3xl font-bold mb-6">Let Our AI Protect Your Job Search</h2>
-                <p class="text-lg mb-8 max-w-2xl mx-auto">JobShield AI scans job postings in real-time, warning you about potential scams and verifying legitimate opportunities before you apply.</p>
-                <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <button class="bg-white text-blue-800 hover:bg-blue-100 px-6 py-3 rounded-lg font-bold transition">Try Our Job Scanner</button>
-                    <button class="border-2 border-white hover:bg-white hover:text-blue-800 px-6 py-3 rounded-lg font-bold transition">Learn About Scams</button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="bg-slate-900 text-slate-400 py-12">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <img src="https://placehold.co/40x40" alt="JobShield AI logo - a shield with checkmark inside representing protection and security" class="h-10 w-10 rounded-lg">
-                        <span class="text-xl font-bold text-white">JobShield AI</span>
-                    </div>
-                    <p class="text-sm">AI-powered protection for job seekers against scams and fraud, helping you find legitimate opportunities safely.</p>
-                </div>
-                <div>
-                    <h3 class="text-white font-medium mb-4">Resources</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="hover:text-white transition">Job Search Tips</a></li>
-                        <li><a href="#" class="hover:text-white transition">Scam Database</a></li>
-                        <li><a href="#" class="hover:text-white transition">Blog</a></li>
-                        <li><a href="#" class="hover:text-white transition">Webinars</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-white font-medium mb-4">Company</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="hover:text-white transition">About Us</a></li>
-                        <li><a href="#" class="hover:text-white transition">Careers</a></li>
-                        <li><a href="#" class="hover:text-white transition">Press</a></li>
-                        <li><a href="#" class="hover:text-white transition">Contact</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-white font-medium mb-4">Legal</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
-                        <li><a href="#" class="hover:text-white transition">Cookie Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-slate-800 mt-12 pt-8 text-sm text-center">
-                <p>© 2023 JobShield AI. All rights reserved.</p>
-            </div>
+    <div class="content-wrapper">
+      <aside class="filters">
+        <h2>Filters</h2>
+        
+        <div class="filter-group">
+          <h3>Job Type</h3>
+          <div class="filter-options">
+            <label><input type="checkbox" checked> Full-time</label>
+            <label><input type="checkbox"> Part-time</label>
+            <label><input type="checkbox"> Contract</label>
+            <label><input type="checkbox"> Internship</label>
+            <label><input type="checkbox"> Remote</label>
+          </div>
         </div>
-    </footer>
+        
+        <div class="filter-group">
+          <h3>Experience Level</h3>
+          <div class="filter-options">
+            <label><input type="checkbox"> Entry Level</label>
+            <label><input type="checkbox" checked> Mid Level</label>
+            <label><input type="checkbox"> Senior Level</label>
+            <label><input type="checkbox"> Executive</label>
+          </div>
+        </div>
+        
+        <div class="filter-group">
+          <h3>Salary Range</h3>
+          <div class="salary-range">
+            <input type="range" min="20" max="200" value="60" step="10">
+            <div class="salary-values">
+              <span>$20K</span>
+              <span>$60K</span>
+              <span>$200K+</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="filter-group">
+          <h3>Industry</h3>
+          <div class="filter-options">
+            <label><input type="checkbox" checked> Technology</label>
+            <label><input type="checkbox"> Finance</label>
+            <label><input type="checkbox"> Healthcare</label>
+            <label><input type="checkbox"> Education</label>
+            <label><input type="checkbox"> Marketing</label>
+          </div>
+        </div>
+        
+        <button class="apply-btn" style="width: 100%">Apply Filters</button>
+      </aside>
 
-    <script>
-        // Mobile menu toggle
-        document.querySelector('.md\\:hidden').addEventListener('click', function() {
-            const nav = document.querySelector('.md\\:flex');
-            nav.classList.toggle('hidden');
-            nav.classList.toggle('flex');
-            nav.classList.toggle('flex-col');
-            nav.classList.toggle('absolute');
-            nav.classList.toggle('bg-slate-900');
-            nav.classList.toggle('top-16');
-            nav.classList.toggle('right-6');
-            nav.classList.toggle('p-4');
-            nav.classList.toggle('rounded-lg');
-            nav.classList.toggle('z-50');
-        });
+      <main class="job-listings">
+        <div class="results-header">
+          <h2>423 Jobs Found</h2>
+          <div class="sort-by">
+            <select>
+              <option>Most Relevant</option>
+              <option>Newest</option>
+              <option>Highest Salary</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="job-cards">
+          <div class="job-card">
+            <div class="company-logo">
+              <i class="fab fa-google"></i>
+            </div>
+            <div class="job-details">
+              <h3>Senior UX Designer</h3>
+              <div class="company-name">Google</div>
+              <div class="job-meta">
+                <span><i class="fas fa-map-marker-alt"></i> Mountain View, CA</span>
+                <span><i class="fas fa-dollar-sign"></i> $120K - $150K</span>
+                <span><i class="fas fa-briefcase"></i> Full-time</span>
+                <span><i class="fas fa-clock"></i> 2 days ago</span>
+              </div>
+              <div class="job-tags">
+                <span class="tag">UX Design</span>
+                <span class="tag">Figma</span>
+                <span class="tag">User Research</span>
+              </div>
+              <p>Design user-centered experiences for Google's products. Work with cross-functional teams to create intuitive interfaces.</p>
+            </div>
+            <div class="job-actions">
+              <button class="apply-btn">Apply Now</button>
+              <button class="save-btn"><i class="far fa-bookmark"></i></button>
+            </div>
+          </div>
+          
+          <div class="job-card">
+            <div class="company-logo">
+              <i class="fab fa-microsoft"></i>
+            </div>
+            <div class="job-details">
+              <h3>Frontend Developer</h3>
+              <div class="company-name">Microsoft</div>
+              <div class="job-meta">
+                <span><i class="fas fa-map-marker-alt"></i> Redmond, WA</span>
+                <span><i class="fas fa-dollar-sign"></i> $110K - $140K</span>
+                <span><i class="fas fa-briefcase"></i> Full-time</span>
+                <span><i class="fas fa-clock"></i> 1 day ago</span>
+              </div>
+              <div class="job-tags">
+                <span class="tag">React</span>
+                <span class="tag">TypeScript</span>
+                <span class="tag">JavaScript</span>
+              </div>
+              <p>Build responsive web applications using modern frameworks. Collaborate with backend developers to implement features.</p>
+            </div>
+            <div class="job-actions">
+              <button class="apply-btn">Apply Now</button>
+              <button class="save-btn"><i class="far fa-bookmark"></i></button>
+            </div>
+          </div>
+          
+          <div class="job-card">
+            <div class="company-logo">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="job-details">
+              <h3>Cybersecurity Analyst</h3>
+              <div class="company-name">CyberSecure Inc.</div>
+              <div class="job-meta">
+                <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                <span><i class="fas fa-dollar-sign"></i> $100K - $130K</span>
+                <span><i class="fas fa-briefcase"></i> Full-time</span>
+                <span><i class="fas fa-clock"></i> 3 days ago</span>
+              </div>
+              <div class="job-tags">
+                <span class="tag">Security</span>
+                <span class="tag">Network</span>
+                <span class="tag">Compliance</span>
+              </div>
+              <p>Monitor security systems, analyze threats, and implement security measures to protect company data and infrastructure.</p>
+            </div>
+            <div class="job-actions">
+              <button class="apply-btn">Apply Now</button>
+              <button class="save-btn"><i class="far fa-bookmark"></i></button>
+            </div>
+          </div>
+          
+          <div class="job-card">
+            <div class="company-logo">
+              <i class="fab fa-apple"></i>
+            </div>
+            <div class="job-details">
+              <h3>Product Manager</h3>
+              <div class="company-name">Apple</div>
+              <div class="job-meta">
+                <span><i class="fas fa-map-marker-alt"></i> Cupertino, CA</span>
+                <span><i class="fas fa-dollar-sign"></i> $130K - $160K</span>
+                <span><i class="fas fa-briefcase"></i> Full-time</span>
+                <span><i class="fas fa-clock"></i> 5 days ago</span>
+              </div>
+              <div class="job-tags">
+                <span class="tag">Product Strategy</span>
+                <span class="tag">Roadmapping</span>
+                <span class="tag">Agile</span>
+              </div>
+              <p>Lead product development from conception to launch. Work with engineering, design, and marketing teams to deliver successful products.</p>
+            </div>
+            <div class="job-actions">
+              <button class="apply-btn">Apply Now</button>
+              <button class="save-btn"><i class="far fa-bookmark"></i></button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="pagination">
+          <button>«</button>
+          <button class="active">1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>4</button>
+          <button>5</button>
+          <button>»</button>
+        </div>
+      </main>
+    </div>
 
-        // Job card interaction
-        document.querySelectorAll('.job-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
-            });
+    <section class="ai-assistant-job">
+      <h2>Need Help With Your Job Search?</h2>
+      <p>Spark, your AI career assistant, can help tailor your applications, optimize your resume for specific jobs, and even prepare you for interviews.</p>
+      <button class="apply-btn"><i class="fas fa-robot"></i> Chat with Spark</button>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Contact Us</a>
+      <a href="#">About</a>
+    </div>
+    <p>© 2025 JobShield AI. All rights reserved.</p>
+    <p><small>Spark AI is designed to assist but cannot guarantee complete protection against all scams. Always use caution.</small></p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Save job functionality
+      const saveButtons = document.querySelectorAll('.save-btn');
+      saveButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          this.classList.toggle('saved');
+          this.innerHTML = this.classList.contains('saved') ? 
+            '<i class="fas fa-bookmark"></i>' : 
+            '<i class="far fa-bookmark"></i>';
+          
+          const jobTitle = this.closest('.job-card').querySelector('h3').textContent;
+          const message = this.classList.contains('saved') ? 
+            `Saved job: ${jobTitle}` : 
+            `Removed job: ${jobTitle}`;
+          
+          // Show a temporary notification
+          const notification = document.createElement('div');
+          notification.textContent = message;
+          notification.style.position = 'fixed';
+          notification.style.bottom = '20px';
+          notification.style.right = '20px';
+          notification.style.background = 'var(--accent-color)';
+          notification.style.color = 'white';
+          notification.style.padding = '10px 20px';
+          notification.style.borderRadius = '4px';
+          notification.style.zIndex = '1000';
+          notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
+          document.body.appendChild(notification);
+          
+          setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.5s';
+            setTimeout(() => notification.remove(), 500);
+          }, 2000);
         });
-    </script>
+      });
+      
+      // Filter functionality
+      const filterCheckboxes = document.querySelectorAll('.filter-options input');
+      filterCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          // In a real app, this would filter the job listings
+          console.log('Filter changed:', this.checked);
+        });
+      });
+      
+      // Search functionality
+      const searchBtn = document.querySelector('.search-btn');
+      searchBtn.addEventListener('click', function() {
+        const searchInput = document.querySelector('.search-bar input').value;
+        const locationSelect = document.querySelector('.search-bar select').value;
+        
+        // In a real app, this would trigger a search
+        console.log('Search for:', searchInput, 'in', locationSelect);
+      });
+    });
+  </script>
 </body>
 </html>
-
