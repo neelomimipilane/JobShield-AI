@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hackathon Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #b3d9ff, #003366);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      width: 350px;
+      padding: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    h2,h1 { text-align: center; color: #003366; }
+    form { display: flex; flex-direction: column; gap: 15px; }
+    input { padding: 10px; border-radius: 6px; border: 1px solid #ccc; }
+    button { padding: 10px; border-radius: 6px; border: none; background-color: #003366; color: white; font-weight: bold; cursor: pointer; }
+    button:hover { background-color: #002244; }
+    .tab-buttons { display: flex; justify-content: space-around; margin-bottom: 20px; }
+    .tab-buttons button { background: #b3d9ff; color: #003366; flex: 1; margin: 0 5px; }
+    .tab-buttons button.active { background: #003366; color: white; }
+    .messages { margin-bottom: 10px; text-align: center; font-weight: bold; }
+    .messages .success { color: green; }
+    .messages .error { color: red; }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="container">
+  <center> <h1>JobShield </h1></center>
+    <div class="tab-buttons">
+      <button id="signin-tab" class="active">Sign In</button>
+      <button id="signup-tab">Sign Up</button>
+    </div>
+
+    <div class="messages" id="messages"></div>
+
+    <!-- Sign In Form -->
+    <form id="signin-form">
+      <input type="email" id="signin-email" placeholder="Email" required>
+      <input type="password" id="signin-password" placeholder="Password" required>
+      <button type="submit">Sign In</button>
+    </form>
+
+    <!-- Sign Up Form -->
+    <form id="signup-form" style="display:none;">
+      <input type="text" id="signup-name" placeholder="Full Name" required>
+      <input type="email" id="signup-email" placeholder="Email" required>
+      <input type="password" id="signup-password" placeholder="Password" required>
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+
+  <script type="module">
+    // ---------------- FIREBASE SETUP ----------------
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword, 
+      signInWithEmailAndPassword, 
+      updateProfile,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAGtiC4pBfX010UuOHHKyOBeFpetMHGPzY",
+      authDomain: "jobshield-a3c62.firebaseapp.com",
+      projectId: "jobshield-a3c62",
+      storageBucket: "jobshield-a3c62.firebasestorage.app",
+      messagingSenderId: "916819316423",
+      appId: "1:916819316423:web:98c317845c4ca6626a38e2",
+      measurementId: "G-FB8R75CDGN"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+
+    window.createUserWithFirebase = async (email, password, displayName) => {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      if (displayName) await updateProfile(cred.user, { displayName });
+      return cred.user;
+    };
+
+    window.signInWithFirebase = async (email, password) => {
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      return cred.user;
+    };
+
+    // ---------------- UI LOGIC ----------------
+    const signinForm = document.getElementById('signin-form');
+    const signupForm = document.getElementById('signup-form');
+    const messages = document.getElementById('messages');
+    const signinTab = document.getElementById('signin-tab');
+    const signupTab = document.getElementById('signup-tab');
+
+    function showMessage(msg, type) {
+      messages.innerHTML = `<div class="${type}">${msg}</div>`;
+    }
+
+    function mapFirebaseError(err){
+      const code = err.code || '';
+      if(code.includes('email-already-in-use')) return 'This email is already in use.';
+      if(code.includes('invalid-email')) return 'That email address is invalid.';
+      if(code.includes('weak-password')) return 'Password must be at least 6 characters.';
+      if(code.includes('user-not-found')) return 'No account found with that email.';
+      if(code.includes('wrong-password')) return 'Incorrect password.';
+      return err.message || 'Authentication error — try again.';
+    }
+
+    // Switch tabs
+    signinTab.addEventListener('click', () => {
+      signinForm.style.display = 'flex';
+      signupForm.style.display = 'none';
+      signinTab.classList.add('active');
+      signupTab.classList.remove('active');
+      messages.innerHTML = '';
+    });
+
+    signupTab.addEventListener('click', () => {
+      signinForm.style.display = 'none';
+      signupForm.style.display = 'flex';
+      signupTab.classList.add('active');
+      signinTab.classList.remove('active');
+      messages.innerHTML = '';
+    });
+
+    // Sign In
+    signinForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('signin-email').value.trim();
+      const password = document.getElementById('signin-password').value;
+      showMessage('Signing in...', 'success');
+      try {
+        const user = await signInWithFirebase(email, password);
+        showMessage('Welcome back, ' + (user.displayName || user.email), 'success');
+        signinForm.reset();
+      } catch(err) {
+        showMessage(mapFirebaseError(err), 'error');
+      }
+    });
+
+    // Sign Up
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+      const password = document.getElementById('signup-password').value;
+      if(password.length < 6){ showMessage('Password must be at least 6 characters','error'); return; }
+      showMessage('Creating account...', 'success');
+      try {
+        const user = await createUserWithFirebase(email, password, name);
+        showMessage('Account created — welcome ' + (user.displayName || user.email), 'success');
+        signupForm.reset();
+        signinForm.style.display = 'flex';
+        signupForm.style.display = 'none';
+        signinTab.classList.add('active');
+        signupTab.classList.remove('active');
+      } catch(err) {
+        showMessage(mapFirebaseError(err), 'error');
+      }
+    });
+
+    // Optional: Monitor auth state
+    onAuthStateChanged(auth, user => {
+      if(user) console.log('Signed in:', user);
+      else console.log('No user signed in');
+    });
+  </script>
+</body>
+</html>
