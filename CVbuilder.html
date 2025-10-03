@@ -326,6 +326,155 @@
         gap: 0;
       }
     }
+    /* AI Assistant Floating Button */
+    .ai-assistant-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      transition: all 0.3s;
+    }
+
+    .ai-assistant-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .ai-assistant-btn i {
+      color: white;
+      font-size: 1.5rem;
+    }
+
+    .ai-assistant-btn.listening {
+      animation: pulse 1.5s infinite;
+      background: linear-gradient(135deg, #FF4136 0%, #FF6B6B 100%);
+    }
+
+    /* AI Assistant Chat Interface */
+    .ai-assistant-chat {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 350px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      transform: translateY(20px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      z-index: 101;
+    }
+
+    .ai-assistant-chat.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .chat-header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .close-chat {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .chat-messages {
+      height: 300px;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+
+    .message {
+      margin-bottom: 1rem;
+      padding: 0.8rem 1rem;
+      border-radius: 18px;
+      max-width: 80%;
+      font-size: 0.9rem;
+    }
+
+    .ai-message {
+      background-color: #f0f8ff;
+      margin-right: auto;
+      border-bottom-left-radius: 4px;
+    }
+
+    .user-message {
+      background-color: var(--primary-color);
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 1rem;
+      border-top: 1px solid #eee;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-right: 10px;
+    }
+
+    .send-btn {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0 1rem;
+      cursor: pointer;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 65, 54, 0.7); }
+      70% { box-shadow: 0 0 0 15px rgba(255, 65, 54, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 65, 54, 0); }
+    }
+
+    @media (max-width: 768px) {
+      .features {
+        grid-template-columns: 1fr;
+      }
+      
+      nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      .ai-assistant-chat {
+        width: 90%;
+        right: 5%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -522,9 +671,133 @@
       </div>
     </div>
   </div>
+<!-- AI Assistant Floating Button -->
+  <div class="ai-assistant-btn" id="aiAssistantBtn">
+    <i class="fas fa-robot"></i>
+  </div>
+
+  <!-- AI Assistant Chat Interface -->
+  <div class="ai-assistant-chat" id="aiAssistantChat">
+    <div class="chat-header">
+      <h3>JobShield Assistant</h3>
+      <button class="close-chat" id="closeChat">&times;</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="message ai-message">
+        Hi there! I'm your JobShield assistant. How can I help you today? You can ask me about:
+        <ul>
+          <li>Job scams</li>
+          <li>Resume tips</li>
+          <li>Job search advice</li>
+        </ul>
+        Just click the mic button to speak!
+      </div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Type your message...">
+      <button class="send-btn" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
 
   <script>
-    
+    // AI Assistant Toggle
+    const aiAssistantBtn = document.getElementById('aiAssistantBtn');
+    const aiAssistantChat = document.getElementById('aiAssistantChat');
+    const closeChat = document.getElementById('closeChat');
+
+    aiAssistantBtn.addEventListener('click', function() {
+      aiAssistantChat.classList.toggle('active');
+    });
+
+    closeChat.addEventListener('click', function() {
+      aiAssistantChat.classList.remove('active');
+    });
+
+    // Voice Recognition
+    let recognition;
+    try {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.lang = 'en-US';
+
+      recognition.onstart = function() {
+        aiAssistantBtn.classList.add('listening');
+      };
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        addMessage(transcript, 'user');
+        respondToMessage(transcript);
+        aiAssistantBtn.classList.remove('listening');
+      };
+
+      recognition.onerror = function(event) {
+        console.error('Speech recognition error', event.error);
+        aiAssistantBtn.classList.remove('listening');
+        addMessage("Sorry, I didn't catch that. Please try again.", 'ai');
+      };
+
+      aiAssistantBtn.addEventListener('click', function() {
+        if (aiAssistantBtn.classList.contains('listening')) {
+          recognition.stop();
+          aiAssistantBtn.classList.remove('listening');
+        } else if (aiAssistantChat.classList.contains('active')) {
+          recognition.start();
+        }
+      });
+    } catch(e) {
+      console.log('Speech recognition not supported');
+    }
+
+    // Chat functionality
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendMessageBtn = document.getElementById('sendMessage');
+
+    function addMessage(text, sender) {
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('message', sender + '-message');
+      messageDiv.textContent = text;
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function respondToMessage(message) {
+      // Simple response logic
+      let response = "I can help with that. ";
+      
+      if (message.toLowerCase().includes('scam') || message.toLowerCase().includes('fake')) {
+        response += "You can paste suspicious job offers in our Scam Detector tool for analysis. Would you like me to open it for you?";
+      } else if (message.toLowerCase().includes('resume') || message.toLowerCase().includes('cv')) {
+        response += "Our CV Builder can help you create a professional resume. Would you like to try it now?";
+      } else if (message.toLowerCase().includes('job') || message.toLowerCase().includes('opportunity')) {
+        response += "I can help you search for jobs matching your skills. What type of work are you looking for?";
+      } else {
+        response += "For more specific help, you can visit our website sections using the menu above.";
+      }
+      
+      setTimeout(() => {
+        addMessage(response, 'ai');
+      }, 1000);
+    }
+
+    sendMessageBtn.addEventListener('click', function() {
+      if (chatInput.value.trim() !== '') {
+        addMessage(chatInput.value, 'user');
+        respondToMessage(chatInput.value);
+        chatInput.value = '';
+      }
+    });
+
+    chatInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' && chatInput.value.trim() !== '') {
+        addMessage(chatInput.value, 'user');
+        respondToMessage(chatInput.value);
+        chatInput.value = '';
+      }
+    });
+    //this is for the other AI thingy
     document.addEventListener('DOMContentLoaded', function() {
       
       document.getElementById('first-name').addEventListener('input', function() {
