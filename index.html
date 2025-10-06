@@ -61,7 +61,31 @@
      nav a.active {
       background-color: var(--accent-color);
     }
+/* Add to your existing CSS in index.html */
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
+.auth-btn {
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.auth-btn:hover {
+  background: #0063b3;
+}
+
+#user-welcome {
+  color: var(--secondary-color);
+  font-size: 0.9rem;
+}
     main {
       padding: 2rem;
       max-width: 1200px;
@@ -287,6 +311,13 @@
       <a href=jobhunt.html>Job Hunt</a>
       <a href=Scamdetector.html>Scam Detector</a>
       <a href=feedback.html>Feedback</a>
+        <!-- Add login/logout button -->
+    <div class="auth-buttons">
+      <span id="user-welcome" style="display: none;"></span>
+      <button id="auth-btn" class="auth-btn">
+        <i class="fas fa-user"></i> Login
+      </button>
+    </div>
     </nav>
   </header>
 
@@ -368,7 +399,46 @@
       <button class="send-btn" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
     </div>
   </div>
-
+// Add this script to your index.html
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const authBtn = document.getElementById('auth-btn');
+  const userWelcome = document.getElementById('user-welcome');
+  
+  // Check login status
+  function checkLoginStatus() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const userEmail = localStorage.getItem('userEmail');
+    
+    if (isLoggedIn && userEmail) {
+      userWelcome.textContent = `Welcome, ${userEmail}`;
+      userWelcome.style.display = 'inline';
+      authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+    } else {
+      userWelcome.style.display = 'none';
+      authBtn.innerHTML = '<i class="fas fa-user"></i> Login';
+    }
+  }
+  
+  // Handle login/logout
+  authBtn.addEventListener('click', function() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    
+    if (isLoggedIn) {
+      // Logout
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('userEmail');
+      checkLoginStatus();
+    } else {
+      // Redirect to login page
+      window.location.href = 'login.html';
+    }
+  });
+  
+  // Check status on page load
+  checkLoginStatus();
+});
+  </script>
   <script>
     // AI Assistant Toggle
     const aiAssistantBtn = document.getElementById('aiAssistantBtn');
