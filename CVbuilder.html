@@ -12,6 +12,8 @@
       --accent-color: #0074D9; /* Bright Blue */
       --light-gray: #f8f9fa;
       --dark-gray: #495057;
+      --success-color: #28a745;
+      --warning-color: #dc3545;
     }
 
     body {
@@ -43,30 +45,30 @@
     }
 
     nav {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-top: 1rem;
-    padding: 0 1rem;
-  }
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      padding: 0 1rem;
+    }
 
-  nav a {
-    color: var(--secondary-color);
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-    font-size: 1rem;
-  }
+    nav a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+      font-size: 1rem;
+    }
 
-  nav a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
 
-  nav a.active {
+    nav a.active {
       background-color: var(--accent-color);
-  }
+    }
 
     .container {
       max-width: 1200px;
@@ -97,6 +99,8 @@
       position: sticky;
       top: 20px;
       align-self: flex-start;
+      max-height: 90vh;
+      overflow-y: auto;
     }
     
     h1 {
@@ -133,6 +137,13 @@
       border: 1px solid #ddd;
       border-radius: 4px;
       font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(0, 116, 217, 0.1);
     }
 
     textarea {
@@ -160,6 +171,7 @@
       align-items: center;
       gap: 0.5rem;
       margin-top: 0.5rem;
+      transition: background-color 0.3s;
     }
 
     .add-btn:hover {
@@ -172,6 +184,7 @@
       border-radius: 4px;
       margin-bottom: 1rem;
       position: relative;
+      border: 1px solid #e9ecef;
     }
 
     .remove-btn {
@@ -182,6 +195,11 @@
       border: none;
       color: var(--dark-gray);
       cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .remove-btn:hover {
+      color: var(--warning-color);
     }
 
     .ai-suggestions {
@@ -195,15 +213,22 @@
     .ai-suggestions h4 {
       margin-top: 0;
       color: var(--accent-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .suggestion-item {
       margin-bottom: 0.5rem;
       cursor: pointer;
+      padding: 0.3rem 0;
+      transition: background-color 0.2s;
+      border-radius: 3px;
+      padding-left: 5px;
     }
 
     .suggestion-item:hover {
-      text-decoration: underline;
+      background-color: rgba(0, 116, 217, 0.1);
     }
 
     .action-buttons {
@@ -220,6 +245,9 @@
       cursor: pointer;
       border: none;
       transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .btn-primary {
@@ -251,15 +279,27 @@
       color: white;
     }
 
+    .btn-success {
+      background-color: var(--success-color);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background-color: #218838;
+    }
+
     /* CV Preview Styles */
     .preview-header {
       text-align: center;
       margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--accent-color);
     }
 
     .preview-header h1 {
       color: var(--primary-color);
       margin-bottom: 0.5rem;
+      font-size: 1.8rem;
     }
 
     .preview-contact {
@@ -268,6 +308,7 @@
       gap: 1rem;
       flex-wrap: wrap;
       margin-bottom: 1rem;
+      font-size: 0.9rem;
     }
 
     .preview-section {
@@ -278,6 +319,7 @@
       border-bottom: 1px solid #ddd;
       padding-bottom: 0.3rem;
       margin-bottom: 0.5rem;
+      color: var(--primary-color);
     }
 
     .preview-item {
@@ -286,15 +328,18 @@
 
     .preview-item h4 {
       margin-bottom: 0.3rem;
+      color: var(--primary-color);
     }
 
     .preview-item .date {
       color: var(--dark-gray);
       font-style: italic;
+      font-size: 0.9rem;
     }
 
     .preview-item .description {
       margin-top: 0.5rem;
+      font-size: 0.95rem;
     }
 
     .skills-list {
@@ -311,6 +356,45 @@
       font-size: 0.9rem;
     }
 
+    /* Loading Spinner */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: var(--success-color);
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
     @media (max-width: 768px) {
       .cv-builder-container {
         flex-direction: column;
@@ -325,7 +409,12 @@
         flex-direction: column;
         gap: 0;
       }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
     }
+    
     /* AI Assistant Floating Button */
     .ai-assistant-btn {
       position: fixed;
@@ -415,12 +504,14 @@
       border-radius: 18px;
       max-width: 80%;
       font-size: 0.9rem;
+      line-height: 1.4;
     }
 
     .ai-message {
       background-color: #f0f8ff;
       margin-right: auto;
       border-bottom-left-radius: 4px;
+      color: #333;
     }
 
     .user-message {
@@ -460,16 +551,6 @@
     }
 
     @media (max-width: 768px) {
-      .features {
-        grid-template-columns: 1fr;
-      }
-      
-      nav {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-      }
-      
       .ai-assistant-chat {
         width: 90%;
         right: 5%;
@@ -481,15 +562,15 @@
   <header>
     <div class="logo">
       <i class="fas fa-shield-alt"></i>
-      <h1>JobShield AI </h1>
+      <h1>JobShield AI</h1>
     </div>
     <p>Create professional resumes with AI-powered suggestions from Spark</p>
-     <nav>
-      <a href= index.html>Home</a>
-      <a href= CVbuilder.html>CV Builder</a>
-      <a href= jobhunt.html>Job Hunt</a>
-      <a href= Scamdetector.html>Scam Detector</a>
-      <a href= feedback.html>Feedback</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="CVbuilder.html" class="active">CV Builder</a>
+      <a href="jobhunt.html">Job Hunt</a>
+      <a href="Scamdetector.html">Scam Detector</a>
+      <a href="feedback.html">Feedback</a>
     </nav>
   </header>
 
@@ -499,29 +580,30 @@
         <h2>Personal Information</h2>
         <div class="form-row">
           <div class="form-group">
-            <label for="first-name">First Name</label>
-            <input type="text" id="first-name" placeholder="John">
+            <label for="first-name">First Name *</label>
+            <input type="text" id="first-name" placeholder="John" required>
           </div>
           <div class="form-group">
-            <label for="last-name">Last Name</label>
-            <input type="text" id="last-name" placeholder="Doe">
+            <label for="last-name">Last Name *</label>
+            <input type="text" id="last-name" placeholder="Doe" required>
           </div>
         </div>
         
         <div class="form-group">
-          <label for="profession">Profession</label>
-            <div class="ai-suggestions">
-              <h4>Spark Suggestions</h4>
-              <div class="suggestion-item">Based on your experience, try "Software Engineer"</div>
-              <div class="suggestion-item">"Full Stack Developer" would also match your skills</div>
-            </div>
-          <input type="text" id="profession" placeholder="Software Engineer">
+          <label for="profession">Profession *</label>
+          <div class="ai-suggestions">
+            <h4><i class="fas fa-robot"></i> Spark Suggestions</h4>
+            <div class="suggestion-item" data-target="profession">Software Engineer</div>
+            <div class="suggestion-item" data-target="profession">Full Stack Developer</div>
+            <div class="suggestion-item" data-target="profession">Frontend Developer</div>
+          </div>
+          <input type="text" id="profession" placeholder="Software Engineer" required>
         </div>
         
         <div class="form-row">
           <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" placeholder="john.doe@example.com">
+            <label for="email">Email *</label>
+            <input type="email" id="email" placeholder="john.doe@example.com" required>
           </div>
           <div class="form-group">
             <label for="phone">Phone</label>
@@ -537,66 +619,70 @@
         <div class="form-group">
           <label for="summary">Professional Summary</label>
           <div class="ai-suggestions">
-            <h4>Spark Suggestions</h4>
-            <div class="suggestion-item">"Experienced software engineer with 5+ years in web development..."</div>
-            <div class="suggestion-item">"Detail-oriented professional specializing in..."</div>
+            <h4><i class="fas fa-robot"></i> Spark Suggestions</h4>
+            <div class="suggestion-item" data-target="summary">Experienced software engineer with 5+ years in web development, specializing in JavaScript frameworks and cloud technologies.</div>
+            <div class="suggestion-item" data-target="summary">Detail-oriented professional with a proven track record of delivering high-quality software solutions in agile environments.</div>
           </div>
           <textarea id="summary" placeholder="Briefly describe your professional background and skills"></textarea>
         </div>
         
         <h2>Work Experience</h2>
-        <div class="section-item" id="experience-1">
-          <button class="remove-btn" onclick="removeSection('experience-1')"><i class="fas fa-times"></i></button>
-          <div class="form-group">
-            <label for="job-title-1">Job Title</label>
-            <input type="text" id="job-title-1" placeholder="Senior Software Engineer">
-          </div>
-          <div class="form-group">
-            <label for="company-1">Company</label>
-            <input type="text" id="company-1" placeholder="Tech Solutions Inc.">
-          </div>
-          <div class="form-row">
+        <div id="experience-container">
+          <div class="section-item" id="experience-1">
+            <button class="remove-btn" onclick="removeSection('experience-1')"><i class="fas fa-times"></i></button>
             <div class="form-group">
-              <label for="start-date-1">Start Date</label>
-              <input type="text" id="start-date-1" placeholder="MM/YYYY">
+              <label for="job-title-1">Job Title</label>
+              <input type="text" id="job-title-1" placeholder="Senior Software Engineer" data-preview="job-title">
             </div>
             <div class="form-group">
-              <label for="end-date-1">End Date</label>
-              <input type="text" id="end-date-1" placeholder="MM/YYYY or Present">
+              <label for="company-1">Company</label>
+              <input type="text" id="company-1" placeholder="Tech Solutions Inc." data-preview="company">
             </div>
-          </div>
-          <div class="form-group">
-            <label for="job-description-1">Description</label>
-            <div class="ai-suggestions">
-              <h4>Spark Suggestions</h4>
-              <div class="suggestion-item">"Developed and maintained web applications using React and Node.js..."</div>
-              <div class="suggestion-item">"Led a team of 5 developers in implementing..."</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="start-date-1">Start Date</label>
+                <input type="text" id="start-date-1" placeholder="MM/YYYY" data-preview="start-date">
+              </div>
+              <div class="form-group">
+                <label for="end-date-1">End Date</label>
+                <input type="text" id="end-date-1" placeholder="MM/YYYY or Present" data-preview="end-date">
+              </div>
             </div>
-            <textarea id="job-description-1" placeholder="Describe your responsibilities and achievements"></textarea>
+            <div class="form-group">
+              <label for="job-description-1">Description</label>
+              <div class="ai-suggestions">
+                <h4><i class="fas fa-robot"></i> Spark Suggestions</h4>
+                <div class="suggestion-item" data-target="job-description-1">Developed and maintained web applications using React and Node.js, improving performance by 30%.</div>
+                <div class="suggestion-item" data-target="job-description-1">Led a team of 5 developers in implementing new features and improving application architecture.</div>
+              </div>
+              <textarea id="job-description-1" placeholder="Describe your responsibilities and achievements" data-preview="description"></textarea>
+            </div>
           </div>
         </div>
         
         <button class="add-btn" onclick="addSection('experience')"><i class="fas fa-plus"></i> Add Another Position</button>
         
         <h2>Education</h2>
-        <div class="section-item" id="education-1">
-          <button class="remove-btn" onclick="removeSection('education-1')"><i class="fas fa-times"></i></button>
-          <div class="form-group">
-            <label for="degree-1">Degree</label>
-            <input type="text" id="degree-1" placeholder="Bachelor of Science in Computer Science">
-          </div>
-          <div class="form-group">
-            <label for="institution-1">Institution</label>
-            <input type="text" id="institution-1" placeholder="University of Technology">
-          </div>
-          <div class="form-row">
+        <div id="education-container">
+          <div class="section-item" id="education-1">
+            <button class="remove-btn" onclick="removeSection('education-1')"><i class="fas fa-times"></i></button>
             <div class="form-group">
-              <label for="education-start-1">Start Date</label>
-              <input type="text" id="education-start-1" placeholder="MM/YYYY">
+              <label for="degree-1">Degree</label>
+              <input type="text" id="degree-1" placeholder="Bachelor of Science in Computer Science" data-preview="degree">
             </div>
             <div class="form-group">
-              <label for="education-end-1">End Date</label>
-              <input type="text" id="education-end-1" placeholder="MM/YYYY">
+              <label for="institution-1">Institution</label>
+              <input type="text" id="institution-1" placeholder="University of Technology" data-preview="institution">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="education-start-1">Start Date</label>
+                <input type="text" id="education-start-1" placeholder="MM/YYYY" data-preview="edu-start-date">
+              </div>
+              <div class="form-group">
+                <label for="education-end-1">End Date</label>
+                <input type="text" id="education-end-1" placeholder="MM/YYYY" data-preview="edu-end-date">
+              </div>
             </div>
           </div>
         </div>
@@ -607,18 +693,18 @@
         <div class="form-group">
           <label for="skills">Add Skills (comma separated)</label>
           <div class="ai-suggestions">
-            <h4>Spark Suggestions</h4>
-            <div class="suggestion-item">JavaScript, React, Node.js, Python</div>
-            <div class="suggestion-item">Agile Methodologies, Team Leadership</div>
+            <h4><i class="fas fa-robot"></i> Spark Suggestions</h4>
+            <div class="suggestion-item" data-target="skills">JavaScript, React, Node.js, Python, SQL, Git</div>
+            <div class="suggestion-item" data-target="skills">Agile Methodologies, Team Leadership, Project Management, Problem Solving</div>
           </div>
           <textarea id="skills" placeholder="JavaScript, React, Project Management, etc."></textarea>
         </div>
         
         <div class="action-buttons">
-          <button class="btn btn-outline"><i class="fas fa-redo"></i> Reset Form</button>
+          <button class="btn btn-outline" id="resetBtn"><i class="fas fa-redo"></i> Reset Form</button>
           <div>
-            <button class="btn btn-secondary"><i class="fas fa-lightbulb"></i> Get AI Suggestions</button>
-            <button class="btn btn-primary"><i class="fas fa-file-download"></i> Download CV</button>
+            <button class="btn btn-secondary" id="aiSuggestBtn"><i class="fas fa-lightbulb"></i> Get AI Suggestions</button>
+            <button class="btn btn-primary" id="downloadBtn"><i class="fas fa-file-download"></i> Download CV</button>
           </div>
         </div>
       </div>
@@ -641,26 +727,30 @@
         
         <div class="preview-section">
           <h3>EXPERIENCE</h3>
-          <div class="preview-item">
-            <h4>Senior Software Engineer</h4>
-            <p><strong>Tech Solutions Inc.</strong> | <span class="date">05/2018 - Present</span></p>
-            <div class="description">
-              <p>Developed and maintained web applications using React and Node.js. Led a team of 5 developers in implementing new features and improving application performance.</p>
+          <div id="preview-experience">
+            <div class="preview-item">
+              <h4 id="preview-job-title">Senior Software Engineer</h4>
+              <p><strong id="preview-company">Tech Solutions Inc.</strong> | <span class="date" id="preview-dates">05/2018 - Present</span></p>
+              <div class="description">
+                <p id="preview-job-description">Developed and maintained web applications using React and Node.js. Led a team of 5 developers in implementing new features and improving application performance.</p>
+              </div>
             </div>
           </div>
         </div>
         
         <div class="preview-section">
           <h3>EDUCATION</h3>
-          <div class="preview-item">
-            <h4>Bachelor of Science in Computer Science</h4>
-            <p><strong>University of Technology</strong> | <span class="date">08/2010 - 05/2014</span></p>
+          <div id="preview-education">
+            <div class="preview-item">
+              <h4 id="preview-degree">Bachelor of Science in Computer Science</h4>
+              <p><strong id="preview-institution">University of Technology</strong> | <span class="date" id="preview-education-dates">08/2010 - 05/2014</span></p>
+            </div>
           </div>
         </div>
         
         <div class="preview-section">
           <h3>SKILLS</h3>
-          <div class="skills-list">
+          <div class="skills-list" id="preview-skills">
             <span class="skill-tag">JavaScript</span>
             <span class="skill-tag">React</span>
             <span class="skill-tag">Node.js</span>
@@ -671,12 +761,13 @@
       </div>
     </div>
   </div>
-<!-- AI Assistant Floating Button -->
+
+  <!-- AI Assistant Floating Button -->
   <div class="ai-assistant-btn" id="aiAssistantBtn">
     <i class="fas fa-robot"></i>
   </div>
 
- <!-- AI Assistant Chat Interface -->
+  <!-- AI Assistant Chat Interface -->
   <div class="ai-assistant-chat" id="aiAssistantChat">
     <div class="chat-header">
       <h3>Spark AI Assistant</h3>
@@ -684,35 +775,308 @@
     </div>
     <div class="chat-messages" id="chatMessages">
       <div class="message ai-message">
-        Hi there! I'm Spark AI your JobShield assistant. How can I help you today? You can ask me about:
+        Hi there! I'm Spark AI, your CV building assistant. I can help you:
         <ul>
-          <li>Job scams</li>
-          <li>Resume tips</li>
-          <li>Job search advice</li>
+          <li>Write compelling professional summaries</li>
+          <li>Optimize your work experience descriptions</li>
+          <li>Suggest relevant skills for your industry</li>
+          <li>Format your CV for maximum impact</li>
         </ul>
-        Just click the mic button to speak!
+        What would you like help with today?
       </div>
     </div>
     <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="Type your message...">
+      <input type="text" id="chatInput" placeholder="Ask about CV writing, formatting, or content...">
       <button class="send-btn" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
     </div>
   </div>
 
   <script>
-    // AI Assistant Toggle
+    // CV Builder Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      // Form elements
+      const firstName = document.getElementById('first-name');
+      const lastName = document.getElementById('last-name');
+      const profession = document.getElementById('profession');
+      const email = document.getElementById('email');
+      const phone = document.getElementById('phone');
+      const linkedin = document.getElementById('linkedin');
+      const summary = document.getElementById('summary');
+      const skills = document.getElementById('skills');
+      const resetBtn = document.getElementById('resetBtn');
+      const aiSuggestBtn = document.getElementById('aiSuggestBtn');
+      const downloadBtn = document.getElementById('downloadBtn');
+      
+      // Preview elements
+      const previewName = document.getElementById('preview-name');
+      const previewProfession = document.getElementById('preview-profession');
+      const previewEmail = document.getElementById('preview-email');
+      const previewPhone = document.getElementById('preview-phone');
+      const previewLinkedin = document.getElementById('preview-linkedin');
+      const previewSummary = document.getElementById('preview-summary');
+      const previewSkills = document.getElementById('preview-skills');
+      
+      // Real-time preview updates
+      firstName.addEventListener('input', updatePreview);
+      lastName.addEventListener('input', updatePreview);
+      profession.addEventListener('input', updatePreview);
+      email.addEventListener('input', updatePreview);
+      phone.addEventListener('input', updatePreview);
+      linkedin.addEventListener('input', updatePreview);
+      summary.addEventListener('input', updatePreview);
+      skills.addEventListener('input', updateSkillsPreview);
+      
+      // Work experience updates
+      document.getElementById('job-title-1').addEventListener('input', updateExperiencePreview);
+      document.getElementById('company-1').addEventListener('input', updateExperiencePreview);
+      document.getElementById('start-date-1').addEventListener('input', updateExperiencePreview);
+      document.getElementById('end-date-1').addEventListener('input', updateExperiencePreview);
+      document.getElementById('job-description-1').addEventListener('input', updateExperiencePreview);
+      
+      // Education updates
+      document.getElementById('degree-1').addEventListener('input', updateEducationPreview);
+      document.getElementById('institution-1').addEventListener('input', updateEducationPreview);
+      document.getElementById('education-start-1').addEventListener('input', updateEducationPreview);
+      document.getElementById('education-end-1').addEventListener('input', updateEducationPreview);
+      
+      // Reset form
+      resetBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to reset the form? All your data will be lost.')) {
+          document.getElementById('cv-form').reset();
+          updatePreview();
+          showToast('Form reset successfully');
+        }
+      });
+      
+      // AI Suggestions
+      aiSuggestBtn.addEventListener('click', function() {
+        showToast('Getting AI suggestions...');
+        // Simulate AI processing
+        setTimeout(() => {
+          showToast('AI suggestions applied!');
+        }, 1500);
+      });
+      
+      // Download CV
+      downloadBtn.addEventListener('click', function() {
+        // Validate required fields
+        if (!firstName.value || !lastName.value || !profession.value || !email.value) {
+          showToast('Please fill in all required fields', 'error');
+          return;
+        }
+        
+        // Show loading state
+        const originalText = downloadBtn.innerHTML;
+        downloadBtn.innerHTML = '<span class="spinner"></span> Generating...';
+        downloadBtn.disabled = true;
+        
+        // Simulate CV generation
+        setTimeout(() => {
+          // Create a blob and download link
+          const cvContent = generateCVContent();
+          const blob = new Blob([cvContent], { type: 'text/html' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${firstName.value}_${lastName.value}_CV.html`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          
+          // Reset button state
+          downloadBtn.innerHTML = originalText;
+          downloadBtn.disabled = false;
+          
+          showToast('CV downloaded successfully!');
+        }, 2000);
+      });
+      
+      // AI suggestion click handlers
+      document.querySelectorAll('.suggestion-item').forEach(item => {
+        item.addEventListener('click', function() {
+          const targetId = this.getAttribute('data-target');
+          if (targetId) {
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.value = this.textContent;
+              // Trigger input event to update preview
+              const event = new Event('input');
+              targetElement.dispatchEvent(event);
+            }
+          }
+        });
+      });
+      
+      // Initialize preview
+      updatePreview();
+    });
+    
+    function updatePreview() {
+      const firstName = document.getElementById('first-name').value || 'John';
+      const lastName = document.getElementById('last-name').value || 'Doe';
+      document.getElementById('preview-name').textContent = `${firstName} ${lastName}`;
+      
+      document.getElementById('preview-profession').textContent = 
+        document.getElementById('profession').value || 'Software Engineer';
+      
+      document.getElementById('preview-email').textContent = 
+        document.getElementById('email').value || 'john.doe@example.com';
+      
+      document.getElementById('preview-phone').textContent = 
+        document.getElementById('phone').value || '(123) 456-7890';
+      
+      const linkedinValue = document.getElementById('linkedin').value;
+      document.getElementById('preview-linkedin').textContent = 
+        linkedinValue ? linkedinValue.replace('https://', '') : 'linkedin.com/in/johndoe';
+      
+      document.getElementById('preview-summary').textContent = 
+        document.getElementById('summary').value || 
+        'Experienced software engineer with 5+ years in web development, specializing in JavaScript frameworks. Passionate about creating efficient, scalable applications with clean code.';
+    }
+    
+    function updateSkillsPreview() {
+      const skillsValue = document.getElementById('skills').value;
+      const skillsArray = skillsValue ? skillsValue.split(',').map(skill => skill.trim()) : 
+        ['JavaScript', 'React', 'Node.js', 'Python', 'Agile'];
+      
+      const previewSkills = document.getElementById('preview-skills');
+      previewSkills.innerHTML = '';
+      
+      skillsArray.forEach(skill => {
+        if (skill) {
+          const skillTag = document.createElement('span');
+          skillTag.className = 'skill-tag';
+          skillTag.textContent = skill;
+          previewSkills.appendChild(skillTag);
+        }
+      });
+    }
+    
+    function updateExperiencePreview() {
+      const jobTitle = document.getElementById('job-title-1').value || 'Senior Software Engineer';
+      const company = document.getElementById('company-1').value || 'Tech Solutions Inc.';
+      const startDate = document.getElementById('start-date-1').value || '05/2018';
+      const endDate = document.getElementById('end-date-1').value || 'Present';
+      const description = document.getElementById('job-description-1').value || 
+        'Developed and maintained web applications using React and Node.js. Led a team of 5 developers in implementing new features and improving application performance.';
+      
+      document.getElementById('preview-job-title').textContent = jobTitle;
+      document.getElementById('preview-company').textContent = company;
+      document.getElementById('preview-dates').textContent = `${startDate} - ${endDate}`;
+      document.getElementById('preview-job-description').textContent = description;
+    }
+    
+    function updateEducationPreview() {
+      const degree = document.getElementById('degree-1').value || 'Bachelor of Science in Computer Science';
+      const institution = document.getElementById('institution-1').value || 'University of Technology';
+      const startDate = document.getElementById('education-start-1').value || '08/2010';
+      const endDate = document.getElementById('education-end-1').value || '05/2014';
+      
+      document.getElementById('preview-degree').textContent = degree;
+      document.getElementById('preview-institution').textContent = institution;
+      document.getElementById('preview-education-dates').textContent = `${startDate} - ${endDate}`;
+    }
+    
+    function addSection(type) {
+      // In a real application, this would dynamically add form sections
+      showToast(`Added new ${type} section`);
+    }
+    
+    function removeSection(id) {
+      document.getElementById(id).remove();
+      showToast('Section removed');
+    }
+    
+    function generateCVContent() {
+      // This would generate the actual CV content for download
+      return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>CV - ${document.getElementById('first-name').value} ${document.getElementById('last-name').value}</title>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; }
+            h1 { color: #001f3f; border-bottom: 2px solid #0074D9; padding-bottom: 10px; }
+            h2 { color: #001f3f; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+            .contact-info { margin-bottom: 20px; }
+            .section { margin-bottom: 20px; }
+            .skill-tag { display: inline-block; background: #0074D9; color: white; padding: 5px 10px; margin: 2px; border-radius: 3px; }
+          </style>
+        </head>
+        <body>
+          <h1>${document.getElementById('preview-name').textContent}</h1>
+          <div class="contact-info">
+            ${document.getElementById('preview-email').textContent} | 
+            ${document.getElementById('preview-phone').textContent} | 
+            ${document.getElementById('preview-linkedin').textContent}
+          </div>
+          <div class="section">
+            <h2>Professional Summary</h2>
+            <p>${document.getElementById('preview-summary').textContent}</p>
+          </div>
+          <div class="section">
+            <h2>Work Experience</h2>
+            <p><strong>${document.getElementById('preview-job-title').textContent}</strong><br>
+            ${document.getElementById('preview-company').textContent} | ${document.getElementById('preview-dates').textContent}</p>
+            <p>${document.getElementById('preview-job-description').textContent}</p>
+          </div>
+          <div class="section">
+            <h2>Education</h2>
+            <p><strong>${document.getElementById('preview-degree').textContent}</strong><br>
+            ${document.getElementById('preview-institution').textContent} | ${document.getElementById('preview-education-dates').textContent}</p>
+          </div>
+          <div class="section">
+            <h2>Skills</h2>
+            <div>${document.getElementById('preview-skills').innerHTML}</div>
+          </div>
+        </body>
+        </html>
+      `;
+    }
+    
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type === 'error' ? 'error' : ''}`;
+      toast.innerHTML = `
+        <i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'check-circle'}"></i>
+        <span>${message}</span>
+      `;
+      
+      // Style error toasts differently
+      if (type === 'error') {
+        toast.style.backgroundColor = '#dc3545';
+      }
+      
+      document.body.appendChild(toast);
+      
+      // Show toast
+      setTimeout(() => {
+        toast.classList.add('show');
+      }, 10);
+      
+      // Hide and remove toast after 3 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+          document.body.removeChild(toast);
+        }, 300);
+      }, 3000);
+    }
+    
+    // AI Assistant Functionality
     const aiAssistantBtn = document.getElementById('aiAssistantBtn');
     const aiAssistantChat = document.getElementById('aiAssistantChat');
     const closeChat = document.getElementById('closeChat');
-
+    
     aiAssistantBtn.addEventListener('click', function() {
       aiAssistantChat.classList.toggle('active');
     });
-
+    
     closeChat.addEventListener('click', function() {
       aiAssistantChat.classList.remove('active');
     });
-
+    
     // Voice Recognition
     let recognition;
     try {
@@ -720,24 +1084,24 @@
       recognition = new SpeechRecognition();
       recognition.continuous = false;
       recognition.lang = 'en-US';
-
+      
       recognition.onstart = function() {
         aiAssistantBtn.classList.add('listening');
       };
-
+      
       recognition.onresult = function(event) {
         const transcript = event.results[0][0].transcript;
         addMessage(transcript, 'user');
         respondToMessage(transcript);
         aiAssistantBtn.classList.remove('listening');
       };
-
+      
       recognition.onerror = function(event) {
         console.error('Speech recognition error', event.error);
         aiAssistantBtn.classList.remove('listening');
         addMessage("Sorry, I didn't catch that. Please try again.", 'ai');
       };
-
+      
       aiAssistantBtn.addEventListener('click', function() {
         if (aiAssistantBtn.classList.contains('listening')) {
           recognition.stop();
@@ -749,12 +1113,12 @@
     } catch(e) {
       console.log('Speech recognition not supported');
     }
-
+    
     // Chat functionality
     const chatMessages = document.getElementById('chatMessages');
     const chatInput = document.getElementById('chatInput');
     const sendMessageBtn = document.getElementById('sendMessage');
-
+    
     function addMessage(text, sender) {
       const messageDiv = document.createElement('div');
       messageDiv.classList.add('message', sender + '-message');
@@ -762,26 +1126,30 @@
       chatMessages.appendChild(messageDiv);
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-
+    
     function respondToMessage(message) {
-      // Simple response logic
-      let response = "I can help with that. ";
+      let response = "";
+      const lowerMessage = message.toLowerCase();
       
-      if (message.toLowerCase().includes('scam') || message.toLowerCase().includes('fake')) {
-        response += "You can paste suspicious job offers in our Scam Detector tool for analysis. Would you like me to open it for you?";
-      } else if (message.toLowerCase().includes('resume') || message.toLowerCase().includes('cv')) {
-        response += "Our CV Builder can help you create a professional resume. Would you like to try it now?";
-      } else if (message.toLowerCase().includes('job') || message.toLowerCase().includes('opportunity')) {
-        response += "I can help you search for jobs matching your skills. What type of work are you looking for?";
+      if (lowerMessage.includes('summary') || lowerMessage.includes('about me')) {
+        response = "For your professional summary, focus on your key skills, experience, and career goals. Keep it concise (3-5 sentences) and tailor it to the job you're applying for.";
+      } else if (lowerMessage.includes('experience') || lowerMessage.includes('work history')) {
+        response = "When describing work experience, use action verbs and quantify achievements. For example: 'Increased performance by 30%' or 'Managed a team of 5 developers'.";
+      } else if (lowerMessage.includes('skill') || lowerMessage.includes('technology')) {
+        response = "Include both technical and soft skills. Group related skills together and prioritize those most relevant to your target role.";
+      } else if (lowerMessage.includes('format') || lowerMessage.includes('layout')) {
+        response = "A clean, professional layout works best. Use clear section headings, consistent formatting, and plenty of white space. Keep it to 1-2 pages maximum.";
+      } else if (lowerMessage.includes('education') || lowerMessage.includes('degree')) {
+        response = "List your most recent education first. Include your degree, institution, and graduation date. You can also mention relevant coursework or honors.";
       } else {
-        response += "For more specific help, you can visit our website sections using the menu above.";
+        response = "I can help you with your CV content, formatting, and optimization. What specific area would you like assistance with?";
       }
       
       setTimeout(() => {
         addMessage(response, 'ai');
       }, 1000);
     }
-
+    
     sendMessageBtn.addEventListener('click', function() {
       if (chatInput.value.trim() !== '') {
         addMessage(chatInput.value, 'user');
@@ -789,7 +1157,7 @@
         chatInput.value = '';
       }
     });
-
+    
     chatInput.addEventListener('keypress', function(e) {
       if (e.key === 'Enter' && chatInput.value.trim() !== '') {
         addMessage(chatInput.value, 'user');
@@ -797,63 +1165,6 @@
         chatInput.value = '';
       }
     });
-    //this is for the other AI thingy
-    document.addEventListener('DOMContentLoaded', function() {
-      
-      document.getElementById('first-name').addEventListener('input', function() {
-        const lastName = document.getElementById('last-name').value || 'Doe';
-        document.getElementById('preview-name').textContent = `${this.value} ${lastName}`;
-      });
-      
-      document.getElementById('last-name').addEventListener('input', function() {
-        const firstName = document.getElementById('first-name').value || 'John';
-        document.getElementById('preview-name').textContent = `${firstName} ${this.value}`;
-      });
-      
-      document.getElementById('profession').addEventListener('input', function() {
-        document.getElementById('preview-profession').textContent = this.value;
-      });
-      
-      document.getElementById('email').addEventListener('input', function() {
-        document.getElementById('preview-email').textContent = this.value;
-      });
-      
-      document.getElementById('phone').addEventListener('input', function() {
-        document.getElementById('preview-phone').textContent = this.value;
-      });
-      
-      document.getElementById('linkedin').addEventListener('input', function() {
-        document.getElementById('preview-linkedin').textContent = this.value.replace('https://', '');
-      });
-      
-      document.getElementById('summary').addEventListener('input', function() {
-        document.getElementById('preview-summary').textContent = this.value;
-      });
-      
-      // Add click handlers for AI suggestions
-      document.querySelectorAll('.suggestion-item').forEach(item => {
-        item.addEventListener('click', function() {
-          const targetId = this.parentElement.previousElementSibling.id;
-          if (targetId) {
-            document.getElementById(targetId).value = this.textContent;
-            if (targetId === 'summary') {
-              document.getElementById('preview-summary').textContent = this.textContent;
-            }
-          }
-        });
-      });
-    });
-    
-    function addSection(type) {
-      
-      alert(`In a complete application, this would add a new ${type} section.`);
-    }
-    
-    function removeSection(id) {
-      
-      document.getElementById(id).remove();
-    }
   </script>
 </body>
 </html>
-
