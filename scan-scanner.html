@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Vanilla Scam Scanner</title>
+<style>
+body { font-family: Poppins, Arial, sans-serif; padding:20px; max-width:900px; margin:auto; }
+textarea { width:100%; height:140px; font-size:15px; padding:10px; border-radius:8px; border:1px solid #ccc; }
+.result { margin-top:16px; padding:16px; border-radius:12px; transition:0.3s; }
+.safe { background:#e6ffed; border:1px solid #7bd68a; }
+.warn { background:#fff7e6; border:1px solid #f5c260; }
+.scam { background:#ffecec; border:1px solid #f08a8a; }
+button { padding:10px 18px; margin-top:10px; border:none; border-radius:8px; cursor:pointer; background:#333; color:#fff; }
+button:hover { background:#555; }
+.progress-container { width:100%; background:#eee; height:20px; border-radius:10px; margin-top:10px; overflow:hidden; }
+.progress-bar { height:100%; width:0%; transition:width 0.6s ease; }
+.progress-bar.safe { background:#4caf50; }
+.progress-bar.warn { background:#f5c260; }
+.progress-bar.scam { background:#f44336; }
+</style>
+</head>
+<body>
+<h1>🔎 Job Scam Detector </h1>
+<p>Paste a message and click <b>Scan</b> to estimate its scam risk.</p>
+<textarea id="message" placeholder="Paste suspicious message here..."></textarea>
+<button id="scan">Scan</button>
+<div id="result" class="result" style="display:none"></div>
+
+<script>
+document.getElementById("scan").addEventListener("click", function() {
+  const msg = document.getElementById("message").value.trim().toLowerCase();
+  if(!msg) return alert("Please paste a message to scan.");
+
+  let score = 0;
+  const reasons = [];
+
+  const highRisk = ["verify your account","otp","one-time password","bank details","card number","cvv","password","pin","click here","urgent","account suspended","confirm now","limited time","verify now","transfer","gift card","send money","secure-login","login now","refund","pay now","payment required","wire transfer","reactivate","update info"];
+  const mediumRisk = ["offer expires","selected winner","lucky draw","claim your prize","investment opportunity","make money fast","lottery","package held","customs fee","processing fee"];
+  const urls = /https?:\/\/[^\s]+/g;
+  const shortUrls = /bit\.ly|tinyurl|goo\.gl|t\.co|short\.link/;
+  const urgency = ["2 hours","today","immediately","within 24"];
+
+  highRisk.forEach(w => { if(msg.includes(w)) { score += 6; reasons.push("High-risk: "+w); } });
+  mediumRisk.forEach(w => { if(msg.includes(w)) { score += 3; reasons.push("Medium-risk: "+w); } });
+  if(urls.test(msg)) { score += 5; reasons.push("Contains URL"); }
+  if(shortUrls.test(msg)) { score += 5; reasons.push("Contains short URL"); }
+  urgency.forEach(w => { if(msg.includes(w)) { score += 3; reasons.push("Urgency: "+w); } });
+  if(msg.match(/[A-Z]{4,}/)) { score += 2; reasons.push("All caps detected"); }
+  if(msg.match(/!/g)?.length>=2) { score += 2; reasons.push("Excessive exclamation marks"); }
+
+  // DIRECT SCALING: multiply total score to get 0-100%
+  const riskPercent = Math.min(100, score*4); 
+
+  let verdict="", level="";
+  if(riskPercent >= 70) { verdict="🚨 High Risk: Likely Scam"; level="scam"; }
+  else if(riskPercent >= 40) { verdict="⚠️ Medium Risk: Possibly Scam"; level="warn"; }
+  else { verdict="✅ Safe"; level="safe"; }
+
+  const out = document.getElementById("result");
+  out.style.display='block';
+  out.className='result '+level;
+  out.innerHTML = `
+    <h3>${verdict} — ${riskPercent}% Risk</h3>
+    <div class="progress-container">
+      <div class="progress-bar ${level}" style="width:0%" id="bar"></div>
+    </div>
+    ${reasons.length ? '<strong>Indicators:</strong><ul>'+reasons.map(r=>`<li>${r}</li>`).join('')+'</ul>':''}
+  `;
+
+  setTimeout(()=>{ document.getElementById('bar').style.width=riskPercent+'%'; },100);
+});
+</script>
+</body>
+</html>
