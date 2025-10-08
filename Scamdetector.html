@@ -23,7 +23,7 @@
 
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, var(--dark-bg) 0%, var(--primary-color) 100%);
+      background: linear-gradient(135deg, var(--dark-bg) 0%, var(--secondary-color) 100%);
       color: var(--secondary-color);
       line-height: 1.6;
       min-height: 100vh;
@@ -176,6 +176,7 @@
       cursor: pointer;
       margin-bottom: 20px;
       transition: all 0.3s;
+      display: none;
     }
 
     .file-upload:hover {
@@ -207,6 +208,13 @@
       background: #0063b3;
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(0, 116, 217, 0.3);
+    }
+
+    .analyze-btn:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
     }
 
     /* Results Section */
@@ -484,6 +492,7 @@
       background-color: #f0f8ff;
       margin-right: auto;
       border-bottom-left-radius: 4px;
+      color: #333;
     }
 
     .user-message {
@@ -538,6 +547,22 @@
         right: 5%;
       }
     }
+
+    /* Loading Spinner */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -548,11 +573,11 @@
     </div>
     <p>Your smart protection in the job market, powered by Spark 🤖</p>
     <nav>
-      <a href= index.html>Home</a>
-      <a href= CVbuilder>CV Builder</a>
-      <a href= jobhunt.html>Job Hunt</a>
-      <a href= Scamdetector.html class="active">Scam Detector</a>
-      <a href= feedback.html>Feedback</a>
+      <a href="index.html">Home</a>
+      <a href="CVbuilder.html">CV Builder</a>
+      <a href="jobhunt.html">Job Hunt</a>
+      <a href="Scamdetector.html" class="active">Scam Detector</a>
+      <a href="feedback.html">Feedback</a>
     </nav>
   </header>
 
@@ -569,83 +594,61 @@
       </div>
       
       <div class="input-methods">
-        <button class="method-btn active"><i class="fas fa-font"></i> Paste Text</button>
-        <button class="method-btn"><i class="fas fa-file-alt"></i> Upload Document</button>
-        <button class="method-btn"><i class="fas fa-envelope"></i> Email Forwarding</button>
+        <button class="method-btn active" id="textMethod"><i class="fas fa-font"></i> Paste Text</button>
+        <button class="method-btn" id="fileMethod"><i class="fas fa-file-alt"></i> Upload Document</button>
+        <button class="method-btn" id="emailMethod"><i class="fas fa-envelope"></i> Email Forwarding</button>
       </div>
       
-      <div class="text-input-area">
-        <textarea placeholder="Paste the suspicious job offer, email, or message here..."></textarea>
+      <div class="text-input-area" id="textInputArea">
+        <textarea id="messageInput" placeholder="Paste the suspicious job offer, email, or message here..."></textarea>
       </div>
       
-      <div class="file-upload">
+      <div class="file-upload" id="fileUploadArea">
         <i class="fas fa-cloud-upload-alt"></i>
         <p>Or drag & drop your file here (PDF, DOCX, TXT)</p>
         <p><small>We never store your personal documents</small></p>
       </div>
       
-      <button class="analyze-btn pulse"><i class="fas fa-shield-alt"></i> Analyze for Scams</button>
+      <button class="analyze-btn" id="analyzeBtn"><i class="fas fa-shield-alt"></i> Analyze for Scams</button>
     </section>
 
     <section class="results-container" id="results">
       <div class="results-header">
         <h2>Analysis Results</h2>
-        <div class="risk-level risk-high">High Risk</div>
+        <div class="risk-level" id="riskLevel">High Risk</div>
       </div>
       
       <div class="risk-meter">
         <span>Low</span>
         <div class="meter">
-          <div class="meter-fill" style="width: 85%; background-color: var(--warning-color);"></div>
+          <div class="meter-fill" id="meterFill"></div>
         </div>
         <span>High</span>
       </div>
       
       <div class="red-flags">
         <h3><i class="fas fa-flag"></i> Red Flags Detected</h3>
-        <div class="flag-item">
-          <strong>Upfront Payment Request:</strong> The message asks for payment for training or materials, which is a common scam tactic.
-        </div>
-        <div class="flag-item">
-          <strong>Poor Grammar and Spelling:</strong> Multiple spelling errors and unprofessional language detected.
-        </div>
-        <div class="flag-item">
-          <strong>Vague Job Description:</strong> The position responsibilities are unclear and sound too good to be true.
-        </div>
-        <div class="flag-item">
-          <strong>Urgency Pressure:</strong> Creates artificial urgency to prevent you from researching the company.
-        </div>
+        <div id="redFlagsList"></div>
       </div>
       
       <div class="suggestions">
         <h3><i class="fas fa-lightbulb"></i> Recommended Actions</h3>
-        <div class="suggestion-item">
-          Do not send any money or provide banking information.
-        </div>
-        <div class="suggestion-item">
-          Research the company independently using official sources.
-        </div>
-        <div class="suggestion-item">
-          Contact the company directly using verified contact information.
-        </div>
-        <div class="suggestion-item">
-          Report this scam attempt to relevant authorities.
-        </div>
+        <div id="suggestionsList"></div>
       </div>
     </section>
 
     <section class="examples">
       <h2>Common Job Scam Examples</h2>
       <div class="example-cards">
-        <div class="example-card">
+        <div class="example-card" id="example1">
           <h3>Fake Check Scams</h3>
           <p>You receive an unexpected check with instructions to deposit it and wire portion of funds elsewhere.</p>
         </div>
-        <div class="example-card">
+        <div class="example-card" id="example2">
           <h3>Phishing Emails</h3>
           <p>Emails pretending to be from reputable companies asking for personal information.</p>
         </div>
-        <div class="example-card">
+        <div class="example-card" id="example3">
           <h3>Pyramid Schemes</h3>
           <p>Job offers focused on recruiting others rather than selling actual products or services.</p>
         </div>
@@ -663,6 +666,7 @@
     <p>© 2025 JobShield AI. All rights reserved.</p>
     <p><small>Spark AI is designed to assist but cannot guarantee complete protection against all scams. Always use caution.</small></p>
   </footer>
+  
   <!-- AI Assistant Floating Button -->
   <div class="ai-assistant-btn" id="aiAssistantBtn">
     <i class="fas fa-robot"></i>
@@ -692,6 +696,285 @@
   </div>
 
   <script>
+    // Scam Detection Logic
+    const detectionPatterns = {
+      highRisk: [
+        {pattern: "verify your account", score: 6, reason: "Request for account verification"},
+        {pattern: "otp", score: 6, reason: "Request for one-time password"},
+        {pattern: "one.time.password", score: 6, reason: "Request for one-time password"},
+        {pattern: "bank details", score: 6, reason: "Request for banking information"},
+        {pattern: "card number", score: 6, reason: "Request for credit card information"},
+        {pattern: "cvv", score: 6, reason: "Request for CVV security code"},
+        {pattern: "password", score: 6, reason: "Request for password"},
+        {pattern: "pin", score: 6, reason: "Request for PIN"},
+        {pattern: "click here", score: 6, reason: "Suspicious link request"},
+        {pattern: "urgent", score: 6, reason: "Creates artificial urgency"},
+        {pattern: "account suspended", score: 6, reason: "Threat of account suspension"},
+        {pattern: "confirm now", score: 6, reason: "Pressure to act immediately"},
+        {pattern: "limited time", score: 6, reason: "Creates false scarcity"},
+        {pattern: "verify now", score: 6, reason: "Pressure to verify immediately"},
+        {pattern: "transfer", score: 6, reason: "Request for money transfer"},
+        {pattern: "gift card", score: 6, reason: "Request for gift card payment"},
+        {pattern: "send money", score: 6, reason: "Request to send money"},
+        {pattern: "secure.login", score: 6, reason: "Suspicious login request"},
+        {pattern: "login now", score: 6, reason: "Pressure to login immediately"},
+        {pattern: "refund", score: 6, reason: "Promises of refunds"},
+        {pattern: "pay now", score: 6, reason: "Pressure to pay immediately"},
+        {pattern: "payment required", score: 6, reason: "Request for payment"},
+        {pattern: "wire transfer", score: 6, reason: "Request for wire transfer"},
+        {pattern: "reactivate", score: 6, reason: "Request to reactivate account"},
+        {pattern: "update info", score: 6, reason: "Request to update personal information"},
+        {pattern: "upfront payment", score: 6, reason: "Request for upfront payment"},
+        {pattern: "processing fee", score: 6, reason: "Request for processing fee"}
+      ],
+      mediumRisk: [
+        {pattern: "offer expires", score: 3, reason: "Creates false urgency"},
+        {pattern: "selected winner", score: 3, reason: "Claims you've been selected"},
+        {pattern: "lucky draw", score: 3, reason: "Mentions lucky draw or lottery"},
+        {pattern: "claim your prize", score: 3, reason: "Claims you've won a prize"},
+        {pattern: "investment opportunity", score: 3, reason: "Promises investment returns"},
+        {pattern: "make money fast", score: 3, reason: "Promises quick earnings"},
+        {pattern: "lottery", score: 3, reason: "Mentions lottery winnings"},
+        {pattern: "package held", score: 3, reason: "Claims package is held"},
+        {pattern: "customs fee", score: 3, reason: "Mentions customs fees"},
+        {pattern: "work from home", score: 3, reason: "Work from home opportunity"},
+        {pattern: "no experience", score: 3, reason: "No experience required"},
+        {pattern: "high salary", score: 3, reason: "Promises unusually high salary"}
+      ],
+      lowRisk: [
+        {pattern: "interview", score: -1, reason: "Mentions interview process"},
+        {pattern: "resume", score: -1, reason: "Requests resume/CV"},
+        {pattern: "experience", score: -1, reason: "Mentions required experience"},
+        {pattern: "qualifications", score: -1, reason: "Mentions qualifications"}
+      ]
+    };
+
+    // UI Elements
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const messageInput = document.getElementById('messageInput');
+    const resultsContainer = document.getElementById('results');
+    const riskLevel = document.getElementById('riskLevel');
+    const meterFill = document.getElementById('meterFill');
+    const redFlagsList = document.getElementById('redFlagsList');
+    const suggestionsList = document.getElementById('suggestionsList');
+    const textMethod = document.getElementById('textMethod');
+    const fileMethod = document.getElementById('fileMethod');
+    const emailMethod = document.getElementById('emailMethod');
+    const textInputArea = document.getElementById('textInputArea');
+    const fileUploadArea = document.getElementById('fileUploadArea');
+
+    // Input Method Toggle
+    textMethod.addEventListener('click', function() {
+      textMethod.classList.add('active');
+      fileMethod.classList.remove('active');
+      emailMethod.classList.remove('active');
+      textInputArea.style.display = 'block';
+      fileUploadArea.style.display = 'none';
+    });
+
+    fileMethod.addEventListener('click', function() {
+      fileMethod.classList.add('active');
+      textMethod.classList.remove('active');
+      emailMethod.classList.remove('active');
+      textInputArea.style.display = 'none';
+      fileUploadArea.style.display = 'block';
+    });
+
+    emailMethod.addEventListener('click', function() {
+      emailMethod.classList.add('active');
+      textMethod.classList.remove('active');
+      fileMethod.classList.remove('active');
+      textInputArea.style.display = 'none';
+      fileUploadArea.style.display = 'none';
+      alert('Email forwarding feature coming soon!');
+    });
+
+    // Example Cards Click Handler
+    document.getElementById('example1').addEventListener('click', function() {
+      messageInput.value = "Congratulations! You've been selected for a work-from-home position paying $5000/month. To get started, we need you to deposit this check and wire $2000 for training materials. This offer expires in 24 hours. Click here to verify: bit.ly/secure-job-offer";
+      analyzeMessage();
+    });
+
+    document.getElementById('example2').addEventListener('click', function() {
+      messageInput.value = "URGENT: Your account has been flagged for suspicious activity. To avoid suspension, verify your identity immediately by providing your social security number and bank details. Click the link below to secure your account: http://fake-amazon-security.com/verify";
+      analyzeMessage();
+    });
+
+    document.getElementById('example3').addEventListener('click', function() {
+      messageInput.value = "Hi! We're looking for motivated individuals to join our team. No experience needed! Earn $10,000/month by recruiting others. Limited spots available. Send $500 for the starter kit to begin your journey to financial freedom!";
+      analyzeMessage();
+    });
+
+    // Analyze Button Handler
+    analyzeBtn.addEventListener('click', analyzeMessage);
+
+    function analyzeMessage() {
+      const message = messageInput.value.trim();
+      
+      if (!message) {
+        alert('Please enter a message to analyze.');
+        return;
+      }
+      
+      // Show loading state
+      analyzeBtn.disabled = true;
+      analyzeBtn.innerHTML = '<span class="spinner"></span> Analyzing...';
+      
+      // Simulate analysis delay for better UX
+      setTimeout(() => {
+        const result = performScamAnalysis(message);
+        displayResults(result);
+        
+        // Reset button
+        analyzeBtn.disabled = false;
+        analyzeBtn.innerHTML = '<i class="fas fa-shield-alt"></i> Analyze for Scams';
+      }, 1500);
+    }
+
+    function performScamAnalysis(message) {
+      const lowerMsg = message.toLowerCase();
+      let score = 0;
+      const flags = [];
+      const suggestions = [];
+      
+      // Check for high risk patterns
+      detectionPatterns.highRisk.forEach(item => {
+        if(lowerMsg.includes(item.pattern)) {
+          score += item.score;
+          flags.push(item.reason);
+        }
+      });
+      
+      // Check for medium risk patterns
+      detectionPatterns.mediumRisk.forEach(item => {
+        if(lowerMsg.includes(item.pattern)) {
+          score += item.score;
+          flags.push(item.reason);
+        }
+      });
+      
+      // Check for low risk patterns (reduce suspicion)
+      detectionPatterns.lowRisk.forEach(item => {
+        if(lowerMsg.includes(item.pattern)) {
+          score = Math.max(0, score + item.score);
+        }
+      });
+      
+      // Check for URLs
+      const urls = /https?:\/\/[^\s]+/g;
+      if(urls.test(lowerMsg)) {
+        score += 5;
+        flags.push("Contains suspicious URL");
+      }
+      
+      // Check for short URLs
+      const shortUrls = /bit\.ly|tinyurl|goo\.gl|t\.co|short\.link/;
+      if(shortUrls.test(lowerMsg)) {
+        score += 5;
+        flags.push("Contains shortened URL (common in phishing)");
+      }
+      
+      // Check for urgency
+      const urgency = ["2 hours", "today", "immediately", "within 24", "urgent", "limited time"];
+      urgency.forEach(w => {
+        if(lowerMsg.includes(w)) {
+          score += 3;
+          flags.push("Creates artificial urgency");
+        }
+      });
+      
+      // Check for all caps
+      if(message.match(/[A-Z]{4,}/)) {
+        score += 2;
+        flags.push("Uses excessive capitalization");
+      }
+      
+      // Check for excessive punctuation
+      if(message.match(/!/g)?.length >= 2) {
+        score += 2;
+        flags.push("Uses excessive exclamation marks");
+      }
+      
+      // Calculate risk percentage
+      const riskPercent = Math.min(100, Math.max(0, score * 3));
+      
+      // Generate suggestions based on risk level
+      if (riskPercent >= 70) {
+        suggestions.push("Do not send any money or provide banking information");
+        suggestions.push("Research the company independently using official sources");
+        suggestions.push("Contact the company directly using verified contact information");
+        suggestions.push("Report this scam attempt to relevant authorities");
+      } else if (riskPercent >= 40) {
+        suggestions.push("Verify the company's legitimacy through official channels");
+        suggestions.push("Be cautious about sharing personal information");
+        suggestions.push("Look for official contact information, not what's provided in the message");
+        suggestions.push("Ask for more details about the job position and requirements");
+      } else {
+        suggestions.push("This appears to be a legitimate message, but always verify job offers");
+        suggestions.push("Research the company before proceeding");
+        suggestions.push("Ensure communication is through official channels");
+      }
+      
+      // Determine risk level
+      let level, levelText;
+      if(riskPercent >= 70) { 
+        level = "risk-high"; 
+        levelText = "High Risk"; 
+      } else if(riskPercent >= 40) { 
+        level = "risk-medium"; 
+        levelText = "Medium Risk"; 
+      } else { 
+        level = "risk-low"; 
+        levelText = "Low Risk"; 
+      }
+      
+      return {
+        riskPercent,
+        level,
+        levelText,
+        flags,
+        suggestions
+      };
+    }
+
+    function displayResults(result) {
+      // Update risk level
+      riskLevel.textContent = result.levelText;
+      riskLevel.className = 'risk-level ' + result.level;
+      
+      // Update meter
+      meterFill.style.width = result.riskPercent + '%';
+      meterFill.style.backgroundColor = 
+        result.level === 'risk-high' ? 'var(--warning-color)' : 
+        result.level === 'risk-medium' ? 'orange' : 'var(--success-color)';
+      
+      // Update red flags
+      redFlagsList.innerHTML = '';
+      if (result.flags.length > 0) {
+        result.flags.forEach(flag => {
+          const flagItem = document.createElement('div');
+          flagItem.className = 'flag-item';
+          flagItem.innerHTML = `<strong>${flag}</strong>`;
+          redFlagsList.appendChild(flagItem);
+        });
+      } else {
+        redFlagsList.innerHTML = '<div class="flag-item">No specific red flags detected.</div>';
+      }
+      
+      // Update suggestions
+      suggestionsList.innerHTML = '';
+      result.suggestions.forEach(suggestion => {
+        const suggestionItem = document.createElement('div');
+        suggestionItem.className = 'suggestion-item';
+        suggestionItem.textContent = suggestion;
+        suggestionsList.appendChild(suggestionItem);
+      });
+      
+      // Show results
+      resultsContainer.style.display = 'block';
+      resultsContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+
     // AI Assistant Toggle
     const aiAssistantBtn = document.getElementById('aiAssistantBtn');
     const aiAssistantChat = document.getElementById('aiAssistantChat');
