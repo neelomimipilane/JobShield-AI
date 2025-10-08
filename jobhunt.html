@@ -486,7 +486,9 @@
       .hero h1 {
         font-size: 2.2rem;
       }
-    }/* AI Assistant Floating Button */
+    }
+    
+    /* AI Assistant Floating Button */
     .ai-assistant-btn {
       position: fixed;
       bottom: 30px;
@@ -646,6 +648,117 @@
     .job-card {
       animation: fadeIn 0.5s ease-out;
     }
+    
+    /* Application Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-content {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+    }
+    
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    .file-upload {
+      border: 2px dashed var(--border-color);
+      padding: 1.5rem;
+      text-align: center;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+    
+    .file-upload:hover {
+      border-color: var(--accent-color);
+    }
+    
+    .file-upload i {
+      font-size: 2rem;
+      color: var(--accent-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Loading Spinner */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Notification */
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--accent-color);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 4px;
+      z-index: 1000;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
   </style>
 </head>
 <body>
@@ -656,11 +769,11 @@
     </div>
     <p>Your smart protection in the job market, powered by Spark 🤖</p>
     <nav>
-      <a href= index.html>Home</a>
-      <a href= CVbuilder.html>CV Builder</a>
-      <a href= jobhunt.html class="active">Job Hunt</a>
-      <a href= Scamdetector.html>Scam Detector</a>
-      <a href= feedback.html>Feedback</a>
+      <a href="index.html">Home</a>
+      <a href="CVbuilder.html">CV Builder</a>
+      <a href="jobhunt.html" class="active">Job Hunt</a>
+      <a href="Scamdetector.html">Scam Detector</a>
+      <a href="feedback.html">Feedback</a>
     </nav>
   </header>
 
@@ -670,8 +783,8 @@
       <p>Spark helps you discover legitimate opportunities while protecting you from job scams</p>
       
       <div class="search-bar">
-        <input type="text" placeholder="Job title, keywords, or company">
-        <select>
+        <input type="text" id="searchInput" placeholder="Job title, keywords, or company">
+        <select id="locationSelect">
           <option>All Locations</option>
           <option>New York</option>
           <option>San Francisco</option>
@@ -680,7 +793,7 @@
           <option>Tokyo</option>
           <option>Remote</option>
         </select>
-        <button class="search-btn"><i class="fas fa-search"></i> Search</button>
+        <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i> Search</button>
       </div>
     </section>
 
@@ -691,31 +804,31 @@
         <div class="filter-group">
           <h3>Job Type</h3>
           <div class="filter-options">
-            <label><input type="checkbox" checked> Full-time</label>
-            <label><input type="checkbox"> Part-time</label>
-            <label><input type="checkbox"> Contract</label>
-            <label><input type="checkbox"> Internship</label>
-            <label><input type="checkbox"> Remote</label>
+            <label><input type="checkbox" name="jobType" value="full-time" checked> Full-time</label>
+            <label><input type="checkbox" name="jobType" value="part-time"> Part-time</label>
+            <label><input type="checkbox" name="jobType" value="contract"> Contract</label>
+            <label><input type="checkbox" name="jobType" value="internship"> Internship</label>
+            <label><input type="checkbox" name="jobType" value="remote"> Remote</label>
           </div>
         </div>
         
         <div class="filter-group">
           <h3>Experience Level</h3>
           <div class="filter-options">
-            <label><input type="checkbox"> Entry Level</label>
-            <label><input type="checkbox" checked> Mid Level</label>
-            <label><input type="checkbox"> Senior Level</label>
-            <label><input type="checkbox"> Executive</label>
+            <label><input type="checkbox" name="experience" value="entry"> Entry Level</label>
+            <label><input type="checkbox" name="experience" value="mid" checked> Mid Level</label>
+            <label><input type="checkbox" name="experience" value="senior"> Senior Level</label>
+            <label><input type="checkbox" name="experience" value="executive"> Executive</label>
           </div>
         </div>
         
         <div class="filter-group">
           <h3>Salary Range</h3>
           <div class="salary-range">
-            <input type="range" min="20" max="200" value="60" step="10">
+            <input type="range" id="salaryRange" min="20" max="200" value="60" step="10">
             <div class="salary-values">
               <span>$20K</span>
-              <span>$60K</span>
+              <span id="salaryValue">$60K</span>
               <span>$200K+</span>
             </div>
           </div>
@@ -724,143 +837,35 @@
         <div class="filter-group">
           <h3>Industry</h3>
           <div class="filter-options">
-            <label><input type="checkbox" checked> Technology</label>
-            <label><input type="checkbox"> Finance</label>
-            <label><input type="checkbox"> Healthcare</label>
-            <label><input type="checkbox"> Education</label>
-            <label><input type="checkbox"> Marketing</label>
+            <label><input type="checkbox" name="industry" value="technology" checked> Technology</label>
+            <label><input type="checkbox" name="industry" value="finance"> Finance</label>
+            <label><input type="checkbox" name="industry" value="healthcare"> Healthcare</label>
+            <label><input type="checkbox" name="industry" value="education"> Education</label>
+            <label><input type="checkbox" name="industry" value="marketing"> Marketing</label>
           </div>
         </div>
         
-        <button class="apply-btn" style="width: 100%">Apply Filters</button>
+        <button class="apply-btn" id="applyFiltersBtn" style="width: 100%">Apply Filters</button>
       </aside>
 
       <main class="job-listings">
         <div class="results-header">
-          <h2>423 Jobs Found</h2>
+          <h2 id="resultsCount">423 Jobs Found</h2>
           <div class="sort-by">
-            <select>
-              <option>Most Relevant</option>
-              <option>Newest</option>
-              <option>Highest Salary</option>
+            <select id="sortSelect">
+              <option value="relevance">Most Relevant</option>
+              <option value="newest">Newest</option>
+              <option value="salary">Highest Salary</option>
             </select>
           </div>
         </div>
         
-        <div class="job-cards">
-          <div class="job-card">
-            <div class="company-logo">
-              <i class="fab fa-google"></i>
-            </div>
-            <div class="job-details">
-              <h3>Senior UX Designer</h3>
-              <div class="company-name">Google</div>
-              <div class="job-meta">
-                <span><i class="fas fa-map-marker-alt"></i> Mountain View, CA</span>
-                <span><i class="fas fa-dollar-sign"></i> $120K - $150K</span>
-                <span><i class="fas fa-briefcase"></i> Full-time</span>
-                <span><i class="fas fa-clock"></i> 2 days ago</span>
-              </div>
-              <div class="job-tags">
-                <span class="tag">UX Design</span>
-                <span class="tag">Figma</span>
-                <span class="tag">User Research</span>
-              </div>
-              <p>Design user-centered experiences for Google's products. Work with cross-functional teams to create intuitive interfaces.</p>
-            </div>
-            <div class="job-actions">
-              <button class="apply-btn">Apply Now</button>
-              <button class="save-btn"><i class="far fa-bookmark"></i></button>
-            </div>
-          </div>
-          
-          <div class="job-card">
-            <div class="company-logo">
-              <i class="fab fa-microsoft"></i>
-            </div>
-            <div class="job-details">
-              <h3>Frontend Developer</h3>
-              <div class="company-name">Microsoft</div>
-              <div class="job-meta">
-                <span><i class="fas fa-map-marker-alt"></i> Redmond, WA</span>
-                <span><i class="fas fa-dollar-sign"></i> $110K - $140K</span>
-                <span><i class="fas fa-briefcase"></i> Full-time</span>
-                <span><i class="fas fa-clock"></i> 1 day ago</span>
-              </div>
-              <div class="job-tags">
-                <span class="tag">React</span>
-                <span class="tag">TypeScript</span>
-                <span class="tag">JavaScript</span>
-              </div>
-              <p>Build responsive web applications using modern frameworks. Collaborate with backend developers to implement features.</p>
-            </div>
-            <div class="job-actions">
-              <button class="apply-btn">Apply Now</button>
-              <button class="save-btn"><i class="far fa-bookmark"></i></button>
-            </div>
-          </div>
-          
-          <div class="job-card">
-            <div class="company-logo">
-              <i class="fas fa-shield-alt"></i>
-            </div>
-            <div class="job-details">
-              <h3>Cybersecurity Analyst</h3>
-              <div class="company-name">CyberSecure Inc.</div>
-              <div class="job-meta">
-                <span><i class="fas fa-map-marker-alt"></i> Remote</span>
-                <span><i class="fas fa-dollar-sign"></i> $100K - $130K</span>
-                <span><i class="fas fa-briefcase"></i> Full-time</span>
-                <span><i class="fas fa-clock"></i> 3 days ago</span>
-              </div>
-              <div class="job-tags">
-                <span class="tag">Security</span>
-                <span class="tag">Network</span>
-                <span class="tag">Compliance</span>
-              </div>
-              <p>Monitor security systems, analyze threats, and implement security measures to protect company data and infrastructure.</p>
-            </div>
-            <div class="job-actions">
-              <button class="apply-btn">Apply Now</button>
-              <button class="save-btn"><i class="far fa-bookmark"></i></button>
-            </div>
-          </div>
-          
-          <div class="job-card">
-            <div class="company-logo">
-              <i class="fab fa-apple"></i>
-            </div>
-            <div class="job-details">
-              <h3>Product Manager</h3>
-              <div class="company-name">Apple</div>
-              <div class="job-meta">
-                <span><i class="fas fa-map-marker-alt"></i> Cupertino, CA</span>
-                <span><i class="fas fa-dollar-sign"></i> $130K - $160K</span>
-                <span><i class="fas fa-briefcase"></i> Full-time</span>
-                <span><i class="fas fa-clock"></i> 5 days ago</span>
-              </div>
-              <div class="job-tags">
-                <span class="tag">Product Strategy</span>
-                <span class="tag">Roadmapping</span>
-                <span class="tag">Agile</span>
-              </div>
-              <p>Lead product development from conception to launch. Work with engineering, design, and marketing teams to deliver successful products.</p>
-            </div>
-            <div class="job-actions">
-              <button class="apply-btn">Apply Now</button>
-              <button class="save-btn"><i class="far fa-bookmark"></i></button>
-            </div>
-          </div>
+        <div class="job-cards" id="jobCards">
+          <!-- Job cards will be populated by JavaScript -->
         </div>
         
-        <div class="pagination">
-          <button>«</button>
-          <button class="active">1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
-          <button>5</button>
-          <button>»</button>
+        <div class="pagination" id="pagination">
+          <!-- Pagination will be populated by JavaScript -->
         </div>
       </main>
     </div>
@@ -868,8 +873,47 @@
     <section class="ai-assistant-job">
       <h2>Need Help With Your Job Search?</h2>
       <p>Spark, your AI career assistant, can help tailor your applications, optimize your resume for specific jobs, and even prepare you for interviews.</p>
-      <button class="apply-btn"><i class="fas fa-robot"></i> Chat with Spark</button>
+      <button class="apply-btn" id="chatWithSparkBtn"><i class="fas fa-robot"></i> Chat with Spark</button>
     </section>
+  </div>
+
+  <!-- Application Modal -->
+  <div class="modal" id="applicationModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalJobTitle">Apply for Job</h2>
+        <button class="close-modal" id="closeModal">&times;</button>
+      </div>
+      <form id="applicationForm">
+        <div class="form-group">
+          <label for="applicantName">Full Name</label>
+          <input type="text" id="applicantName" required>
+        </div>
+        <div class="form-group">
+          <label for="applicantEmail">Email</label>
+          <input type="email" id="applicantEmail" required>
+        </div>
+        <div class="form-group">
+          <label for="applicantPhone">Phone</label>
+          <input type="tel" id="applicantPhone">
+        </div>
+        <div class="form-group">
+          <label for="coverLetter">Cover Letter</label>
+          <textarea id="coverLetter" placeholder="Tell us why you're a good fit for this position..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Resume Upload</label>
+          <div class="file-upload" id="resumeUpload">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Click to upload your resume (PDF, DOC, DOCX)</p>
+          </div>
+        </div>
+        <button type="submit" class="apply-btn" id="submitApplicationBtn" style="width: 100%">
+          <span id="submitText">Submit Application</span>
+          <span class="spinner" id="submitSpinner" style="display: none;"></span>
+        </button>
+      </form>
+    </div>
   </div>
 
   <footer>
@@ -882,7 +926,8 @@
     <p>© 2025 JobShield AI. All rights reserved.</p>
     <p><small>Spark AI is designed to assist but cannot guarantee complete protection against all scams. Always use caution.</small></p>
   </footer>
-<!-- AI Assistant Floating Button -->
+
+  <!-- AI Assistant Floating Button -->
   <div class="ai-assistant-btn" id="aiAssistantBtn">
     <i class="fas fa-robot"></i>
   </div>
@@ -895,22 +940,412 @@
     </div>
     <div class="chat-messages" id="chatMessages">
       <div class="message ai-message">
-        Hi there! I'm Spark AI your JobShield assistant. How can I help you today? You can ask me about:
+        Hi there! I'm Spark AI, your JobShield assistant. I can help you with:
         <ul>
-          <li>Job scams</li>
-          <li>Resume tips</li>
-          <li>Job search advice</li>
+          <li>Finding jobs that match your skills</li>
+          <li>Tailoring your resume for specific positions</li>
+          <li>Preparing for interviews</li>
+          <li>Identifying potential job scams</li>
         </ul>
-        Just click the mic button to speak!
+        How can I assist with your job search today?
       </div>
     </div>
     <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="Type your message...">
+      <input type="text" id="chatInput" placeholder="Ask about jobs, resumes, or interviews...">
       <button class="send-btn" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
     </div>
   </div>
 
   <script>
+    // Job data
+    const jobData = [
+      {
+        id: 1,
+        title: "Senior UX Designer",
+        company: "Google",
+        location: "Mountain View, CA",
+        salary: "$120K - $150K",
+        type: "Full-time",
+        posted: "2 days ago",
+        tags: ["UX Design", "Figma", "User Research"],
+        description: "Design user-centered experiences for Google's products. Work with cross-functional teams to create intuitive interfaces.",
+        logo: "fab fa-google"
+      },
+      {
+        id: 2,
+        title: "Frontend Developer",
+        company: "Microsoft",
+        location: "Redmond, WA",
+        salary: "$110K - $140K",
+        type: "Full-time",
+        posted: "1 day ago",
+        tags: ["React", "TypeScript", "JavaScript"],
+        description: "Build responsive web applications using modern frameworks. Collaborate with backend developers to implement features.",
+        logo: "fab fa-microsoft"
+      },
+      {
+        id: 3,
+        title: "Cybersecurity Analyst",
+        company: "CyberSecure Inc.",
+        location: "Remote",
+        salary: "$100K - $130K",
+        type: "Full-time",
+        posted: "3 days ago",
+        tags: ["Security", "Network", "Compliance"],
+        description: "Monitor security systems, analyze threats, and implement security measures to protect company data and infrastructure.",
+        logo: "fas fa-shield-alt"
+      },
+      {
+        id: 4,
+        title: "Product Manager",
+        company: "Apple",
+        location: "Cupertino, CA",
+        salary: "$130K - $160K",
+        type: "Full-time",
+        posted: "5 days ago",
+        tags: ["Product Strategy", "Roadmapping", "Agile"],
+        description: "Lead product development from conception to launch. Work with engineering, design, and marketing teams to deliver successful products.",
+        logo: "fab fa-apple"
+      },
+      {
+        id: 5,
+        title: "Data Scientist",
+        company: "Amazon",
+        location: "Seattle, WA",
+        salary: "$125K - $155K",
+        type: "Full-time",
+        posted: "4 days ago",
+        tags: ["Python", "Machine Learning", "SQL"],
+        description: "Analyze large datasets to derive business insights. Build predictive models to improve customer experience.",
+        logo: "fab fa-amazon"
+      },
+      {
+        id: 6,
+        title: "DevOps Engineer",
+        company: "Netflix",
+        location: "Los Gatos, CA",
+        salary: "$135K - $165K",
+        type: "Full-time",
+        posted: "6 days ago",
+        tags: ["AWS", "Docker", "Kubernetes"],
+        description: "Build and maintain scalable infrastructure. Implement CI/CD pipelines for efficient software delivery.",
+        logo: "fas fa-film"
+      }
+    ];
+
+    // DOM Elements
+    const jobCardsContainer = document.getElementById('jobCards');
+    const paginationContainer = document.getElementById('pagination');
+    const searchInput = document.getElementById('searchInput');
+    const locationSelect = document.getElementById('locationSelect');
+    const searchBtn = document.getElementById('searchBtn');
+    const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+    const sortSelect = document.getElementById('sortSelect');
+    const salaryRange = document.getElementById('salaryRange');
+    const salaryValue = document.getElementById('salaryValue');
+    const resultsCount = document.getElementById('resultsCount');
+    const applicationModal = document.getElementById('applicationModal');
+    const closeModal = document.getElementById('closeModal');
+    const applicationForm = document.getElementById('applicationForm');
+    const modalJobTitle = document.getElementById('modalJobTitle');
+    const submitApplicationBtn = document.getElementById('submitApplicationBtn');
+    const submitText = document.getElementById('submitText');
+    const submitSpinner = document.getElementById('submitSpinner');
+    const chatWithSparkBtn = document.getElementById('chatWithSparkBtn');
+
+    // Current state
+    let currentPage = 1;
+    const jobsPerPage = 4;
+    let filteredJobs = [...jobData];
+    let currentJobId = null;
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+      renderJobCards();
+      renderPagination();
+      
+      // Event listeners
+      searchBtn.addEventListener('click', handleSearch);
+      applyFiltersBtn.addEventListener('click', handleFilter);
+      sortSelect.addEventListener('change', handleSort);
+      salaryRange.addEventListener('input', updateSalaryValue);
+      closeModal.addEventListener('click', closeApplicationModal);
+      applicationForm.addEventListener('submit', handleApplicationSubmit);
+      chatWithSparkBtn.addEventListener('click', openChat);
+      
+      // Allow Enter key to trigger search
+      searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          handleSearch();
+        }
+      });
+    });
+
+    // Update salary value display
+    function updateSalaryValue() {
+      salaryValue.textContent = `$${salaryRange.value}K`;
+    }
+
+    // Handle search
+    function handleSearch() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const location = locationSelect.value;
+      
+      filteredJobs = jobData.filter(job => {
+        const matchesSearch = job.title.toLowerCase().includes(searchTerm) || 
+                             job.company.toLowerCase().includes(searchTerm) ||
+                             job.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+        
+        const matchesLocation = location === "All Locations" || 
+                               job.location.includes(location);
+        
+        return matchesSearch && matchesLocation;
+      });
+      
+      currentPage = 1;
+      renderJobCards();
+      renderPagination();
+      updateResultsCount();
+    }
+
+    // Handle filter application
+    function handleFilter() {
+      const jobTypeCheckboxes = document.querySelectorAll('input[name="jobType"]:checked');
+      const experienceCheckboxes = document.querySelectorAll('input[name="experience"]:checked');
+      const industryCheckboxes = document.querySelectorAll('input[name="industry"]:checked');
+      
+      const selectedJobTypes = Array.from(jobTypeCheckboxes).map(cb => cb.value);
+      const selectedExperiences = Array.from(experienceCheckboxes).map(cb => cb.value);
+      const selectedIndustries = Array.from(industryCheckboxes).map(cb => cb.value);
+      const minSalary = parseInt(salaryRange.value);
+      
+      filteredJobs = jobData.filter(job => {
+        // In a real app, you would have these properties in your job data
+        const matchesJobType = selectedJobTypes.length === 0 || selectedJobTypes.includes("full-time");
+        const matchesExperience = selectedExperiences.length === 0 || selectedExperiences.includes("mid");
+        const matchesIndustry = selectedIndustries.length === 0 || selectedIndustries.includes("technology");
+        const matchesSalary = true; // In a real app, you would compare with job.salary
+        
+        return matchesJobType && matchesExperience && matchesIndustry && matchesSalary;
+      });
+      
+      currentPage = 1;
+      renderJobCards();
+      renderPagination();
+      updateResultsCount();
+    }
+
+    // Handle sorting
+    function handleSort() {
+      const sortBy = sortSelect.value;
+      
+      if (sortBy === 'newest') {
+        filteredJobs.sort((a, b) => {
+          // Simple sorting by ID for demo (in real app, use actual dates)
+          return a.id - b.id;
+        });
+      } else if (sortBy === 'salary') {
+        filteredJobs.sort((a, b) => {
+          // Extract numeric values from salary strings for comparison
+          const aSalary = parseInt(a.salary.replace(/[^0-9]/g, ''));
+          const bSalary = parseInt(b.salary.replace(/[^0-9]/g, ''));
+          return bSalary - aSalary;
+        });
+      } else {
+        // Default relevance sorting (could be based on search match score)
+        filteredJobs = [...filteredJobs];
+      }
+      
+      renderJobCards();
+    }
+
+    // Render job cards
+    function renderJobCards() {
+      const startIndex = (currentPage - 1) * jobsPerPage;
+      const endIndex = startIndex + jobsPerPage;
+      const jobsToShow = filteredJobs.slice(startIndex, endIndex);
+      
+      jobCardsContainer.innerHTML = '';
+      
+      if (jobsToShow.length === 0) {
+        jobCardsContainer.innerHTML = `
+          <div class="job-card" style="text-align: center; padding: 3rem;">
+            <h3>No jobs found</h3>
+            <p>Try adjusting your search criteria or filters</p>
+          </div>
+        `;
+        return;
+      }
+      
+      jobsToShow.forEach(job => {
+        const jobCard = document.createElement('div');
+        jobCard.className = 'job-card';
+        jobCard.innerHTML = `
+          <div class="company-logo">
+            <i class="${job.logo}"></i>
+          </div>
+          <div class="job-details">
+            <h3>${job.title}</h3>
+            <div class="company-name">${job.company}</div>
+            <div class="job-meta">
+              <span><i class="fas fa-map-marker-alt"></i> ${job.location}</span>
+              <span><i class="fas fa-dollar-sign"></i> ${job.salary}</span>
+              <span><i class="fas fa-briefcase"></i> ${job.type}</span>
+              <span><i class="fas fa-clock"></i> ${job.posted}</span>
+            </div>
+            <div class="job-tags">
+              ${job.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+            </div>
+            <p>${job.description}</p>
+          </div>
+          <div class="job-actions">
+            <button class="apply-btn" data-job-id="${job.id}">Apply Now</button>
+            <button class="save-btn" data-job-id="${job.id}"><i class="far fa-bookmark"></i></button>
+          </div>
+        `;
+        jobCardsContainer.appendChild(jobCard);
+      });
+      
+      // Add event listeners to the new buttons
+      document.querySelectorAll('.apply-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          openApplicationModal(this.getAttribute('data-job-id'));
+        });
+      });
+      
+      document.querySelectorAll('.save-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          toggleSaveJob(this.getAttribute('data-job-id'), this);
+        });
+      });
+    }
+
+    // Render pagination
+    function renderPagination() {
+      const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
+      
+      if (totalPages <= 1) {
+        paginationContainer.innerHTML = '';
+        return;
+      }
+      
+      let paginationHTML = '';
+      
+      // Previous button
+      paginationHTML += `<button ${currentPage === 1 ? 'disabled' : ''} id="prevPage">«</button>`;
+      
+      // Page numbers
+      for (let i = 1; i <= totalPages; i++) {
+        paginationHTML += `<button class="${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+      }
+      
+      // Next button
+      paginationHTML += `<button ${currentPage === totalPages ? 'disabled' : ''} id="nextPage">»</button>`;
+      
+      paginationContainer.innerHTML = paginationHTML;
+      
+      // Add event listeners
+      document.getElementById('prevPage')?.addEventListener('click', () => changePage(currentPage - 1));
+      document.getElementById('nextPage')?.addEventListener('click', () => changePage(currentPage + 1));
+      
+      document.querySelectorAll('.pagination button[data-page]').forEach(btn => {
+        btn.addEventListener('click', function() {
+          changePage(parseInt(this.getAttribute('data-page')));
+        });
+      });
+    }
+
+    // Change page
+    function changePage(page) {
+      currentPage = page;
+      renderJobCards();
+      renderPagination();
+    }
+
+    // Update results count
+    function updateResultsCount() {
+      resultsCount.textContent = `${filteredJobs.length} Jobs Found`;
+    }
+
+    // Toggle save job
+    function toggleSaveJob(jobId, button) {
+      button.classList.toggle('saved');
+      button.innerHTML = button.classList.contains('saved') ? 
+        '<i class="fas fa-bookmark"></i>' : 
+        '<i class="far fa-bookmark"></i>';
+      
+      const job = jobData.find(j => j.id == jobId);
+      const message = button.classList.contains('saved') ? 
+        `Saved job: ${job.title}` : 
+        `Removed job: ${job.title}`;
+      
+      showNotification(message);
+    }
+
+    // Open application modal
+    function openApplicationModal(jobId) {
+      currentJobId = jobId;
+      const job = jobData.find(j => j.id == jobId);
+      modalJobTitle.textContent = `Apply for ${job.title} at ${job.company}`;
+      applicationModal.style.display = 'flex';
+    }
+
+    // Close application modal
+    function closeApplicationModal() {
+      applicationModal.style.display = 'none';
+      applicationForm.reset();
+    }
+
+    // Handle application submission
+    function handleApplicationSubmit(e) {
+      e.preventDefault();
+      
+      // Show loading state
+      submitApplicationBtn.disabled = true;
+      submitText.textContent = 'Submitting...';
+      submitSpinner.style.display = 'inline-block';
+      
+      // Simulate API call
+      setTimeout(() => {
+        const job = jobData.find(j => j.id == currentJobId);
+        
+        // Show success message
+        showNotification(`Application submitted for ${job.title} at ${job.company}`);
+        
+        // Reset form and close modal
+        submitApplicationBtn.disabled = false;
+        submitText.textContent = 'Submit Application';
+        submitSpinner.style.display = 'none';
+        closeApplicationModal();
+      }, 2000);
+    }
+
+    // Show notification
+    function showNotification(message) {
+      const notification = document.createElement('div');
+      notification.className = 'notification';
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      
+      // Animate in
+      setTimeout(() => {
+        notification.style.opacity = '1';
+      }, 10);
+      
+      // Remove after 3 seconds
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+          notification.remove();
+        }, 500);
+      }, 3000);
+    }
+
+    // Open chat with Spark
+    function openChat() {
+      aiAssistantChat.classList.add('active');
+    }
+
     // AI Assistant Toggle
     const aiAssistantBtn = document.getElementById('aiAssistantBtn');
     const aiAssistantChat = document.getElementById('aiAssistantChat');
@@ -975,17 +1410,21 @@
     }
 
     function respondToMessage(message) {
-      // Simple response logic
-      let response = "I can help with that. ";
+      let response = "";
+      const lowerMessage = message.toLowerCase();
       
-      if (message.toLowerCase().includes('scam') || message.toLowerCase().includes('fake')) {
-        response += "You can paste suspicious job offers in our Scam Detector tool for analysis. Would you like me to open it for you?";
-      } else if (message.toLowerCase().includes('resume') || message.toLowerCase().includes('cv')) {
-        response += "Our CV Builder can help you create a professional resume. Would you like to try it now?";
-      } else if (message.toLowerCase().includes('job') || message.toLowerCase().includes('opportunity')) {
-        response += "I can help you search for jobs matching your skills. What type of work are you looking for?";
+      if (lowerMessage.includes('job') || lowerMessage.includes('position') || lowerMessage.includes('opportunity')) {
+        response = "I can help you find jobs that match your skills. What type of role are you looking for? You can use the search filters to narrow down your options.";
+      } else if (lowerMessage.includes('resume') || lowerMessage.includes('cv')) {
+        response = "Our CV Builder can help you create a professional resume tailored to specific jobs. Would you like me to open it for you?";
+      } else if (lowerMessage.includes('interview')) {
+        response = "I can help you prepare for interviews! Common questions include: 'Tell me about yourself', 'Why do you want this job?', and 'What are your strengths?'. Would you like to practice any specific questions?";
+      } else if (lowerMessage.includes('scam') || lowerMessage.includes('fake')) {
+        response = "Always be cautious of job offers that ask for money upfront, have poor grammar, or pressure you to act quickly. You can use our Scam Detector to analyze suspicious job postings.";
+      } else if (lowerMessage.includes('salary') || lowerMessage.includes('pay')) {
+        response = "Salaries vary by role, experience, and location. For the jobs you're viewing, I can help you understand typical salary ranges. Would you like me to filter jobs by salary range?";
       } else {
-        response += "For more specific help, you can visit our website sections using the menu above.";
+        response = "I'm here to help with your job search! You can ask me about finding jobs, resume tips, interview preparation, or identifying potential scams.";
       }
       
       setTimeout(() => {
@@ -1007,64 +1446,6 @@
         respondToMessage(chatInput.value);
         chatInput.value = '';
       }
-    });
-  </script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Save job functionality
-      const saveButtons = document.querySelectorAll('.save-btn');
-      saveButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          this.classList.toggle('saved');
-          this.innerHTML = this.classList.contains('saved') ? 
-            '<i class="fas fa-bookmark"></i>' : 
-            '<i class="far fa-bookmark"></i>';
-          
-          const jobTitle = this.closest('.job-card').querySelector('h3').textContent;
-          const message = this.classList.contains('saved') ? 
-            `Saved job: ${jobTitle}` : 
-            `Removed job: ${jobTitle}`;
-          
-          // Show a temporary notification
-          const notification = document.createElement('div');
-          notification.textContent = message;
-          notification.style.position = 'fixed';
-          notification.style.bottom = '20px';
-          notification.style.right = '20px';
-          notification.style.background = 'var(--accent-color)';
-          notification.style.color = 'white';
-          notification.style.padding = '10px 20px';
-          notification.style.borderRadius = '4px';
-          notification.style.zIndex = '1000';
-          notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
-          document.body.appendChild(notification);
-          
-          setTimeout(() => {
-            notification.style.opacity = '0';
-            notification.style.transition = 'opacity 0.5s';
-            setTimeout(() => notification.remove(), 500);
-          }, 2000);
-        });
-      });
-      
-      // Filter functionality
-      const filterCheckboxes = document.querySelectorAll('.filter-options input');
-      filterCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-          // In a real app, this would filter the job listings
-          console.log('Filter changed:', this.checked);
-        });
-      });
-      
-      // Search functionality
-      const searchBtn = document.querySelector('.search-btn');
-      searchBtn.addEventListener('click', function() {
-        const searchInput = document.querySelector('.search-bar input').value;
-        const locationSelect = document.querySelector('.search-bar select').value;
-        
-        // In a real app, this would trigger a search
-        console.log('Search for:', searchInput, 'in', locationSelect);
-      });
     });
   </script>
 </body>
