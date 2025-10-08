@@ -62,6 +62,10 @@
       background-color: rgba(255, 255, 255, 0.2);
     }
 
+    nav a.active {
+      background-color: var(--accent-color);
+    }
+
     .container {
       max-width: 800px;
       margin: 2rem auto;
@@ -77,7 +81,7 @@
     }
 
     h1 {
-      color: var(--secondary-color:);
+      color: var(--secondary-color);
     }
     
     h2, h3 {
@@ -177,6 +181,7 @@
       color: var(--success-color);
       margin-bottom: 1rem;
     }
+    
     footer {
       background-color: var(--primary-color);
       color: var(--secondary-color);
@@ -212,6 +217,7 @@
         gap: 10px;
       }
     }
+    
     /* AI Assistant Floating Button */
     .ai-assistant-btn {
       position: fixed;
@@ -279,6 +285,7 @@
     .chat-header h3 {
       margin: 0;
       font-size: 1rem;
+      color: white;
     }
 
     .close-chat {
@@ -307,6 +314,7 @@
       background-color: #f0f8ff;
       margin-right: auto;
       border-bottom-left-radius: 4px;
+      color: #333;
     }
 
     .user-message {
@@ -345,17 +353,22 @@
       100% { box-shadow: 0 0 0 0 rgba(255, 65, 54, 0); }
     }
 
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
     @media (max-width: 768px) {
-      .features {
-        grid-template-columns: 1fr;
-      }
-      
-      nav {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-      }
-      
       .ai-assistant-chat {
         width: 90%;
         right: 5%;
@@ -372,10 +385,10 @@
     <p>We value your experience with Spark and JobShield AI</p>
     <nav>
       <a href="index.html">Home</a>
-      <a href= CVbuilder.html>CV Builder</a>
-      <a href= jobhunt.html>Job Hunt</a>
-      <a href= Scamdetector.html>Scam Detector</a>
-      <a href= feedback.html class="active">Feedback</a>
+      <a href="CVbuilder.html">CV Builder</a>
+      <a href="jobhunt.html">Job Hunt</a>
+      <a href="Scamdetector.html">Scam Detector</a>
+      <a href="feedback.html" class="active">Feedback</a>
     </nav>
   </header>
 
@@ -387,12 +400,12 @@
       <form id="feedbackForm">
         <div class="form-group">
           <label for="name">Your Name (Optional)</label>
-          <input type="text" id="name" placeholder="Enter your name">
+          <input type="text" id="name" name="name" placeholder="Enter your name">
         </div>
         
         <div class="form-group">
           <label for="email">Email (Optional)</label>
-          <input type="email" id="email" placeholder="Enter your email if you'd like a response">
+          <input type="email" id="email" name="email" placeholder="Enter your email if you'd like a response">
         </div>
         
         <div class="form-group">
@@ -415,12 +428,12 @@
               <span>Excellent</span>
             </div>
           </div>
-          <input type="hidden" id="rating" value="">
+          <input type="hidden" id="rating" name="rating" value="">
         </div>
         
         <div class="form-group">
           <label for="feedback-type">Type of Feedback</label>
-          <select id="feedback-type">
+          <select id="feedback-type" name="feedback-type">
             <option value="">Select feedback type...</option>
             <option value="suggestion">Suggestion</option>
             <option value="bug">Bug Report</option>
@@ -431,35 +444,20 @@
         
         <div class="form-group">
           <label for="message">Your Feedback</label>
-          <textarea id="message" placeholder="Tell us about your experience with Spark and JobShield AI..."></textarea>
+          <textarea id="message" name="message" placeholder="Tell us about your experience with Spark and JobShield AI..."></textarea>
         </div>
         
         <div class="form-group">
           <label>
-            <input type="checkbox" id="contact-permission"> 
+            <input type="checkbox" id="contact-permission" name="contact-permission"> 
             I'd like to be contacted about my feedback
           </label>
         </div>
         
-        <button type="submit" class="btn btn-primary">Submit Feedback</button>
-       <script>
-         const scriptURL = 'https://script.google.com/macros/s/AKfycbyYL9-5gSTbKJ00Nc4hcKMudusx9EDtucRFbA0voAa-jcb9zup62nZtXQ0vutFMuFxBMw/exec';
-         const form = document.getElementById('feedbackForm');
-
-              form.addEventListener('submit', e => {
-              e.preventDefault();
-              fetch(scriptURL, {
-                method: 'POST',
-                  body: JSON.stringify({
-                    name: form.name.value,
-                    email: form.email.value,
-                    message: form.message.value
-                  })
-                 }).then(response => alert("Feedback sent!"))
-              .catch(error => alert("Error sending feedback."));
-          });
-      </script>
-
+        <button type="submit" class="btn btn-primary" id="submitBtn">
+          <span id="submitText">Submit Feedback</span>
+          <span class="spinner" id="submitSpinner" style="display: none;"></span>
+        </button>
       </form>
     </section>
     
@@ -472,11 +470,33 @@
     </section>
   </div>
 
-  <!-- Spark Assistant -->
-  <div class="assistant-container">
-    <button class="assistant-button" id="assistant-button">
-      <i class="fas fa-robot"></i>
-    </button>
+  <!-- AI Assistant Floating Button -->
+  <div class="ai-assistant-btn" id="aiAssistantBtn">
+    <i class="fas fa-robot"></i>
+  </div>
+
+  <!-- AI Assistant Chat Interface -->
+  <div class="ai-assistant-chat" id="aiAssistantChat">
+    <div class="chat-header">
+      <h3>Spark AI Assistant</h3>
+      <button class="close-chat" id="closeChat">&times;</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="message ai-message">
+        Hi there! I'm Spark AI your JobShield assistant. How can I help you today? You can ask me about:
+        <ul>
+          <li>Job scams</li>
+          <li>Resume tips</li>
+          <li>Job search advice</li>
+          <li>Feedback process</li>
+        </ul>
+        Just click the mic button to speak!
+      </div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Type your message...">
+      <button class="send-btn" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+    </div>
   </div>
 
   <footer>
@@ -487,49 +507,188 @@
     </div>
     <p>© 2025 JobShield AI. All rights reserved.</p>
   </footer>
-<script>
+
+  <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const analyzeBtn = document.querySelector('.analyze-btn');
-      const resultsContainer = document.getElementById('results');
-      const methodButtons = document.querySelectorAll('.method-btn');
+      // Rating selection
+      const ratingOptions = document.querySelectorAll('.rating-option');
+      const ratingInput = document.getElementById('rating');
       
-      // Analyze button click handler
-      analyzeBtn.addEventListener('click', function() {
-        // Show loading state
-        analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
-        analyzeBtn.classList.remove('pulse');
+      ratingOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          ratingOptions.forEach(opt => opt.classList.remove('selected'));
+          this.classList.add('selected');
+          ratingInput.value = this.getAttribute('data-value');
+        });
+      });
+      
+      // Form submission
+      const feedbackForm = document.getElementById('feedbackForm');
+      const thankYouMessage = document.getElementById('thank-you');
+      const submitBtn = document.getElementById('submitBtn');
+      const submitText = document.getElementById('submitText');
+      const submitSpinner = document.getElementById('submitSpinner');
+      
+      feedbackForm.addEventListener('submit', function(e) {
+        e.preventDefault();
         
-        // Simulate analysis process
-        setTimeout(function() {
-          // Show results
-          resultsContainer.style.display = 'block';
-          
-          // Reset button
-          analyzeBtn.innerHTML = '<i class="fas fa-shield-alt"></i> Analyze for Scams';
-          analyzeBtn.classList.add('pulse');
-          
-          // Scroll to results
-          resultsContainer.scrollIntoView({ behavior: 'smooth' });
-        }, 2000);
-      });
-      
-      // Method buttons toggle
-      methodButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          methodButtons.forEach(btn => btn.classList.remove('active'));
-          this.classList.add('active');
+        // Validate required fields
+        if (!ratingInput.value) {
+          alert('Please select a rating');
+          return;
+        }
+        
+        if (!document.getElementById('message').value.trim()) {
+          alert('Please provide your feedback message');
+          return;
+        }
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitText.textContent = 'Submitting...';
+        submitSpinner.style.display = 'inline-block';
+        
+        // Prepare form data
+        const formData = new FormData(feedbackForm);
+        const data = {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          rating: formData.get('rating'),
+          feedbackType: formData.get('feedback-type'),
+          message: formData.get('message'),
+          contactPermission: formData.get('contact-permission') ? 'Yes' : 'No',
+          timestamp: new Date().toISOString()
+        };
+        
+        // Send to Google Apps Script
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyYL9-5gSTbKJ00Nc4hcKMudusx9EDtucRFbA0voAa-jcb9zup62nZtXQ0vutFMuFxBMw/exec';
+        
+        fetch(scriptURL, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => {
+          if (response.ok) {
+            // Show thank you message
+            feedbackForm.style.display = 'none';
+            thankYouMessage.style.display = 'block';
+          } else {
+            throw new Error('Network response was not ok');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error sending feedback. Please try again.');
+        })
+        .finally(() => {
+          // Reset button state
+          submitBtn.disabled = false;
+          submitText.textContent = 'Submit Feedback';
+          submitSpinner.style.display = 'none';
         });
       });
       
-      // Example cards click to populate textarea
-      const exampleCards = document.querySelectorAll('.example-card');
-      const textArea = document.querySelector('textarea');
-      
-      exampleCards.forEach(card => {
-        card.addEventListener('click', function() {
-          const exampleText = this.querySelector('p').textContent;
-          textArea.value = "Example of a suspicious message: " + exampleText + " This is a test example to show how our scam detector works.";
+      // AI Assistant Toggle
+      const aiAssistantBtn = document.getElementById('aiAssistantBtn');
+      const aiAssistantChat = document.getElementById('aiAssistantChat');
+      const closeChat = document.getElementById('closeChat');
+
+      aiAssistantBtn.addEventListener('click', function() {
+        aiAssistantChat.classList.toggle('active');
+      });
+
+      closeChat.addEventListener('click', function() {
+        aiAssistantChat.classList.remove('active');
+      });
+
+      // Voice Recognition
+      let recognition;
+      try {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.lang = 'en-US';
+
+        recognition.onstart = function() {
+          aiAssistantBtn.classList.add('listening');
+        };
+
+        recognition.onresult = function(event) {
+          const transcript = event.results[0][0].transcript;
+          addMessage(transcript, 'user');
+          respondToMessage(transcript);
+          aiAssistantBtn.classList.remove('listening');
+        };
+
+        recognition.onerror = function(event) {
+          console.error('Speech recognition error', event.error);
+          aiAssistantBtn.classList.remove('listening');
+          addMessage("Sorry, I didn't catch that. Please try again.", 'ai');
+        };
+
+        aiAssistantBtn.addEventListener('click', function() {
+          if (aiAssistantBtn.classList.contains('listening')) {
+            recognition.stop();
+            aiAssistantBtn.classList.remove('listening');
+          } else if (aiAssistantChat.classList.contains('active')) {
+            recognition.start();
+          }
         });
+      } catch(e) {
+        console.log('Speech recognition not supported');
+      }
+
+      // Chat functionality
+      const chatMessages = document.getElementById('chatMessages');
+      const chatInput = document.getElementById('chatInput');
+      const sendMessageBtn = document.getElementById('sendMessage');
+
+      function addMessage(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', sender + '-message');
+        messageDiv.textContent = text;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function respondToMessage(message) {
+        // Simple response logic
+        let response = "I can help with that. ";
+        
+        if (message.toLowerCase().includes('feedback') || message.toLowerCase().includes('suggestion')) {
+          response += "You can use our feedback form to share your thoughts about JobShield AI. Is there something specific you'd like to suggest?";
+        } else if (message.toLowerCase().includes('scam') || message.toLowerCase().includes('fake')) {
+          response += "You can paste suspicious job offers in our Scam Detector tool for analysis. Would you like me to open it for you?";
+        } else if (message.toLowerCase().includes('resume') || message.toLowerCase().includes('cv')) {
+          response += "Our CV Builder can help you create a professional resume. Would you like to try it now?";
+        } else if (message.toLowerCase().includes('job') || message.toLowerCase().includes('opportunity')) {
+          response += "I can help you search for jobs matching your skills. What type of work are you looking for?";
+        } else {
+          response += "For more specific help, you can visit our website sections using the menu above.";
+        }
+        
+        setTimeout(() => {
+          addMessage(response, 'ai');
+        }, 1000);
+      }
+
+      sendMessageBtn.addEventListener('click', function() {
+        if (chatInput.value.trim() !== '') {
+          addMessage(chatInput.value, 'user');
+          respondToMessage(chatInput.value);
+          chatInput.value = '';
+        }
+      });
+
+      chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && chatInput.value.trim() !== '') {
+          addMessage(chatInput.value, 'user');
+          respondToMessage(chatInput.value);
+          chatInput.value = '';
+        }
       });
     });
   </script>
