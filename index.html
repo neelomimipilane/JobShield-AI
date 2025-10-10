@@ -10,10 +10,17 @@
       --primary-color: #002366; /* Navy Blue */
       --secondary-color: #ffffff; /* White */
       --accent-color: #0074D9; /* Bright Blue */
+      --light-bg: #f8f9fa;
+      --success-color: #28a745;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      margin: 0;
       font-family: 'Segoe UI', sans-serif;
       background-color: var(--secondary-color);
       color: var(--primary-color);
@@ -25,6 +32,7 @@
       color: var(--secondary-color);
       padding: 1.5rem;
       text-align: center;
+      position: relative;
     }
 
     .logo {
@@ -32,6 +40,7 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
+      margin-bottom: 1rem;
     }
 
     .logo i {
@@ -42,8 +51,10 @@
     nav {
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 20px;
       margin-top: 1rem;
+      flex-wrap: wrap;
     }
 
     nav a {
@@ -58,34 +69,38 @@
       background-color: rgba(255, 255, 255, 0.2);
     }
 
-     nav a.active {
+    nav a.active {
       background-color: var(--accent-color);
     }
-/* Add to your existing CSS in index.html */
-.auth-buttons {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 
-.auth-btn {
-  background: var(--accent-color);
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+    .auth-buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-.auth-btn:hover {
-  background: #0063b3;
-}
+    .auth-btn {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
 
-#user-welcome {
-  color: var(--secondary-color);
-  font-size: 0.9rem;
-}
+    .auth-btn:hover {
+      background: #0063b3;
+    }
+
+    #user-welcome {
+      color: var(--secondary-color);
+      font-size: 0.9rem;
+    }
+
     main {
       padding: 2rem;
       max-width: 1200px;
@@ -95,6 +110,22 @@
     .hero {
       text-align: center;
       margin-bottom: 3rem;
+      padding: 3rem 1rem;
+      background: linear-gradient(135deg, rgba(0, 35, 102, 0.05) 0%, rgba(0, 116, 217, 0.05) 100%);
+      border-radius: 12px;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      color: #555;
     }
 
     .features {
@@ -105,10 +136,14 @@
     }
 
     .feature-card {
-      border: 1px solid #ddd;
+      border: 1px solid #e9ecef;
       border-radius: 12px;
       padding: 1.5rem;
       transition: transform 0.3s, box-shadow 0.3s;
+      background: var(--secondary-color);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
 
     .feature-card:hover {
@@ -117,9 +152,34 @@
     }
 
     .feature-card i {
-      font-size: 2rem;
+      font-size: 2.5rem;
       color: var(--accent-color);
       margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+
+    .feature-card p {
+      flex-grow: 1;
+      margin-bottom: 1.5rem;
+      color: #555;
+    }
+
+    .feature-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: auto;
+    }
+
+    .feature-link:hover {
+      text-decoration: underline;
     }
 
     .cta-button {
@@ -132,18 +192,116 @@
       cursor: pointer;
       margin-top: 1rem;
       transition: background-color 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
     }
 
     .cta-button:hover {
       background-color: #003366;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .cta-button.secondary {
+      background-color: var(--accent-color);
+    }
+
+    .cta-button.secondary:hover {
+      background-color: #0063b3;
+    }
+
+    section {
+      margin-bottom: 4rem;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+      text-align: center;
+    }
+
+    section p {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      color: #555;
+    }
+
+    .scam-detector-home {
+      background-color: var(--light-bg);
+      padding: 2rem;
+      border-radius: 12px;
+      margin-top: 2rem;
+    }
+
+    .scam-detector-home textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin: 1rem 0;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .scam-detector-home textarea:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(0, 116, 217, 0.1);
+    }
+
+    .results {
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .results.safe {
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+
+    .results.warning {
+      background-color: #fff3cd;
+      border: 1px solid #ffeaa7;
+      color: #856404;
+    }
+
+    .results.danger {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
     }
 
     footer {
       background-color: var(--primary-color);
       color: var(--secondary-color);
       text-align: center;
-      padding: 2rem;
-      font-size: 0.9rem;
+      padding: 2.5rem;
+      margin-top: 3rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
     }
 
     /* AI Assistant Floating Button */
@@ -235,12 +393,14 @@
       border-radius: 18px;
       max-width: 80%;
       font-size: 0.9rem;
+      line-height: 1.4;
     }
 
     .ai-message {
       background-color: #f0f8ff;
       margin-right: auto;
       border-bottom-left-radius: 4px;
+      color: #333;
     }
 
     .user-message {
@@ -279,6 +439,34 @@
       100% { box-shadow: 0 0 0 0 rgba(255, 65, 54, 0); }
     }
 
+    /* Stats Section */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 3rem 0;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--secondary-color);
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--accent-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: #555;
+      font-size: 0.9rem;
+    }
+
     @media (max-width: 768px) {
       .features {
         grid-template-columns: 1fr;
@@ -294,72 +482,95 @@
         width: 90%;
         right: 5%;
       }
+      
+      .hero h2 {
+        font-size: 2rem;
+      }
+      
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-
   <header>
     <div class="logo">
       <i class="fas fa-shield-alt"></i>
-      <h1>JobShield</h1>
+      <h1>JobShield AI</h1>
     </div>
-    <p>Your smart protection in the job market</p>
+    <p>Your smart protection in the job market, powered by Spark 🤖</p>
     <nav>
-      <a href=index.html class="active">Home</a>
-      <a href=CVbuilder.html>CV Builder</a>
-      <a href=jobhunt.html>Job Hunt</a>
-      <a href=Scamdetector.html>Scam Detector</a>
-      <a href=feedback.html>Feedback</a>
-        <!-- Add login/logout button -->
-    <div class="auth-buttons">
-      <span id="user-welcome" style="display: none;"></span>
-      <button id="auth-btn" class="auth-btn">
-        <i class="fas fa-user"></i> Login
-      </button>
-    </div>
+      <a href="index.html" class="active">Home</a>
+      <a href="CVbuilder.html">CV Builder</a>
+      <a href="jobhunt.html">Job Hunt</a>
+      <a href="Scamdetector.html">Scam Detector</a>
+      <a href="feedback.html">Feedback</a>
+      <div class="auth-buttons">
+        <span id="user-welcome" style="display: none;"></span>
+        <button id="auth-btn" class="auth-btn">
+          <i class="fas fa-user"></i> Login
+        </button>
+      </div>
     </nav>
   </header>
 
   <main>
     <section class="hero">
       <h2>Navigate the Job Market Safely with AI</h2>
-      <p>JobShield helps you avoid scams, build better resumes, and find legitimate opportunities.</p>
-      <button class="cta-button">Get Started</button>
+      <p>JobShield AI helps you avoid scams, build better resumes, and find legitimate opportunities with the power of Spark, your AI assistant.</p>
     </section>
 
-    <section id="features" class="features">
-      <div class="feature-card">
-        <i class="fas fa-user-shield"></i>
-        <h3>Scam Protection</h3>
-        <p>Upload emails or SMS messages and we'll analyze them for potential job scams or phishing attempts.</p>
-           <a href=Scamdetector.html class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="feature-card">
-        <i class="fas fa-file-alt"></i>
-        <h3>Smart CV Builder</h3>
-        <p>Create professional resumes tailored to specific job descriptions with AI-powered suggestions.</p>
-           <a href=CVbuilder.html class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="feature-card">
-        <i class="fas fa-search"></i>
-        <h3>Job Matching</h3>
-        <p>We search thousands of listings to find the best opportunities matching your skills and experience.</p>
-           <a href=jobhunt.html class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
+    <section id="features">
+      <h2>How JobShield AI Protects You</h2>
+      <p>Our AI-powered tools help you at every step of your job search journey</p>
+      <div class="features">
+        <div class="feature-card">
+          <i class="fas fa-user-shield"></i>
+          <h3>Scam Protection</h3>
+          <p>Upload emails or SMS messages and we'll analyze them for potential job scams or phishing attempts using advanced AI detection.</p>
+          <a href="Scamdetector.html" class="feature-link">Try Scam Detector <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-file-alt"></i>
+          <h3>Smart CV Builder</h3>
+          <p>Create professional resumes tailored to specific job descriptions with AI-powered suggestions and real-time preview.</p>
+          <a href="CVbuilder.html" class="feature-link">Build Your CV <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-search"></i>
+          <h3>Job Matching</h3>
+          <p>We search thousands of listings to find the best opportunities matching your skills, experience, and preferences.</p>
+          <a href="jobhunt.html" class="feature-link">Find Jobs <i class="fas fa-arrow-right"></i></a>
+        </div>
       </div>
     </section>
 
-    <section id="cv-builder">
-      <h2>AI-Powered CV Builder</h2>
-      <p>Upload your existing resume or start from scratch with our intelligent builder.</p>
-      <button class="cta-button"></button>
+    <section id="scam-detector">
+      <h2>Quick Scam Check</h2>
+      <p>Paste the text of a suspicious job offer, email, or SMS message below for instant analysis.</p>
+      <div class="scam-detector-home">
+        <textarea id="scamCheckText" placeholder="Paste suspicious message here..."></textarea>
+        <button class="cta-button secondary" id="analyzeScamBtn">
+          <i class="fas fa-shield-alt"></i> Analyze for Scams
+        </button>
+        <div class="results" id="scamResults">
+          <h3 id="resultTitle">Analysis Results</h3>
+          <p id="resultDescription"></p>
+          <div id="redFlagsList"></div>
+        </div>
+      </div>
     </section>
 
-    <section id="scam-detector" style="margin-top: 4rem;">
-      <h2>Job Scam Detector</h2>
-      <p>Paste the text of a suspicious job offer, email, or SMS message below for analysis.</p>
-      <textarea style="width: 100%; min-height: 150px; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; margin: 1rem 0;" placeholder="Paste suspicious message here..."></textarea>
-      <button class="cta-button">Analyze for Scams</button>
+    <section id="ai-assistant">
+      <h2>Meet Spark, Your AI Assistant</h2>
+      <p>Spark is here to help you with resume writing, job search strategies, interview preparation, and scam detection.</p>
     </section>
   </main>
 
@@ -368,8 +579,10 @@
       <a href="#">Privacy Policy</a>
       <a href="#">Terms of Service</a>
       <a href="#">Contact Us</a>
+      <a href="#">About JobShield AI</a>
     </div>
-    <p>© 2025 JobShield. All rights reserved.</p>
+    <p>© 2025 JobShield AI. All rights reserved.</p>
+    <p><small>Spark AI is designed to assist but cannot guarantee complete protection against all scams. Always use caution.</small></p>
   </footer>
 
   <!-- AI Assistant Floating Button -->
@@ -385,73 +598,225 @@
     </div>
     <div class="chat-messages" id="chatMessages">
       <div class="message ai-message">
-        Hi there! I'm Spark AI your JobShield assistant. How can I help you today? You can ask me about:
+        Hi there! I'm Spark AI, your JobShield assistant. I can help you with:
         <ul>
-          <li>Job scams</li>
-          <li>Resume tips</li>
-          <li>Job search advice</li>
+          <li>Identifying potential job scams</li>
+          <li>Improving your resume/CV</li>
+          <li>Finding job opportunities</li>
+          <li>Preparing for interviews</li>
         </ul>
-        Just click the mic button to speak!
+        How can I assist you today?
       </div>
     </div>
     <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="Type your message...">
+      <input type="text" id="chatInput" placeholder="Ask me about jobs, resumes, or scams...">
       <button class="send-btn" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
     </div>
   </div>
+
   <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const authBtn = document.getElementById('auth-btn');
-  const userWelcome = document.getElementById('user-welcome');
-  
-  // Check login status
-  function checkLoginStatus() {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const userEmail = localStorage.getItem('userEmail');
-    
-    if (isLoggedIn && userEmail) {
-      userWelcome.textContent = `Welcome, ${userEmail}`;
-      userWelcome.style.display = 'inline';
-      authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
-    } else {
-      userWelcome.style.display = 'none';
-      authBtn.innerHTML = '<i class="fas fa-user"></i> Login';
-    }
-  }
-  
-  // Handle login/logout
-  authBtn.addEventListener('click', function() {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    
-    if (isLoggedIn) {
-      // Logout
-      localStorage.removeItem('isLoggedIn');
-      localStorage.removeItem('userEmail');
+    // Authentication functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const authBtn = document.getElementById('auth-btn');
+      const userWelcome = document.getElementById('user-welcome');
+      const getStartedBtn = document.getElementById('getStartedBtn');
+      const chatWithSparkBtn = document.getElementById('chatWithSparkBtn');
+      
+      // Check login status
+      function checkLoginStatus() {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const userEmail = localStorage.getItem('userEmail');
+        
+        if (isLoggedIn && userEmail) {
+          userWelcome.textContent = `Welcome, ${userEmail}`;
+          userWelcome.style.display = 'inline';
+          authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+        } else {
+          userWelcome.style.display = 'none';
+          authBtn.innerHTML = '<i class="fas fa-user"></i> Login';
+        }
+      }
+      
+      // Handle login/logout
+      authBtn.addEventListener('click', function() {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        
+        if (isLoggedIn) {
+          // Logout
+          localStorage.removeItem('isLoggedIn');
+          localStorage.removeItem('userEmail');
+          checkLoginStatus();
+        } else {
+          // Redirect to login page
+          window.location.href = 'otherlogin.html';
+        }
+      });
+      
+      // Get Started button
+      getStartedBtn.addEventListener('click', function() {
+        // Check if user is logged in
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        
+        if (isLoggedIn) {
+          // Redirect to CV Builder
+          window.location.href = 'CVbuilder.html';
+        } else {
+          // Redirect to login page
+          window.location.href = 'otherlogin.html';
+        }
+      });
+      
+      // Chat with Spark button
+      chatWithSparkBtn.addEventListener('click', function() {
+        aiAssistantChat.classList.add('active');
+      });
+      
+      // Check status on page load
       checkLoginStatus();
-    } else {
-      // Redirect to login page
-      window.location.href = 'otherlogin.html';
+      
+      // Animate stats
+      animateStats();
+    });
+    
+    // Animate statistics
+    function animateStats() {
+      const stats = [
+        { id: 'scamsDetected', target: 1247 },
+        { id: 'cvsCreated', target: 3892 },
+        { id: 'jobsFound', target: 15632 },
+        { id: 'usersHelped', target: 8451 }
+      ];
+      
+      stats.forEach(stat => {
+        const element = document.getElementById(stat.id);
+        let current = 0;
+        const increment = stat.target / 100;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= stat.target) {
+            current = stat.target;
+            clearInterval(timer);
+          }
+          element.textContent = Math.floor(current).toLocaleString();
+        }, 20);
+      });
     }
-  });
-  
-  // Check status on page load
-  checkLoginStatus();
-});
-  </script>
-  <script>
+    
+    // Scam detection functionality
+    document.getElementById('analyzeScamBtn').addEventListener('click', function() {
+      const text = document.getElementById('scamCheckText').value.trim();
+      const resultsDiv = document.getElementById('scamResults');
+      const resultTitle = document.getElementById('resultTitle');
+      const resultDescription = document.getElementById('resultDescription');
+      const redFlagsList = document.getElementById('redFlagsList');
+      
+      if (!text) {
+        alert('Please paste a message to analyze.');
+        return;
+      }
+      
+      // Show loading state
+      this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+      this.disabled = true;
+      
+      // Simulate analysis (in a real app, this would call an API)
+      setTimeout(() => {
+        const analysis = analyzeMessage(text);
+        
+        // Update results
+        resultsDiv.className = `results ${analysis.level}`;
+        resultTitle.textContent = analysis.title;
+        resultDescription.textContent = analysis.description;
+        
+        // Add red flags
+        redFlagsList.innerHTML = '';
+        if (analysis.redFlags.length > 0) {
+          redFlagsList.innerHTML = '<h4>Red Flags Detected:</h4><ul>';
+          analysis.redFlags.forEach(flag => {
+            redFlagsList.innerHTML += `<li>${flag}</li>`;
+          });
+          redFlagsList.innerHTML += '</ul>';
+        }
+        
+        // Show results
+        resultsDiv.style.display = 'block';
+        
+        // Reset button
+        this.innerHTML = '<i class="fas fa-shield-alt"></i> Analyze for Scams';
+        this.disabled = false;
+      }, 1500);
+    });
+    
+    // Simple scam detection logic
+    function analyzeMessage(text) {
+      const lowerText = text.toLowerCase();
+      let score = 0;
+      const redFlags = [];
+      
+      // Check for common scam indicators
+      if (lowerText.includes('urgent') || lowerText.includes('immediately') || lowerText.includes('asap')) {
+        score += 2;
+        redFlags.push('Creates artificial urgency');
+      }
+      
+      if (lowerText.includes('payment') || lowerText.includes('fee') || lowerText.includes('money')) {
+        score += 3;
+        redFlags.push('Requests payment or fees');
+      }
+      
+      if (lowerText.includes('click here') || lowerText.includes('link') || lowerText.includes('http')) {
+        score += 2;
+        redFlags.push('Contains suspicious links');
+      }
+      
+      if (lowerText.includes('bank') || lowerText.includes('account') || lowerText.includes('details')) {
+        score += 3;
+        redFlags.push('Requests banking or account information');
+      }
+      
+      if (lowerText.includes('password') || lowerText.includes('login') || lowerText.includes('credentials')) {
+        score += 3;
+        redFlags.push('Requests login credentials');
+      }
+      
+      // Determine result level
+      if (score >= 6) {
+        return {
+          level: 'danger',
+          title: '🚨 High Risk: Likely Scam',
+          description: 'This message shows multiple characteristics of job scams. Do not respond or provide any personal information.',
+          redFlags: redFlags
+        };
+      } else if (score >= 3) {
+        return {
+          level: 'warning',
+          title: '⚠️ Medium Risk: Suspicious',
+          description: 'This message shows some suspicious characteristics. Proceed with caution and verify the sender.',
+          redFlags: redFlags
+        };
+      } else {
+        return {
+          level: 'safe',
+          title: '✅ Low Risk: Likely Safe',
+          description: 'This message does not show obvious scam characteristics, but always verify job offers through official channels.',
+          redFlags: []
+        };
+      }
+    }
+    
     // AI Assistant Toggle
     const aiAssistantBtn = document.getElementById('aiAssistantBtn');
     const aiAssistantChat = document.getElementById('aiAssistantChat');
     const closeChat = document.getElementById('closeChat');
-
+    
     aiAssistantBtn.addEventListener('click', function() {
       aiAssistantChat.classList.toggle('active');
     });
-
+    
     closeChat.addEventListener('click', function() {
       aiAssistantChat.classList.remove('active');
     });
-
+    
     // Voice Recognition
     let recognition;
     try {
@@ -459,24 +824,24 @@ document.addEventListener('DOMContentLoaded', function() {
       recognition = new SpeechRecognition();
       recognition.continuous = false;
       recognition.lang = 'en-US';
-
+      
       recognition.onstart = function() {
         aiAssistantBtn.classList.add('listening');
       };
-
+      
       recognition.onresult = function(event) {
         const transcript = event.results[0][0].transcript;
         addMessage(transcript, 'user');
         respondToMessage(transcript);
         aiAssistantBtn.classList.remove('listening');
       };
-
+      
       recognition.onerror = function(event) {
         console.error('Speech recognition error', event.error);
         aiAssistantBtn.classList.remove('listening');
         addMessage("Sorry, I didn't catch that. Please try again.", 'ai');
       };
-
+      
       aiAssistantBtn.addEventListener('click', function() {
         if (aiAssistantBtn.classList.contains('listening')) {
           recognition.stop();
@@ -488,12 +853,12 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch(e) {
       console.log('Speech recognition not supported');
     }
-
+    
     // Chat functionality
     const chatMessages = document.getElementById('chatMessages');
     const chatInput = document.getElementById('chatInput');
     const sendMessageBtn = document.getElementById('sendMessage');
-
+    
     function addMessage(text, sender) {
       const messageDiv = document.createElement('div');
       messageDiv.classList.add('message', sender + '-message');
@@ -501,26 +866,28 @@ document.addEventListener('DOMContentLoaded', function() {
       chatMessages.appendChild(messageDiv);
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-
+    
     function respondToMessage(message) {
-      // Simple response logic
-      let response = "I can help with that. ";
+      let response = "";
+      const lowerMessage = message.toLowerCase();
       
-      if (message.toLowerCase().includes('scam') || message.toLowerCase().includes('fake')) {
-        response += "You can paste suspicious job offers in our Scam Detector tool for analysis. Would you like me to open it for you?";
-      } else if (message.toLowerCase().includes('resume') || message.toLowerCase().includes('cv')) {
-        response += "Our CV Builder can help you create a professional resume. Would you like to try it now?";
-      } else if (message.toLowerCase().includes('job') || message.toLowerCase().includes('opportunity')) {
-        response += "I can help you search for jobs matching your skills. What type of work are you looking for?";
+      if (lowerMessage.includes('scam') || lowerMessage.includes('fake') || lowerMessage.includes('phishing')) {
+        response = "I can help identify potential job scams. Common red flags include requests for payment, urgent action, or personal information. You can use our Scam Detector tool for a detailed analysis of suspicious messages.";
+      } else if (lowerMessage.includes('resume') || lowerMessage.includes('cv') || lowerMessage.includes('curriculum')) {
+        response = "Our CV Builder can help you create a professional resume. I can suggest improvements to your summary, work experience descriptions, or skills section. Would you like to try it?";
+      } else if (lowerMessage.includes('job') || lowerMessage.includes('opportunity') || lowerMessage.includes('position')) {
+        response = "I can help you search for jobs matching your skills. Our Job Hunt tool lets you filter by location, salary, experience level, and more. What type of role are you looking for?";
+      } else if (lowerMessage.includes('interview') || lowerMessage.includes('prepare')) {
+        response = "I can help you prepare for interviews! Common questions include: 'Tell me about yourself', 'Why do you want this job?', and 'What are your strengths?'. Would you like to practice any specific questions?";
       } else {
-        response += "For more specific help, you can visit our website sections using the menu above.";
+        response = "I'm here to help with your job search! You can ask me about scam detection, resume building, job hunting, or interview preparation. How can I assist you today?";
       }
       
       setTimeout(() => {
         addMessage(response, 'ai');
       }, 1000);
     }
-
+    
     sendMessageBtn.addEventListener('click', function() {
       if (chatInput.value.trim() !== '') {
         addMessage(chatInput.value, 'user');
@@ -528,7 +895,7 @@ document.addEventListener('DOMContentLoaded', function() {
         chatInput.value = '';
       }
     });
-
+    
     chatInput.addEventListener('keypress', function(e) {
       if (e.key === 'Enter' && chatInput.value.trim() !== '') {
         addMessage(chatInput.value, 'user');
