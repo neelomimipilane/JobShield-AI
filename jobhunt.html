@@ -905,7 +905,8 @@
           <label>Resume Upload</label>
           <div class="file-upload" id="resumeUpload">
             <i class="fas fa-cloud-upload-alt"></i>
-            <p>Click to upload your resume (PDF, DOC, DOCX)</p>
+            <p id="uploadText">Click to upload your resume (PDF, DOC, DOCX)</p>
+            <input type="file" id="resumeFileInput" accept=".pdf,.doc,.docx" style="display: none;">
           </div>
         </div>
         <button type="submit" class="apply-btn" id="submitApplicationBtn" style="width: 100%">
@@ -1052,6 +1053,9 @@
     const submitText = document.getElementById('submitText');
     const submitSpinner = document.getElementById('submitSpinner');
     const chatWithSparkBtn = document.getElementById('chatWithSparkBtn');
+    const resumeUpload = document.getElementById('resumeUpload');
+    const resumeFileInput = document.getElementById('resumeFileInput');
+    const uploadText = document.getElementById('uploadText');
 
     // Current state
     let currentPage = 1;
@@ -1072,6 +1076,22 @@
       closeModal.addEventListener('click', closeApplicationModal);
       applicationForm.addEventListener('submit', handleApplicationSubmit);
       chatWithSparkBtn.addEventListener('click', openChat);
+      
+      // File upload handling
+      resumeUpload.addEventListener('click', () => {
+        resumeFileInput.click(); // Trigger the hidden file input
+      });
+
+      resumeFileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          // Update the UI to show the selected file name
+          uploadText.textContent = `Selected: ${file.name}`;
+          showNotification(`File selected: ${file.name}`);
+        } else {
+          uploadText.textContent = 'Click to upload your resume (PDF, DOC, DOCX)';
+        }
+      });
       
       // Allow Enter key to trigger search
       searchInput.addEventListener('keypress', function(e) {
@@ -1294,6 +1314,8 @@
     function closeApplicationModal() {
       applicationModal.style.display = 'none';
       applicationForm.reset();
+      uploadText.textContent = 'Click to upload your resume (PDF, DOC, DOCX)';
+      resumeFileInput.value = ''; // Clear the file input
     }
 
     // Handle application submission
@@ -1305,12 +1327,23 @@
       submitText.textContent = 'Submitting...';
       submitSpinner.style.display = 'inline-block';
       
+      // Get form data
+      const job = jobData.find(j => j.id == currentJobId);
+      const applicantName = document.getElementById('applicantName').value;
+      const applicantEmail = document.getElementById('applicantEmail').value;
+      const applicantPhone = document.getElementById('applicantPhone').value;
+      const coverLetter = document.getElementById('coverLetter').value;
+      const resumeFile = resumeFileInput.files[0];
+      
       // Simulate API call
       setTimeout(() => {
-        const job = jobData.find(j => j.id == currentJobId);
+        let message = `Application submitted for ${job.title} at ${job.company}`;
+        if (resumeFile) {
+          message += `. Resume: ${resumeFile.name}`;
+        }
         
         // Show success message
-        showNotification(`Application submitted for ${job.title} at ${job.company}`);
+        showNotification(message);
         
         // Reset form and close modal
         submitApplicationBtn.disabled = false;
