@@ -190,8 +190,7 @@
       border-radius: 8px;
       font-size: 1rem;
       cursor: pointer;
-      margin-top: 1rem;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s ease, transform 0.3s;
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -302,6 +301,42 @@
 
     .footer-links a:hover {
       text-decoration: underline;
+    }
+
+    .awareness-text {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      color: #555;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .learn-more-btn {
+      background-color: var(--accent-color);
+      color: var(--secondary-color);
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .learn-more-btn:hover {
+      background-color: #0063b3;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .button-container {
+      text-align: center;
+      margin-top: 1rem;
     }
 
     /* AI Assistant Floating Button */
@@ -557,14 +592,26 @@
       <p>Paste the text of a suspicious job offer, email, or SMS message below for instant analysis.</p>
       <div class="scam-detector-home">
         <textarea id="scamCheckText" placeholder="Paste suspicious message here..."></textarea>
-        <button class="cta-button secondary" id="analyzeScamBtn">
-          <i class="fas fa-shield-alt"></i> Analyze for Scams
-        </button>
+        <div class="button-container">
+          <button class="cta-button secondary" id="analyzeScamBtn">
+            <i class="fas fa-shield-alt"></i> Analyze for Scams
+          </button>
+        </div>
         <div class="results" id="scamResults">
           <h3 id="resultTitle">Analysis Results</h3>
           <p id="resultDescription"></p>
           <div id="redFlagsList"></div>
         </div>
+      </div>
+    </section>
+
+    <section id="cyberthreat-awareness">
+      <h2>Stay Safe from Cyberthreats</h2>
+      <p class="awareness-text">Cybercrime, including job scams and phishing, poses a significant threat in today’s digital job market. Learn how to protect yourself from these risks by clicking the link below.</p>
+      <div class="button-container">
+        <a href="StaySafeOnline.html" class="learn-more-btn">
+          <i class="fas fa-shield-alt"></i> Stay Safe Online
+        </a>
       </div>
     </section>
 
@@ -619,8 +666,6 @@
     document.addEventListener('DOMContentLoaded', function() {
       const authBtn = document.getElementById('auth-btn');
       const userWelcome = document.getElementById('user-welcome');
-      const getStartedBtn = document.getElementById('getStartedBtn');
-      const chatWithSparkBtn = document.getElementById('chatWithSparkBtn');
       
       // Check login status
       function checkLoginStatus() {
@@ -652,25 +697,6 @@
         }
       });
       
-      // Get Started button
-      getStartedBtn.addEventListener('click', function() {
-        // Check if user is logged in
-        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-        
-        if (isLoggedIn) {
-          // Redirect to CV Builder
-          window.location.href = 'CVbuilder.html';
-        } else {
-          // Redirect to login page
-          window.location.href = 'otherlogin.html';
-        }
-      });
-      
-      // Chat with Spark button
-      chatWithSparkBtn.addEventListener('click', function() {
-        aiAssistantChat.classList.add('active');
-      });
-      
       // Check status on page load
       checkLoginStatus();
       
@@ -689,16 +715,18 @@
       
       stats.forEach(stat => {
         const element = document.getElementById(stat.id);
-        let current = 0;
-        const increment = stat.target / 100;
-        const timer = setInterval(() => {
-          current += increment;
-          if (current >= stat.target) {
-            current = stat.target;
-            clearInterval(timer);
-          }
-          element.textContent = Math.floor(current).toLocaleString();
-        }, 20);
+        if (element) {
+          let current = 0;
+          const increment = stat.target / 100;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= stat.target) {
+              current = stat.target;
+              clearInterval(timer);
+            }
+            element.textContent = Math.floor(current).toLocaleString();
+          }, 20);
+        }
       });
     }
     
@@ -872,7 +900,7 @@
       const lowerMessage = message.toLowerCase();
       
       if (lowerMessage.includes('scam') || lowerMessage.includes('fake') || lowerMessage.includes('phishing')) {
-        response = "I can help identify potential job scams. Common red flags include requests for payment, urgent action, or personal information. You can use our Scam Detector tool for a detailed analysis of suspicious messages.";
+        response = "I can help identify potential job scams. Common red flags include requests for payment, urgent action, or personal information. You can use our Scam Detector tool or visit our Stay Safe Online page for more information.";
       } else if (lowerMessage.includes('resume') || lowerMessage.includes('cv') || lowerMessage.includes('curriculum')) {
         response = "Our CV Builder can help you create a professional resume. I can suggest improvements to your summary, work experience descriptions, or skills section. Would you like to try it?";
       } else if (lowerMessage.includes('job') || lowerMessage.includes('opportunity') || lowerMessage.includes('position')) {
